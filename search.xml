@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>MATLAB Plot 如何自定义颜色</title>
-    <url>/2020/02/23/MATLAB%20Plot%20%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A2%9C%E8%89%B2/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="MATLAB-Plot-如何自定义颜色"><a href="#MATLAB-Plot-如何自定义颜色" class="headerlink" title="MATLAB Plot 如何自定义颜色"></a>MATLAB Plot 如何自定义颜色</h2><p>Tip: Matlab 作图时最好保存成fig格式，便于以后修改。</p>
-<p>写论文是一个漫长的过程，成文后最重要的一个问题就是如何让自己的论文排版和插图更加的好看，让枯燥的论文有一点生动的色彩。这里记录我在写论文时的困惑和一些小小的技巧。</p>
-<p>以下面这个图为例：<br><img src="https://img-blog.csdnimg.cn/20200113001358688.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>X = linspace(0,5,51);<br>Y1 = sin(X);<br>Y2 = cos(0.5</em>X);<br>Z = 2<em>Y1+0.3</em>Y2;<br>plot(X,Y1,’color’,[1,0,1],’Marker’,’<em>‘);hold on;<br>plot(X,Y2,’color’,[0.9,0.5,0.5],’LineWidth’,2);hold on;<br>plot(X,Z,’color’,[0.9,1,0.7],’Marker’,’diamond’,’MarkerEdgeColor’,’r’)<br>xlabel(‘x’,’FontSize’,15)<br>ylabel(‘y’,’FontSize’,15)<br>title(‘Customized the plot color in Matlab’,’Color’,[0.7,0,1])<br>方括号中间的三个数字表示的三原色的比例，配色标准可以参考：Matlab配色<br>Plot的基本命令： plot(x,y,’property name’,property value)<br>如果不记得property name怎么办？不用担心，Matlab会给你提示，总是可以找到自己想要的。<br>如何画出渐变图？<br>当然是写个for循环就可以了。</em><br><img src="https://img-blog.csdnimg.cn/20200113001422904.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>clear all<br>hold off<br>X = linspace(-pi/2,pi/2,10)<br>figure(‘Color’,[0.94,1,0.94])<br>for i = 1:20<br>        plot(X,(-1)^(i)</em>i<em>X,’color’,[1-i</em>0.05,0+i<em>0.03,1-i</em>0.01],’LineWidth’,0.5+0.05<em>i);<br>        hold on;<br>end<br>axis([-pi/2,pi/2,-35,35])</em></p>
-]]></content>
-  </entry>
-  <entry>
     <title>Distribution_MLE_with_Newton_Ranpson_Method</title>
     <url>/2020/02/21/Distribution-MLE-with-Newton-Ranpson-Method/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Censored-Weibull-Distribution-最大似然估计-（结合牛顿法求解）"><a href="#Censored-Weibull-Distribution-最大似然估计-（结合牛顿法求解）" class="headerlink" title="Censored Weibull Distribution 最大似然估计 （结合牛顿法求解）"></a>Censored Weibull Distribution 最大似然估计 （结合牛顿法求解）</h1><p><em>前言：写这篇博客是因为我前几天偶然读到一篇很有意思的文章， 然后想用自己的实验数据测试一下其分布情况，本以外是一个很简单的工作，但再简单的工作也需要不断的更新学习。在学习过程中，我发现已经有很多博文详述了Weibull分布的应用和意义，然而对于如何进行参数估计的问题，却缺乏更加详细的记录文档。于是无聊而又不务正业的Shecan稍微探索了一下，并把笔记分享给大家。如有错误或者疑问，请给Shecan留言。</em></p>
@@ -65,9 +57,24 @@ h'\left( \alpha \right) =n\left( -\frac {1} {\alpha^2}+\frac {\sum x_{i}^{\alpha
         <category>Traffic Study</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
         <tag>Python</tag>
+        <tag>Algorithm</tag>
         <tag>Calibration</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Distribution_MLE_with_Newton_Ranpson_Method</title>
+    <url>/2020/02/21/MATLAB%20Plot%20user%20defined%20color/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="MATLAB-Plot-如何自定义颜色"><a href="#MATLAB-Plot-如何自定义颜色" class="headerlink" title="MATLAB Plot 如何自定义颜色"></a>MATLAB Plot 如何自定义颜色</h2><p>Tip: Matlab 作图时最好保存成fig格式，便于以后修改。</p>
+<p>写论文是一个漫长的过程，成文后最重要的一个问题就是如何让自己的论文排版和插图更加的好看，让枯燥的论文有一点生动的色彩。这里记录我在写论文时的困惑和一些小小的技巧。</p>
+<a id="more"></a>
+<p>以下面这个图为例：<br><img src="https://img-blog.csdnimg.cn/20200113001358688.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>X = linspace(0,5,51);<br>Y1 = sin(X);<br>Y2 = cos(0.5</em>X);<br>Z = 2<em>Y1+0.3</em>Y2;<br>plot(X,Y1,’color’,[1,0,1],’Marker’,’<em>‘);hold on;<br>plot(X,Y2,’color’,[0.9,0.5,0.5],’LineWidth’,2);hold on;<br>plot(X,Z,’color’,[0.9,1,0.7],’Marker’,’diamond’,’MarkerEdgeColor’,’r’)<br>xlabel(‘x’,’FontSize’,15)<br>ylabel(‘y’,’FontSize’,15)<br>title(‘Customized the plot color in Matlab’,’Color’,[0.7,0,1])<br>方括号中间的三个数字表示的三原色的比例，配色标准可以参考：Matlab配色<br>Plot的基本命令： plot(x,y,’property name’,property value)<br>如果不记得property name怎么办？不用担心，Matlab会给你提示，总是可以找到自己想要的。<br>如何画出渐变图？<br>当然是写个for循环就可以了。</em><br><img src="https://img-blog.csdnimg.cn/20200113001422904.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>clear all<br>hold off<br>X = linspace(-pi/2,pi/2,10)<br>figure(‘Color’,[0.94,1,0.94])<br>for i = 1:20<br>        plot(X,(-1)^(i)</em>i<em>X,’color’,[1-i</em>0.05,0+i<em>0.03,1-i</em>0.01],’LineWidth’,0.5+0.05<em>i);<br>        hold on;<br>end<br>axis([-pi/2,pi/2,-35,35])</em></p>
+]]></content>
+      <categories>
+        <category>Coding Tips</category>
+      </categories>
+      <tags>
+        <tag>MATLAB</tag>
       </tags>
   </entry>
   <entry>
