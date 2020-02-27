@@ -98,7 +98,7 @@
 <meta property="og:description" content="Matlab 高维矩阵与向量的点乘 （Permute）今天遇到一个问题，如何用一个n维的向量点乘一个$m\times k\times n$ 的矩阵， 并避免用循环。Matlab矩阵实验室名不虚传，通过permute这个命令可以有效解决这个问题。因此记录下来，以备不时之需 （几年前遇到过同样的问题，但是没做笔记，所以这次一定要记下来）。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-21T14:01:06.000Z">
-<meta property="article:modified_time" content="2020-02-27T10:21:22.240Z">
+<meta property="article:modified_time" content="2020-02-27T13:19:54.773Z">
 <meta property="article:author" content="Shecan">
 <meta property="article:tag" content="MATLAB">
 <meta name="twitter:card" content="summary">
@@ -434,7 +434,7 @@
       
         <h1 id="Matlab-高维矩阵与向量的点乘-（Permute）"><a href="#Matlab-高维矩阵与向量的点乘-（Permute）" class="headerlink" title="Matlab 高维矩阵与向量的点乘 （Permute）"></a>Matlab 高维矩阵与向量的点乘 （Permute）</h1><p>今天遇到一个问题，如何用一个n维的向量点乘一个$m\times k\times n$ 的矩阵， 并避免用循环。Matlab矩阵实验室名不虚传，通过permute这个命令可以有效解决这个问题。因此记录下来，以备不时之需 （几年前遇到过同样的问题，但是没做笔记，所以这次一定要记下来）。</p>
 <a id="more"></a>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]; <span class="comment">% 这里需要注意Matlab是按列存储的；</span></span><br><span class="line">test = <span class="built_in">repmat</span>(a,<span class="number">1</span>,<span class="number">3</span>,<span class="number">3</span>); <span class="comment">% 把向量a复制成一个3*3*3的矩阵；</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]; <span class="comment">% 这里需要注意Matlab是按列存储的；</span></span><br><span class="line">test = <span class="built_in">repmat</span>(a,<span class="number">3</span>,<span class="number">1</span>,<span class="number">3</span>); <span class="comment">% 把向量a复制成一个3*3*3的矩阵；</span></span><br></pre></td></tr></table></figure>
 <p> 查看test矩阵</p>
 <script type="math/tex; mode=display">
 test\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right],test\left( :,: ,2\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right], test\left( :,: ,3\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right]</script><p>我想要的结果</p>
@@ -458,6 +458,17 @@ testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20
     
     
     
+    
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+  
+</div>
 
     
 
@@ -512,8 +523,8 @@ testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/MATLAB%20Plot%20user%20defined%20color/" rel="next" title="Matlab Plot with User Defined Color">
-                <i class="fa fa-chevron-left"></i> Matlab Plot with User Defined Color
+              <a href="/2020/02/21/hello-world/" rel="next" title="Hexo Cheatsheet">
+                <i class="fa fa-chevron-left"></i> Hexo Cheatsheet
               </a>
             
           </div>
@@ -522,8 +533,8 @@ testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/21/Distribution-MLE-with-Newton-Ranpson-Method/" rel="prev" title="Distribution_MLE_with_Newton_Ranpson_Method">
-                Distribution_MLE_with_Newton_Ranpson_Method <i class="fa fa-chevron-right"></i>
+              <a href="/2020/02/21/MATLAB%20Plot%20user%20defined%20color/" rel="prev" title="Matlab Plot with User Defined Color">
+                Matlab Plot with User Defined Color <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
