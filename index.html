@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
@@ -146,7 +146,7 @@
 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
 
@@ -155,7 +155,7 @@
     
   
 
-  <div class="container sidebar-position-left 
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
   page-home">
     <div class="headband"></div>
 
@@ -487,6 +487,191 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shecan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/shecan1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shecan Research Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/" itemprop="url">Matlab 高维矩阵与向量的点乘 （Permute）</a></h1>
+        
+
+        <div class="post-meta">
+         
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-21T22:01:06+08:00">
+                2020-02-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Coding-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">Coding Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+         
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  665 words
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  3 minutes
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Matlab-高维矩阵与向量的点乘-（Permute）"><a href="#Matlab-高维矩阵与向量的点乘-（Permute）" class="headerlink" title="Matlab 高维矩阵与向量的点乘 （Permute）"></a>Matlab 高维矩阵与向量的点乘 （Permute）</h1><p>今天遇到一个问题，如何用一个n维的向量点乘一个$m\times k\times n$ 的矩阵， 并避免用循环。Matlab矩阵实验室名不虚传，通过permute这个命令可以有效解决这个问题。因此记录下来，以备不时之需 （几年前遇到过同样的问题，但是没做笔记，所以这次一定要记下来）。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/21/MATLAB%20Plot%20user%20defined%20color/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -623,191 +808,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2020/02/21/MATLAB%20Plot%20user%20defined%20color/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shecan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/shecan1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Shecan Research Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/" itemprop="url">Matlab 高维矩阵与向量的点乘 （Permute）</a></h1>
-        
-
-        <div class="post-meta">
-         
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-21T22:01:06+08:00">
-                2020-02-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Coding-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">Coding Tips</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-         
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  665 words
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  3 minutes
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Matlab-高维矩阵与向量的点乘-（Permute）"><a href="#Matlab-高维矩阵与向量的点乘-（Permute）" class="headerlink" title="Matlab 高维矩阵与向量的点乘 （Permute）"></a>Matlab 高维矩阵与向量的点乘 （Permute）</h1><p>今天遇到一个问题，如何用一个n维的向量点乘一个$m\times k\times n$ 的矩阵， 并避免用循环。Matlab矩阵实验室名不虚传，通过permute这个命令可以有效解决这个问题。因此记录下来，以备不时之需 （几年前遇到过同样的问题，但是没做笔记，所以这次一定要记下来）。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1883,7 +1883,7 @@
         }
       });
     </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
@@ -1951,5 +1951,5 @@
   <link rel="stylesheet" href="/dist/APlayer.min.css">
 <div id="aplayer"></div>
 <script type="text/javascript" src="/dist/APlayer.min.js"></script>
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body>
 </html>

@@ -63,21 +63,6 @@ h'\left( \alpha \right) =n\left( -\frac {1} {\alpha^2}+\frac {\sum x_{i}^{\alpha
       </tags>
   </entry>
   <entry>
-    <title>Matlab Plot with User Defined Color</title>
-    <url>/2020/02/21/MATLAB%20Plot%20user%20defined%20color/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="MATLAB-Plot-如何自定义颜色"><a href="#MATLAB-Plot-如何自定义颜色" class="headerlink" title="MATLAB Plot 如何自定义颜色"></a>MATLAB Plot 如何自定义颜色</h2><p>Tip: Matlab 作图时最好保存成fig格式，便于以后修改。</p>
-<p>写论文是一个漫长的过程，成文后最重要的一个问题就是如何让自己的论文排版和插图更加的好看，让枯燥的论文有一点生动的色彩。这里记录我在写论文时的困惑和一些小小的技巧。</p>
-<a id="more"></a>
-<p>以下面这个图为例：<br><img src="https://img-blog.csdnimg.cn/20200113001358688.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>X = linspace(0,5,51);<br>Y1 = sin(X);<br>Y2 = cos(0.5</em>X);<br>Z = 2<em>Y1+0.3</em>Y2;<br>plot(X,Y1,’color’,[1,0,1],’Marker’,’<em>‘);hold on;<br>plot(X,Y2,’color’,[0.9,0.5,0.5],’LineWidth’,2);hold on;<br>plot(X,Z,’color’,[0.9,1,0.7],’Marker’,’diamond’,’MarkerEdgeColor’,’r’)<br>xlabel(‘x’,’FontSize’,15)<br>ylabel(‘y’,’FontSize’,15)<br>title(‘Customized the plot color in Matlab’,’Color’,[0.7,0,1])<br>方括号中间的三个数字表示的三原色的比例，配色标准可以参考：Matlab配色<br>Plot的基本命令： plot(x,y,’property name’,property value)<br>如果不记得property name怎么办？不用担心，Matlab会给你提示，总是可以找到自己想要的。<br>如何画出渐变图？<br>当然是写个for循环就可以了。</em><br><img src="https://img-blog.csdnimg.cn/20200113001422904.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>clear all<br>hold off<br>X = linspace(-pi/2,pi/2,10)<br>figure(‘Color’,[0.94,1,0.94])<br>for i = 1:20<br>        plot(X,(-1)^(i)</em>i<em>X,’color’,[1-i</em>0.05,0+i<em>0.03,1-i</em>0.01],’LineWidth’,0.5+0.05<em>i);<br>        hold on;<br>end<br>axis([-pi/2,pi/2,-35,35])</em></p>
-]]></content>
-      <categories>
-        <category>Coding Tips</category>
-      </categories>
-      <tags>
-        <tag>MATLAB</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Matlab 高维矩阵与向量的点乘 （Permute）</title>
     <url>/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Matlab-高维矩阵与向量的点乘-（Permute）"><a href="#Matlab-高维矩阵与向量的点乘-（Permute）" class="headerlink" title="Matlab 高维矩阵与向量的点乘 （Permute）"></a>Matlab 高维矩阵与向量的点乘 （Permute）</h1><p>今天遇到一个问题，如何用一个n维的向量点乘一个$m\times k\times n$ 的矩阵， 并避免用循环。Matlab矩阵实验室名不虚传，通过permute这个命令可以有效解决这个问题。因此记录下来，以备不时之需 （几年前遇到过同样的问题，但是没做笔记，所以这次一定要记下来）。</p>
@@ -100,6 +85,21 @@ testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">z&#39;.*test</span><br></pre></td></tr></table></figure>
 <script type="math/tex; mode=display">
 testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right]</script><p>虽然很简单，但是这么简单的问题我也是花了大概二十分钟去思考，再花二十分钟做笔记，希望以后可以帮助自己和有缘人。能遇到同样的变态问题，还看到我的博客，说明都是猿粪啊，既然这么有缘，你舍得不给我点赞吗？哈哈</p>
+]]></content>
+      <categories>
+        <category>Coding Tips</category>
+      </categories>
+      <tags>
+        <tag>MATLAB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Matlab Plot with User Defined Color</title>
+    <url>/2020/02/21/MATLAB%20Plot%20user%20defined%20color/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="MATLAB-Plot-如何自定义颜色"><a href="#MATLAB-Plot-如何自定义颜色" class="headerlink" title="MATLAB Plot 如何自定义颜色"></a>MATLAB Plot 如何自定义颜色</h2><p>Tip: Matlab 作图时最好保存成fig格式，便于以后修改。</p>
+<p>写论文是一个漫长的过程，成文后最重要的一个问题就是如何让自己的论文排版和插图更加的好看，让枯燥的论文有一点生动的色彩。这里记录我在写论文时的困惑和一些小小的技巧。</p>
+<a id="more"></a>
+<p>以下面这个图为例：<br><img src="https://img-blog.csdnimg.cn/20200113001358688.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>X = linspace(0,5,51);<br>Y1 = sin(X);<br>Y2 = cos(0.5</em>X);<br>Z = 2<em>Y1+0.3</em>Y2;<br>plot(X,Y1,’color’,[1,0,1],’Marker’,’<em>‘);hold on;<br>plot(X,Y2,’color’,[0.9,0.5,0.5],’LineWidth’,2);hold on;<br>plot(X,Z,’color’,[0.9,1,0.7],’Marker’,’diamond’,’MarkerEdgeColor’,’r’)<br>xlabel(‘x’,’FontSize’,15)<br>ylabel(‘y’,’FontSize’,15)<br>title(‘Customized the plot color in Matlab’,’Color’,[0.7,0,1])<br>方括号中间的三个数字表示的三原色的比例，配色标准可以参考：Matlab配色<br>Plot的基本命令： plot(x,y,’property name’,property value)<br>如果不记得property name怎么办？不用担心，Matlab会给你提示，总是可以找到自己想要的。<br>如何画出渐变图？<br>当然是写个for循环就可以了。</em><br><img src="https://img-blog.csdnimg.cn/20200113001422904.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>clear all<br>hold off<br>X = linspace(-pi/2,pi/2,10)<br>figure(‘Color’,[0.94,1,0.94])<br>for i = 1:20<br>        plot(X,(-1)^(i)</em>i<em>X,’color’,[1-i</em>0.05,0+i<em>0.03,1-i</em>0.01],’LineWidth’,0.5+0.05<em>i);<br>        hold on;<br>end<br>axis([-pi/2,pi/2,-35,35])</em></p>
 ]]></content>
       <categories>
         <category>Coding Tips</category>
