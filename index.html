@@ -589,7 +589,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  490 words
+                  834 words
                 </span>
               
 
@@ -605,7 +605,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  3 minutes
+                  5 minutes
                 </span>
               
             </div>
@@ -627,14 +627,47 @@
 
       
         
-          <h1 id="Monte-Carlo-Simulation-for-CIR-Process"><a href="#Monte-Carlo-Simulation-for-CIR-Process" class="headerlink" title="Monte Carlo Simulation for CIR Process"></a>Monte Carlo Simulation for CIR Process</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Two models are commonly applied to describe the stochastic interest rate process (or the stochastic volatility process), including the OU process and the CIR process.<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/21/Monte%20Carlo%20Simulation%20for%20CIR%20Process/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <h1 id="Monte-Carlo-Simulation-for-CIR-Process"><a href="#Monte-Carlo-Simulation-for-CIR-Process" class="headerlink" title="Monte Carlo Simulation for CIR Process"></a>Monte Carlo Simulation for CIR Process</h1><p>(To be continued ……)</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Two models are commonly applied to describe the stochastic interest rate process (or the stochastic volatility process), including the OU process and the CIR process.</p>
+<ul>
+<li>The OU process:</li>
+</ul>
+<script type="math/tex; mode=display">
+d r_{t}=\alpha\left(\mu-r_{t}\right) d t+\sigma d W_{t}\tag{1}</script><ul>
+<li>The CIR process:</li>
+</ul>
+<script type="math/tex; mode=display">
+d r_{t}=\alpha\left(\mu-r_{t}\right) d t+\sigma \sqrt{r_{t}} d W_{t}\tag{2}</script><p>where $\mu$ is the mean reversion level and $\alpha$ is the mean reversion speed.</p>
+<p>Both of the models are mean-reverted, however, the OU process cannot ensure the nonnegativity of the interest rate. The OU process is driven by a normal distribution, but the underlying distribution of the CIR process is a non-central Chi-square distribution. </p>
+<h2 id="Monte-Carlo-Simulation"><a href="#Monte-Carlo-Simulation" class="headerlink" title="Monte Carlo Simulation"></a>Monte Carlo Simulation</h2><p>Two methods are commonly applied to simulate the stochastic process, including the <strong>Euler–Maruyama Method</strong> and the <strong>Milstein Method</strong>. The differences between the two methods are the way of discretization and the order of convergence. The preliminary knowledge of the two discretization is the Ito Taylor expansion (For deriving details, please refer to the reference ‘Ito Taylor Expansion’). </p>
+<script type="math/tex; mode=display">
+X\left(t_{i+1}\right)=X\left(t_{i}\right)+a\left[X\left(t_{i}\right)\right] \Delta t+b\left[X\left(t_{i}\right)\right] \Delta W_{i}+\frac{1}{2} b\left[X\left(t_{i}\right)\right] b^{\prime}\left[X\left(t_{i}\right)\right]\left[\left(\Delta W_{i}\right)^{2}-\Delta t\right]+\mathcal{O}(\Delta t)</script><p>The Euler-Maruyama method is the first-order truncation of the Ito Taylor expansion and the Milstein Method is the second-order truncation of the Ito Taylor expansion. </p>
+<p>Specifically, for the CIR process, we have $a[r] = \alpha(\mu - r)$, $b[r]=\sigma\sqrt{r}$, and $b’[r]=\frac{1}{2}\frac{\sigma}{\sqrt{r}}$.</p>
+<ul>
+<li>The Euler-Maruyama Method:</li>
+</ul>
+<script type="math/tex; mode=display">
+r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Delta W_j, \quad j=1,2, \ldots, L</script><p>where $\Delta W_j = \sqrt{\Delta t}N(1,0)$.</p>
+<ul>
+<li>The Milstein Method:</li>
+</ul>
+<script type="math/tex; mode=display">
+r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Delta W_j+\frac{\sigma^2}{2}[(\Delta W_j)^2-\Delta t], \quad j=1,2, \ldots, L</script><p>The weak and strong convergence rate of Euler-Maruyama are $\mathcal{}$$\mathcal{O}(\Delta t)$. The Milstein scheme has the same weak convergence but better strong convergence rate of $\mathcal{O}(\sqrt{\Delta t)}$. The detail definition of the weak and the strong convergence rate refer to <em>Higham (2001).</em></p>
+<h2 id="Python-Code"><a href="#Python-Code" class="headerlink" title="Python Code"></a>Python Code</h2><p>For further extension, I wrote a class file first.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">Created on Wed Feb 26 22:42:55 2020</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">@author: Shecan</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">please save the file as CIR.py</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CIR</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, alpha, mu, sigma, r0)</span>:</span></span><br><span class="line">         self.alpha = alpha <span class="comment"># mean-reverted speed</span></span><br><span class="line">         self.mu = mu <span class="comment"># mean-reverted level</span></span><br><span class="line">         self.sigma = sigma <span class="comment"># vol of interest rate</span></span><br><span class="line">         self.r0 = r0 <span class="comment"># initial interest rate</span></span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Euler</span><span class="params">(self,t_init,t_end,dt)</span>:</span></span><br><span class="line">        np.random.seed(<span class="number">5</span>)</span><br><span class="line">        ts = np.arange(t_init, t_end, dt)</span><br><span class="line">        dW = np.random.normal(loc=<span class="number">0.0</span>, scale=np.sqrt(dt),size = ts.size)</span><br><span class="line">        r = []</span><br><span class="line">        r.append(self.r0)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, ts.size):</span><br><span class="line">            r.append(r[i<span class="number">-1</span>] + self.alpha*(self.mu-r[i<span class="number">-1</span>])*dt </span><br><span class="line">                     + self.sigma*np.sqrt(r[i<span class="number">-1</span>])*dW[i<span class="number">-1</span>])</span><br><span class="line">        <span class="keyword">return</span> r</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Milstein</span><span class="params">(self,t_init,t_end,dt)</span>:</span></span><br><span class="line">        np.random.seed(<span class="number">5</span>)</span><br><span class="line">        ts = np.arange(t_init, t_end, dt)</span><br><span class="line">        dW = np.random.normal(loc=<span class="number">0.0</span>, scale=np.sqrt(dt),size = ts.size)</span><br><span class="line">        r = []</span><br><span class="line">        r.append(self.r0)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, ts.size):</span><br><span class="line">            dw = dW[i<span class="number">-1</span>]</span><br><span class="line">            r.append(r[i<span class="number">-1</span>] + self.alpha*(self.mu-r[i<span class="number">-1</span>])*dt </span><br><span class="line">                     + self.sigma*np.sqrt(r[i<span class="number">-1</span>])*dw + </span><br><span class="line">                     (self.sigma**<span class="number">2</span>/<span class="number">2</span>)*(dw**<span class="number">2</span> - dt))</span><br><span class="line">        <span class="keyword">return</span> r</span><br></pre></td></tr></table></figure>
+<p>Then we can load the class file in Jupyter notebook, </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> CIR <span class="keyword">import</span> CIR <span class="comment"># from the module CIR load our class-file CIR</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="comment"># assume mean-reverted speed = 1, mean-reverted level = 0.05, vol of interest rate = 0.05, initial interest rate = 0.05, and pass to an object named C </span></span><br><span class="line">C = CIR(<span class="number">1</span>,<span class="number">0.05</span>,<span class="number">0.05</span>,<span class="number">0.05</span>)</span><br><span class="line"><span class="comment"># For Euler method</span></span><br><span class="line">r = C.Euler(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.001</span>) <span class="comment"># start time = 0, end time = 1, dt = 0.01</span></span><br><span class="line"><span class="comment"># For Milstern method</span></span><br><span class="line">r1 = C.Milstein(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.001</span>)</span><br><span class="line"><span class="comment"># Plot and compare</span></span><br><span class="line">plt.figure(figsize=(<span class="number">20</span>,<span class="number">10</span>))</span><br><span class="line">l1,=plt.plot(r)</span><br><span class="line">l2,=plt.plot(r1,<span class="string">'b*'</span>,markersize=<span class="number">4</span>)</span><br><span class="line">plt.ylabel(<span class="string">'interest rate r'</span>,fontsize = <span class="number">20</span>)</span><br><span class="line">plt.legend(handles=[l1, l2], labels=[<span class="string">'Euler'</span>, <span class="string">'Milstein'</span>], fontsize = <span class="number">16</span>)</span><br></pre></td></tr></table></figure>
+<p>Visualizing the results:</p>
+<p><img src="image/compare.png" alt=""></p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p>CIR Modeling of Interest Rates</p>
+<p><a href="http://lnu.diva-portal.org/smash/get/diva2:1270329/FULLTEXT01.pdf" target="_blank" rel="noopener">http://lnu.diva-portal.org/smash/get/diva2:1270329/FULLTEXT01.pdf</a></p>
+<p>Enlightened reading material</p>
+<p><em>Higham, D. J. (2001). An algorithmic introduction to numerical simulation of stochastic differential equations. SIAM review, 43(3), 525-546.</em></p>
+<p>Ito-Taylor Expansion</p>
+<p><a href="https://www.math.nyu.edu/~cai/Courses/Derivatives/compfin_lecture_5.pdf" target="_blank" rel="noopener">https://www.math.nyu.edu/~cai/Courses/Derivatives/compfin_lecture_5.pdf</a></p>
+
+          
         
       
     </div>
