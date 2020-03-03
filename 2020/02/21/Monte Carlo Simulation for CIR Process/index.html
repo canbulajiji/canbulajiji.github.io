@@ -97,15 +97,15 @@
 <meta property="og:site_name" content="Shecan Research Notes">
 <meta property="og:description" content="Monte Carlo Simulation for CIR Process(To be continued ……) IntroductionTwo models are commonly applied to describe the stochastic interest rate process (or the stochastic volatility process), includin">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/2020/02/21/Monte%20Carlo%20Simulation%20for%20CIR%20Process/image/compare.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200303225854819.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70">
 <meta property="article:published_time" content="2020-02-21T14:01:06.000Z">
-<meta property="article:modified_time" content="2020-03-03T15:25:37.147Z">
+<meta property="article:modified_time" content="2020-03-03T15:33:00.959Z">
 <meta property="article:author" content="Shecan">
 <meta property="article:tag" content="Algorithm">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="Simulation">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/02/21/Monte%20Carlo%20Simulation%20for%20CIR%20Process/image/compare.png">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200303225854819.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70">
 
 
 
@@ -471,7 +471,7 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
 <p>Then we can load the class file in Jupyter notebook, </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> CIR <span class="keyword">import</span> CIR <span class="comment"># from the module CIR load our class-file CIR</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="comment"># assume mean-reverted speed = 1, mean-reverted level = 0.05, vol of interest rate = 0.05, initial interest rate = 0.05, and pass to an object named C </span></span><br><span class="line">C = CIR(<span class="number">1</span>,<span class="number">0.05</span>,<span class="number">0.05</span>,<span class="number">0.05</span>)</span><br><span class="line"><span class="comment"># For Euler method</span></span><br><span class="line">r = C.Euler(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.001</span>) <span class="comment"># start time = 0, end time = 1, dt = 0.01</span></span><br><span class="line"><span class="comment"># For Milstern method</span></span><br><span class="line">r1 = C.Milstein(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.001</span>)</span><br><span class="line"><span class="comment"># Plot and compare</span></span><br><span class="line">plt.figure(figsize=(<span class="number">20</span>,<span class="number">10</span>))</span><br><span class="line">l1,=plt.plot(r)</span><br><span class="line">l2,=plt.plot(r1,<span class="string">'b*'</span>,markersize=<span class="number">4</span>)</span><br><span class="line">plt.ylabel(<span class="string">'interest rate r'</span>,fontsize = <span class="number">20</span>)</span><br><span class="line">plt.legend(handles=[l1, l2], labels=[<span class="string">'Euler'</span>, <span class="string">'Milstein'</span>], fontsize = <span class="number">16</span>)</span><br></pre></td></tr></table></figure>
 <p>Visualizing the results:</p>
-<p><img src="image/compare.png" alt=""></p>
+<p><img src="https://img-blog.csdnimg.cn/20200303225854819.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="Monte Carlo Simulation"></p>
 <h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p>CIR Modeling of Interest Rates</p>
 <p><a href="http://lnu.diva-portal.org/smash/get/diva2:1270329/FULLTEXT01.pdf" target="_blank" rel="noopener">http://lnu.diva-portal.org/smash/get/diva2:1270329/FULLTEXT01.pdf</a></p>
 <p>Enlightened reading material</p>
