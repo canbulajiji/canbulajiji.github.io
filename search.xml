@@ -1,133 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title>Distribution_MLE_with_Newton_Ranpson_Method</title>
-    <url>/2020/02/21/Distribution-MLE-with-Newton-Ranpson-Method/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Censored-Weibull-Distribution-最大似然估计-（结合牛顿法求解）"><a href="#Censored-Weibull-Distribution-最大似然估计-（结合牛顿法求解）" class="headerlink" title="Censored Weibull Distribution 最大似然估计 （结合牛顿法求解）"></a>Censored Weibull Distribution 最大似然估计 （结合牛顿法求解）</h1><p><em>前言：写这篇博客是因为我前几天偶然读到一篇很有意思的文章， 然后想用自己的实验数据测试一下其分布情况，本以外是一个很简单的工作，但再简单的工作也需要不断的更新学习。在学习过程中，我发现已经有很多博文详述了Weibull分布的应用和意义，然而对于如何进行参数估计的问题，却缺乏更加详细的记录文档。于是无聊而又不务正业的Shecan稍微探索了一下，并把笔记分享给大家。如有错误或者疑问，请给Shecan留言。</em></p>
-<a id="more"></a>
-<p>Weibull 分布函数 CDF：</p>
-<script type="math/tex; mode=display">
-F(x) = 1 - e^{-(\frac{x}{\beta})^{\alpha}}\tag{1}</script><p>这里 $\beta$ 表示 Scale Parameter, $\alpha$ 表示 Shape Parameter。</p>
-<p>分布密度 PDF：</p>
-<script type="math/tex; mode=display">
-f\left( x\right) =\frac {\alpha } {x}\gamma ^{\alpha }e^{-\gamma ^{\alpha}}\tag{2}</script><p>其中 </p>
-<script type="math/tex; mode=display">
-\gamma = \frac{x}{\beta}</script><p>censored 似然函数的定义：</p>
-<script type="math/tex; mode=display">
-L=\prod _{i=1}^{n}\left( f\left( x_i\right) \right) ^{\delta_i}\left( 1-F\left( x_{i}\right) \right) ^{1-\delta_{i}}\tag{3}</script><p>其中</p>
-<script type="math/tex; mode=display">
-\delta _{i}=\begin{cases} 1,\,x\leq threshold\\ 0,\,x>threshold\end{cases}</script><p>把（1），（2）带入（3）两边求对数，并简化求得对数似然函数：</p>
-<script type="math/tex; mode=display">
-1og_L=\sum _{i=1}^{n}\left( - \gamma _{i}^{\alpha }+\delta_{i}\alpha ln\gamma _{i}+\delta\ln \frac {\alpha } {x_{i}}\right)\tag{4}</script><p>其中$\alpha$，$\beta$, 可以通过最大化似然函数求得，对（4）求一阶导数</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\sum_{i=1}^{n}\gamma_i^\alpha-\delta_i=0,\tag{5}\\
-\sum _{i=1}^{n}\left( -\gamma _{i}^{\alpha }\ln \gamma _{i}+\delta_i\ln \gamma _{i}+\frac {\delta_i} {\alpha }\right) =0.\tag{6}
-\end{align}</script><p>（5），（6）是关于$\alpha,\,\beta$ 的外生解，无法求出其解析解，因而需要求解以上两个非线性方程组的数值解。求解非线性方程组数值解的方法有很多，比如非线性最小二乘法，Broyden方法等等，但是我们遵循简单即有效的原则，尝试最为简单的Newton-Rapson解的搜索方法。首先，简化（5）得</p>
-<script type="math/tex; mode=display">
-\beta =\left( \frac {\sum_{i}^{n}x_{i}^{\alpha }} {\sum_{i}^{n}\delta_{i}}\right) ^{\frac {1} {\alpha }}\tag{7}</script><p>因此，我们只需要通过（6）求解 $\alpha$, 假设</p>
-<script type="math/tex; mode=display">
-h(\alpha)=\sum _{i=1}^{n}\left( -\gamma _{i}^{\alpha }\ln \gamma _{i}+\delta_i\ln \gamma _{i}+\frac {\delta_i} {\alpha }\right)\tag{8}</script><p>其中</p>
-<script type="math/tex; mode=display">
-\gamma _{i}=\frac {x_{i}} {\beta }=x_i\left( \frac {\sum x_{i}^{\alpha}}{n}\right)^{-\frac {1} {\alpha }}</script><p>and</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\gamma _{i}^{\alpha }&=x_{i}^{\alpha}\cdot \frac {n} {\sum x_{i}^\alpha} \tag{9}\\
-\ln \gamma _{i}&=\ln x_i-\frac {1} {\alpha }\cdot \frac {\sum x_{i}^{\alpha }} {n} \tag{10}
-\end{align}</script><p>这里的 $n=\sum \delta_i$ 代表 failed number。</p>
-<p>（9）和 （10）代入（8），即得</p>
-<script type="math/tex; mode=display">
-h\left( \alpha \right) =n\left( -\frac {\Sigma x ^{\alpha }_iln x_{i}} {\sum x_{i}^{\alpha }}+\frac {1} {\alpha }+\frac {1} {n}\Sigma \delta_i\ln x_{i}\right)\tag{10}</script><p>求导可得</p>
-<script type="math/tex; mode=display">
-h'\left( \alpha \right) =n\left( -\frac {1} {\alpha^2}+\frac {\sum x_{i}^{\alpha }\left( ln x_{i}\right) ^{\alpha }} {\sum x_{i}^{\alpha }}-\frac {\left( \sum x_{i}^{\alpha }\ln x_{i}\right) ^{2}} {\left( \sum x_i^{\alpha }\right) ^{2}}\right)</script><p>因而，我们通过牛顿法迭代搜索非线性方程 $h(\alpha)=0$ 的解。</p>
-<script type="math/tex; mode=display">
-\alpha_{k+1}=\alpha_{k}-\frac{h\left(\alpha_{k}\right)}{h^{\prime}\left(\alpha_{k}\right)}\tag{11}</script><p>求解出 $\alpha$ 后，通过 （7）即可求解 $\beta$ 。</p>
-<h3 id="Weibull-MLE-程序实现："><a href="#Weibull-MLE-程序实现：" class="headerlink" title="Weibull MLE 程序实现："></a>Weibull MLE 程序实现：</h3><p>推导过程写完了，怎么用程序实现呢？从多年来失败的研究经验Shecan总结了一个道理：不要重复造轮子。（其实学习的时候重复造下轮子也有好处。） Shecan 发现Python有一个比较有意思的Package。 叫做Weibull，基本可以满足你大部分的研究需求。具体怎么使用，请参考下面的参考文献。但是，有时候我们依旧需要对模型进行改进，比如说两参数的Weibull分布改成三参数的Weibull分布。为满足这种需求，Shecan找出了Weibull Package MLE部分的源程序，并改写成了面向过程的编程方式，具体如下：</p>
-<p>你可以把下面的代码复制到 Jupyter Notebook：</p>
-<p>注明：程序来自于Weibull Package: </p>
-<p><a href="Weibull Package Doc">https://weibull.readthedocs.io/en/latest/examples.html</a></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></table></figure>
-<p>测试数据：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">fail_times = [ <span class="number">9402.7</span>, <span class="number">6082.4</span>, <span class="number">13367.2</span>, <span class="number">10644.6</span>, <span class="number">8632.0</span>, <span class="number">3043.4</span>, <span class="number">1034.5</span>, <span class="number">2550.9</span>, <span class="number">2550.9</span>, <span class="number">3637.1</span>]</span><br><span class="line">suspended = [<span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>,<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">True</span>, <span class="literal">True</span>]</span><br><span class="line">data = pd.DataFrame(&#123;<span class="string">'data'</span>: fail_times, <span class="string">'susp'</span>:suspended&#125;)</span><br></pre></td></tr></table></figure>
-<p>MLE Calibration: 通过以上的推导过程可以很容易的读懂这段代码。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># filter the failed samples and extract values</span></span><br><span class="line">df_failed = data[data.susp == <span class="literal">False</span>].copy() </span><br><span class="line">dtf_failed = df_failed[<span class="string">"data"</span>].values</span><br><span class="line">df_failed[<span class="string">"ln_x_div_r"</span>] = df_failed.apply(<span class="keyword">lambda</span> s: np.log(s[<span class="string">'data'</span>])/len(df_failed), axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># extract data of all the values</span></span><br><span class="line">dtf_all = data[<span class="string">'data'</span>].values</span><br><span class="line"><span class="comment"># use Newton-Rhapson method for estimating the shape parameter</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># give initial value for the shape paramter:</span></span><br><span class="line">shape = (((<span class="number">6.0</span> / np.pi ** <span class="number">2</span>)</span><br><span class="line">            * (np.sum(np.log(dtf_all) ** <span class="number">2</span>)</span><br><span class="line">            - ((np.sum(np.log(dtf_all))) ** <span class="number">2</span>) / dtf_all.size))</span><br><span class="line">            / (dtf_all.size - <span class="number">1</span>)) ** <span class="number">-0.5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 10 iterations of the newton-rhapson method</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">11</span>):</span><br><span class="line">    a = np.sum(np.log(dtf_failed) * <span class="number">1.0</span>) / dtf_failed.size</span><br><span class="line">    b = np.sum(dtf_all ** shape)</span><br><span class="line">    c = np.sum((dtf_all ** shape) * np.log(dtf_all))</span><br><span class="line">    h = np.sum((dtf_all ** shape) * (np.log(dtf_all)) ** <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    shape = shape + (a + (<span class="number">1.0</span> / shape) - (c / b)) / ((<span class="number">1.0</span> / shape ** <span class="number">2</span>) + ((b * h) - c ** <span class="number">2</span>) / b ** <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">shape = max(shape, <span class="number">0.005</span>)</span><br><span class="line">scale = (np.sum((dtf_all ** shape) / len(df_failed))) ** (<span class="number">1</span> / shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Print the results</span></span><br><span class="line">print(shape,scale)</span><br></pre></td></tr></table></figure>
-<p><strong>题外话：小时候老师教育我们如果要成为一个成功的人，头悬梁，锥刺骨，卧薪尝胆，这些典故都很励志。可是长大后发现了一个残酷的真相，成功人士万里挑一，而千千万万的普通人虽然没有那么成功，却也在以一己之力改变世界。比如说战疫前线的医生和护士们，比如说用自己的才能为这次疫情做贡献的各路神仙。经历了这些事，这些人，Shecan开始反思，与其教育自己的孩子成为一个成功的人，不如教育他们尽一己之力做一个对社会有贡献的人，或许这样的人生会更自信，更快乐，并获得更高的自我效能感。这也算是Shecan开始做笔记，并分享笔记的原因吧。</strong></p>
-]]></content>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Distribution_MLE_with_Newton_Ranpson_Method</title>
+      <link href="/2020/02/21/Distribution-MLE-with-Newton-Ranpson-Method/"/>
+      <url>/2020/02/21/Distribution-MLE-with-Newton-Ranpson-Method/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Censored-Weibull-Distribution-最大似然估计-（结合牛顿法求解）"><a href="#Censored-Weibull-Distribution-最大似然估计-（结合牛顿法求解）" class="headerlink" title="Censored Weibull Distribution 最大似然估计 （结合牛顿法求解）"></a>Censored Weibull Distribution 最大似然估计 （结合牛顿法求解）</h1><p><em>前言：写这篇博客是因为我前几天偶然读到一篇很有意思的文章， 然后想用自己的实验数据测试一下其分布情况，本以外是一个很简单的工作，但再简单的工作也需要不断的更新学习。在学习过程中，我发现已经有很多博文详述了Weibull分布的应用和意义，然而对于如何进行参数估计的问题，却缺乏更加详细的记录文档。于是无聊而又不务正业的Shecan稍微探索了一下，并把笔记分享给大家。如有错误或者疑问，请给Shecan留言。</em></p><a id="more"></a><p>Weibull 分布函数 CDF：</p><script type="math/tex; mode=display">F(x) = 1 - e^{-(\frac{x}{\beta})^{\alpha}}\tag{1}</script><p>这里 $\beta$ 表示 Scale Parameter, $\alpha$ 表示 Shape Parameter。</p><p>分布密度 PDF：</p><script type="math/tex; mode=display">f\left( x\right) =\frac {\alpha } {x}\gamma ^{\alpha }e^{-\gamma ^{\alpha}}\tag{2}</script><p>其中 </p><script type="math/tex; mode=display">\gamma = \frac{x}{\beta}</script><p>censored 似然函数的定义：</p><script type="math/tex; mode=display">L=\prod _{i=1}^{n}\left( f\left( x_i\right) \right) ^{\delta_i}\left( 1-F\left( x_{i}\right) \right) ^{1-\delta_{i}}\tag{3}</script><p>其中</p><script type="math/tex; mode=display">\delta _{i}=\begin{cases} 1,\,x\leq threshold\\ 0,\,x>threshold\end{cases}</script><p>把（1），（2）带入（3）两边求对数，并简化求得对数似然函数：</p><script type="math/tex; mode=display">1og_L=\sum _{i=1}^{n}\left( - \gamma _{i}^{\alpha }+\delta_{i}\alpha ln\gamma _{i}+\delta\ln \frac {\alpha } {x_{i}}\right)\tag{4}</script><p>其中$\alpha$，$\beta$, 可以通过最大化似然函数求得，对（4）求一阶导数</p><script type="math/tex; mode=display">\begin{align}\sum_{i=1}^{n}\gamma_i^\alpha-\delta_i=0,\tag{5}\\\sum _{i=1}^{n}\left( -\gamma _{i}^{\alpha }\ln \gamma _{i}+\delta_i\ln \gamma _{i}+\frac {\delta_i} {\alpha }\right) =0.\tag{6}\end{align}</script><p>（5），（6）是关于$\alpha,\,\beta$ 的外生解，无法求出其解析解，因而需要求解以上两个非线性方程组的数值解。求解非线性方程组数值解的方法有很多，比如非线性最小二乘法，Broyden方法等等，但是我们遵循简单即有效的原则，尝试最为简单的Newton-Rapson解的搜索方法。首先，简化（5）得</p><script type="math/tex; mode=display">\beta =\left( \frac {\sum_{i}^{n}x_{i}^{\alpha }} {\sum_{i}^{n}\delta_{i}}\right) ^{\frac {1} {\alpha }}\tag{7}</script><p>因此，我们只需要通过（6）求解 $\alpha$, 假设</p><script type="math/tex; mode=display">h(\alpha)=\sum _{i=1}^{n}\left( -\gamma _{i}^{\alpha }\ln \gamma _{i}+\delta_i\ln \gamma _{i}+\frac {\delta_i} {\alpha }\right)\tag{8}</script><p>其中</p><script type="math/tex; mode=display">\gamma _{i}=\frac {x_{i}} {\beta }=x_i\left( \frac {\sum x_{i}^{\alpha}}{n}\right)^{-\frac {1} {\alpha }}</script><p>and</p><script type="math/tex; mode=display">\begin{align}\gamma _{i}^{\alpha }&=x_{i}^{\alpha}\cdot \frac {n} {\sum x_{i}^\alpha} \tag{9}\\\ln \gamma _{i}&=\ln x_i-\frac {1} {\alpha }\cdot \frac {\sum x_{i}^{\alpha }} {n} \tag{10}\end{align}</script><p>这里的 $n=\sum \delta_i$ 代表 failed number。</p><p>（9）和 （10）代入（8），即得</p><script type="math/tex; mode=display">h\left( \alpha \right) =n\left( -\frac {\Sigma x ^{\alpha }_iln x_{i}} {\sum x_{i}^{\alpha }}+\frac {1} {\alpha }+\frac {1} {n}\Sigma \delta_i\ln x_{i}\right)\tag{10}</script><p>求导可得</p><script type="math/tex; mode=display">h'\left( \alpha \right) =n\left( -\frac {1} {\alpha^2}+\frac {\sum x_{i}^{\alpha }\left( ln x_{i}\right) ^{\alpha }} {\sum x_{i}^{\alpha }}-\frac {\left( \sum x_{i}^{\alpha }\ln x_{i}\right) ^{2}} {\left( \sum x_i^{\alpha }\right) ^{2}}\right)</script><p>因而，我们通过牛顿法迭代搜索非线性方程 $h(\alpha)=0$ 的解。</p><script type="math/tex; mode=display">\alpha_{k+1}=\alpha_{k}-\frac{h\left(\alpha_{k}\right)}{h^{\prime}\left(\alpha_{k}\right)}\tag{11}</script><p>求解出 $\alpha$ 后，通过 （7）即可求解 $\beta$ 。</p><h3 id="Weibull-MLE-程序实现："><a href="#Weibull-MLE-程序实现：" class="headerlink" title="Weibull MLE 程序实现："></a>Weibull MLE 程序实现：</h3><p>推导过程写完了，怎么用程序实现呢？从多年来失败的研究经验Shecan总结了一个道理：不要重复造轮子。（其实学习的时候重复造下轮子也有好处。） Shecan 发现Python有一个比较有意思的Package。 叫做Weibull，基本可以满足你大部分的研究需求。具体怎么使用，请参考下面的参考文献。但是，有时候我们依旧需要对模型进行改进，比如说两参数的Weibull分布改成三参数的Weibull分布。为满足这种需求，Shecan找出了Weibull Package MLE部分的源程序，并改写成了面向过程的编程方式，具体如下：</p><p>你可以把下面的代码复制到 Jupyter Notebook：</p><p>注明：程序来自于Weibull Package: </p><p><a href="Weibull Package Doc">https://weibull.readthedocs.io/en/latest/examples.html</a></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></table></figure><p>测试数据：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fail_times = [ <span class="number">9402.7</span>, <span class="number">6082.4</span>, <span class="number">13367.2</span>, <span class="number">10644.6</span>, <span class="number">8632.0</span>, <span class="number">3043.4</span>, <span class="number">1034.5</span>, <span class="number">2550.9</span>, <span class="number">2550.9</span>, <span class="number">3637.1</span>]</span><br><span class="line">suspended = [<span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>,<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">True</span>, <span class="literal">True</span>]</span><br><span class="line">data = pd.DataFrame(&#123;<span class="string">'data'</span>: fail_times, <span class="string">'susp'</span>:suspended&#125;)</span><br></pre></td></tr></table></figure><p>MLE Calibration: 通过以上的推导过程可以很容易的读懂这段代码。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># filter the failed samples and extract values</span></span><br><span class="line">df_failed = data[data.susp == <span class="literal">False</span>].copy() </span><br><span class="line">dtf_failed = df_failed[<span class="string">"data"</span>].values</span><br><span class="line">df_failed[<span class="string">"ln_x_div_r"</span>] = df_failed.apply(<span class="keyword">lambda</span> s: np.log(s[<span class="string">'data'</span>])/len(df_failed), axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># extract data of all the values</span></span><br><span class="line">dtf_all = data[<span class="string">'data'</span>].values</span><br><span class="line"><span class="comment"># use Newton-Rhapson method for estimating the shape parameter</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># give initial value for the shape paramter:</span></span><br><span class="line">shape = (((<span class="number">6.0</span> / np.pi ** <span class="number">2</span>)</span><br><span class="line">            * (np.sum(np.log(dtf_all) ** <span class="number">2</span>)</span><br><span class="line">            - ((np.sum(np.log(dtf_all))) ** <span class="number">2</span>) / dtf_all.size))</span><br><span class="line">            / (dtf_all.size - <span class="number">1</span>)) ** <span class="number">-0.5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 10 iterations of the newton-rhapson method</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">11</span>):</span><br><span class="line">    a = np.sum(np.log(dtf_failed) * <span class="number">1.0</span>) / dtf_failed.size</span><br><span class="line">    b = np.sum(dtf_all ** shape)</span><br><span class="line">    c = np.sum((dtf_all ** shape) * np.log(dtf_all))</span><br><span class="line">    h = np.sum((dtf_all ** shape) * (np.log(dtf_all)) ** <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    shape = shape + (a + (<span class="number">1.0</span> / shape) - (c / b)) / ((<span class="number">1.0</span> / shape ** <span class="number">2</span>) + ((b * h) - c ** <span class="number">2</span>) / b ** <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">shape = max(shape, <span class="number">0.005</span>)</span><br><span class="line">scale = (np.sum((dtf_all ** shape) / len(df_failed))) ** (<span class="number">1</span> / shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Print the results</span></span><br><span class="line">print(shape,scale)</span><br></pre></td></tr></table></figure><p><strong>题外话：小时候老师教育我们如果要成为一个成功的人，头悬梁，锥刺骨，卧薪尝胆，这些典故都很励志。可是长大后发现了一个残酷的真相，成功人士万里挑一，而千千万万的普通人虽然没有那么成功，却也在以一己之力改变世界。比如说战疫前线的医生和护士们，比如说用自己的才能为这次疫情做贡献的各路神仙。经历了这些事，这些人，Shecan开始反思，与其教育自己的孩子成为一个成功的人，不如教育他们尽一己之力做一个对社会有贡献的人，或许这样的人生会更自信，更快乐，并获得更高的自我效能感。这也算是Shecan开始做笔记，并分享笔记的原因吧。</strong></p>]]></content>
+      
+      
       <categories>
-        <category>Traffic Study</category>
+          
+          <category> Traffic Study </category>
+          
       </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>Algorithm</tag>
-        <tag>Calibration</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Matlab Plot with User Defined Color</title>
-    <url>/2020/02/21/MATLAB%20Plot%20user%20defined%20color/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="MATLAB-Plot-如何自定义颜色"><a href="#MATLAB-Plot-如何自定义颜色" class="headerlink" title="MATLAB Plot 如何自定义颜色"></a>MATLAB Plot 如何自定义颜色</h2><p>Tip: Matlab 作图时最好保存成fig格式，便于以后修改。</p>
-<p>写论文是一个漫长的过程，成文后最重要的一个问题就是如何让自己的论文排版和插图更加的好看，让枯燥的论文有一点生动的色彩。这里记录我在写论文时的困惑和一些小小的技巧。</p>
-<a id="more"></a>
-<p>以下面这个图为例：<br><img src="https://img-blog.csdnimg.cn/20200113001358688.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>X = linspace(0,5,51);<br>Y1 = sin(X);<br>Y2 = cos(0.5</em>X);<br>Z = 2<em>Y1+0.3</em>Y2;<br>plot(X,Y1,’color’,[1,0,1],’Marker’,’<em>‘);hold on;<br>plot(X,Y2,’color’,[0.9,0.5,0.5],’LineWidth’,2);hold on;<br>plot(X,Z,’color’,[0.9,1,0.7],’Marker’,’diamond’,’MarkerEdgeColor’,’r’)<br>xlabel(‘x’,’FontSize’,15)<br>ylabel(‘y’,’FontSize’,15)<br>title(‘Customized the plot color in Matlab’,’Color’,[0.7,0,1])<br>方括号中间的三个数字表示的三原色的比例，配色标准可以参考：Matlab配色<br>Plot的基本命令： plot(x,y,’property name’,property value)<br>如果不记得property name怎么办？不用担心，Matlab会给你提示，总是可以找到自己想要的。<br>如何画出渐变图？<br>当然是写个for循环就可以了。</em><br><img src="https://img-blog.csdnimg.cn/20200113001422904.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>clear all<br>hold off<br>X = linspace(-pi/2,pi/2,10)<br>figure(‘Color’,[0.94,1,0.94])<br>for i = 1:20<br>        plot(X,(-1)^(i)</em>i<em>X,’color’,[1-i</em>0.05,0+i<em>0.03,1-i</em>0.01],’LineWidth’,0.5+0.05<em>i);<br>        hold on;<br>end<br>axis([-pi/2,pi/2,-35,35])</em></p>
-]]></content>
+      
+      
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> Algorithm </tag>
+            
+            <tag> Calibration </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Matlab Plot with User Defined Color</title>
+      <link href="/2020/02/21/MATLAB%20Plot%20user%20defined%20color/"/>
+      <url>/2020/02/21/MATLAB%20Plot%20user%20defined%20color/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="MATLAB-Plot-如何自定义颜色"><a href="#MATLAB-Plot-如何自定义颜色" class="headerlink" title="MATLAB Plot 如何自定义颜色"></a>MATLAB Plot 如何自定义颜色</h2><p>Tip: Matlab 作图时最好保存成fig格式，便于以后修改。</p><p>写论文是一个漫长的过程，成文后最重要的一个问题就是如何让自己的论文排版和插图更加的好看，让枯燥的论文有一点生动的色彩。这里记录我在写论文时的困惑和一些小小的技巧。</p><a id="more"></a><p>以下面这个图为例：<br><img src="https://img-blog.csdnimg.cn/20200113001358688.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>X = linspace(0,5,51);<br>Y1 = sin(X);<br>Y2 = cos(0.5</em>X);<br>Z = 2<em>Y1+0.3</em>Y2;<br>plot(X,Y1,’color’,[1,0,1],’Marker’,’<em>‘);hold on;<br>plot(X,Y2,’color’,[0.9,0.5,0.5],’LineWidth’,2);hold on;<br>plot(X,Z,’color’,[0.9,1,0.7],’Marker’,’diamond’,’MarkerEdgeColor’,’r’)<br>xlabel(‘x’,’FontSize’,15)<br>ylabel(‘y’,’FontSize’,15)<br>title(‘Customized the plot color in Matlab’,’Color’,[0.7,0,1])<br>方括号中间的三个数字表示的三原色的比例，配色标准可以参考：Matlab配色<br>Plot的基本命令： plot(x,y,’property name’,property value)<br>如果不记得property name怎么办？不用担心，Matlab会给你提示，总是可以找到自己想要的。<br>如何画出渐变图？<br>当然是写个for循环就可以了。</em><br><img src="https://img-blog.csdnimg.cn/20200113001422904.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>clear all<br>hold off<br>X = linspace(-pi/2,pi/2,10)<br>figure(‘Color’,[0.94,1,0.94])<br>for i = 1:20<br>        plot(X,(-1)^(i)</em>i<em>X,’color’,[1-i</em>0.05,0+i<em>0.03,1-i</em>0.01],’LineWidth’,0.5+0.05<em>i);<br>        hold on;<br>end<br>axis([-pi/2,pi/2,-35,35])</em></p>]]></content>
+      
+      
       <categories>
-        <category>Coding Tips</category>
+          
+          <category> Coding Tips </category>
+          
       </categories>
-      <tags>
-        <tag>MATLAB</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Matlab 高维矩阵与向量的点乘 （Permute）</title>
-    <url>/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Matlab-高维矩阵与向量的点乘-（Permute）"><a href="#Matlab-高维矩阵与向量的点乘-（Permute）" class="headerlink" title="Matlab 高维矩阵与向量的点乘 （Permute）"></a>Matlab 高维矩阵与向量的点乘 （Permute）</h1><p>今天遇到一个问题，如何用一个n维的向量点乘一个$m\times k\times n$ 的矩阵， 并避免用循环。Matlab矩阵实验室名不虚传，通过permute这个命令可以有效解决这个问题。因此记录下来，以备不时之需 （几年前遇到过同样的问题，但是没做笔记，所以这次一定要记下来）。</p>
-<a id="more"></a>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]; <span class="comment">% 这里需要注意Matlab是按列存储的；</span></span><br><span class="line">test = <span class="built_in">repmat</span>(a,<span class="number">3</span>,<span class="number">1</span>,<span class="number">3</span>); <span class="comment">% 把向量a复制成一个3*3*3的矩阵；</span></span><br></pre></td></tr></table></figure>
-<p> 查看test矩阵</p>
-<script type="math/tex; mode=display">
-test\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right],test\left( :,: ,2\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right], test\left( :,: ,3\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right]</script><p>我想要的结果</p>
-<script type="math/tex; mode=display">
-testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 10& 20& 30\\ 10& 20& 30\\ 10& 20& 30\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 100& 200& 300\\ 100& 200& 300\\ 100& 200& 300\end{matrix} \right]</script><p>实现的方法</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">z = [<span class="number">1</span>,<span class="number">10</span>,<span class="number">100</span>]; <span class="comment">% 定义一个向量z</span></span><br><span class="line">test_z = <span class="built_in">permute</span>(z,[<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>])； <span class="comment">%permute 用于求三维矩阵的转置</span></span><br></pre></td></tr></table></figure>
-<p>对于二维矩阵的转置，我们通常用 ’ ；但是对于高维向量，需要使用permute, 上面的命令表示第二个维度的数据（列）放到第三个维度，所以我们猜测test_z会是一个 $1\times 1\times 3$的这么一个矩阵，查看test_z的结果</p>
-<script type="math/tex; mode=display">
-test_z\left( :,: ,1\right) = 1；test_z\left( :,: ,2\right) = 10； test_z\left( :,: ,3\right)=100；</script><p>如你所愿，最后我们有</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">testz = test_z.*test; <span class="comment">% 得到我想要的效果</span></span><br></pre></td></tr></table></figure>
-<p>注意，如果是对行(第一维度)点乘，只需要：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">z.* test</span><br></pre></td></tr></table></figure>
-<script type="math/tex; mode=display">
-testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right]</script><p>如果对列进行点乘，需要进行行列转置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">z&#39;.*test</span><br></pre></td></tr></table></figure>
-<script type="math/tex; mode=display">
-testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right]</script><p>虽然很简单，但是这么简单的问题我也是花了大概二十分钟去思考，再花二十分钟做笔记，希望以后可以帮助自己和有缘人。能遇到同样的变态问题，还看到我的博客，说明都是猿粪啊，既然这么有缘，你舍得不给我点赞吗？哈哈</p>
-]]></content>
+      
+      
+        <tags>
+            
+            <tag> MATLAB </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Matlab 高维矩阵与向量的点乘 （Permute）</title>
+      <link href="/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/"/>
+      <url>/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Matlab-高维矩阵与向量的点乘-（Permute）"><a href="#Matlab-高维矩阵与向量的点乘-（Permute）" class="headerlink" title="Matlab 高维矩阵与向量的点乘 （Permute）"></a>Matlab 高维矩阵与向量的点乘 （Permute）</h1><p>今天遇到一个问题，如何用一个n维的向量点乘一个$m\times k\times n$ 的矩阵， 并避免用循环。Matlab矩阵实验室名不虚传，通过permute这个命令可以有效解决这个问题。因此记录下来，以备不时之需 （几年前遇到过同样的问题，但是没做笔记，所以这次一定要记下来）。</p><a id="more"></a><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]; <span class="comment">% 这里需要注意Matlab是按列存储的；</span></span><br><span class="line">test = <span class="built_in">repmat</span>(a,<span class="number">3</span>,<span class="number">1</span>,<span class="number">3</span>); <span class="comment">% 把向量a复制成一个3*3*3的矩阵；</span></span><br></pre></td></tr></table></figure><p> 查看test矩阵</p><script type="math/tex; mode=display">test\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right],test\left( :,: ,2\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right], test\left( :,: ,3\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right]</script><p>我想要的结果</p><script type="math/tex; mode=display">testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 10& 20& 30\\ 10& 20& 30\\ 10& 20& 30\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 100& 200& 300\\ 100& 200& 300\\ 100& 200& 300\end{matrix} \right]</script><p>实现的方法</p><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">z = [<span class="number">1</span>,<span class="number">10</span>,<span class="number">100</span>]; <span class="comment">% 定义一个向量z</span></span><br><span class="line">test_z = <span class="built_in">permute</span>(z,[<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>])； <span class="comment">%permute 用于求三维矩阵的转置</span></span><br></pre></td></tr></table></figure><p>对于二维矩阵的转置，我们通常用 ’ ；但是对于高维向量，需要使用permute, 上面的命令表示第二个维度的数据（列）放到第三个维度，所以我们猜测test_z会是一个 $1\times 1\times 3$的这么一个矩阵，查看test_z的结果</p><script type="math/tex; mode=display">test_z\left( :,: ,1\right) = 1；test_z\left( :,: ,2\right) = 10； test_z\left( :,: ,3\right)=100；</script><p>如你所愿，最后我们有</p><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">testz = test_z.*test; <span class="comment">% 得到我想要的效果</span></span><br></pre></td></tr></table></figure><p>注意，如果是对行(第一维度)点乘，只需要：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">z.* test</span><br></pre></td></tr></table></figure><script type="math/tex; mode=display">testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right]</script><p>如果对列进行点乘，需要进行行列转置</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">z&#39;.*test</span><br></pre></td></tr></table></figure><script type="math/tex; mode=display">testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right]</script><p>虽然很简单，但是这么简单的问题我也是花了大概二十分钟去思考，再花二十分钟做笔记，希望以后可以帮助自己和有缘人。能遇到同样的变态问题，还看到我的博客，说明都是猿粪啊，既然这么有缘，你舍得不给我点赞吗？哈哈</p>]]></content>
+      
+      
       <categories>
-        <category>Coding Tips</category>
+          
+          <category> Coding Tips </category>
+          
       </categories>
-      <tags>
-        <tag>MATLAB</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo Cheatsheet</title>
-    <url>/2020/02/21/hello-world/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><a id="more"></a>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new draft <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-<h3 id="hexo-debug"><a href="#hexo-debug" class="headerlink" title="hexo debug"></a>hexo debug</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo debug</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+        <tags>
+            
+            <tag> MATLAB </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hexo Cheatsheet</title>
+      <link href="/2020/02/21/hello-world/"/>
+      <url>/2020/02/21/hello-world/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><a id="more"></a><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new draft <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p><h3 id="hexo-debug"><a href="#hexo-debug" class="headerlink" title="hexo debug"></a>hexo debug</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo debug</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
       <categories>
-        <category>Coding Tips</category>
+          
+          <category> Coding Tips </category>
+          
       </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
 </search>
