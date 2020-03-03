@@ -50,8 +50,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
         <tag>Python</tag>
+        <tag>Algorithm</tag>
         <tag>Simulation</tag>
       </tags>
   </entry>
@@ -60,6 +60,7 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
     <url>/2020/02/21/Monte%20Carlo%20Simulation%20for%20CIR%20Process/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Monte-Carlo-Simulation-for-CIR-Process"><a href="#Monte-Carlo-Simulation-for-CIR-Process" class="headerlink" title="Monte Carlo Simulation for CIR Process"></a>Monte Carlo Simulation for CIR Process</h1><p>(To be continued ……)</p>
 <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Two models are commonly applied to describe the stochastic interest rate process (or the stochastic volatility process), including the OU process and the CIR process.</p>
+<a id="more"></a>
 <ul>
 <li>The OU process:</li>
 </ul>
@@ -101,8 +102,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
         <tag>Python</tag>
+        <tag>Algorithm</tag>
         <tag>Simulation</tag>
       </tags>
   </entry>
@@ -163,8 +164,8 @@ h'\left( \alpha \right) =n\left( -\frac {1} {\alpha^2}+\frac {\sum x_{i}^{\alpha
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
         <tag>Python</tag>
+        <tag>Algorithm</tag>
         <tag>Calibration</tag>
       </tags>
   </entry>
