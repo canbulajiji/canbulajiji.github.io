@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Shecan|单变量随机扩散过程的参数估计——Hermite近似笔记似然函数</title>
+    <url>/2020/02/21/python%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>为何要进行版本控制？对我来说因为运行一些程序发现了版本不兼容的问题，特别是运行一些开源的软件。所以记下来自己控制版本的过程，避免以后重复搜索，浪费时间。</p>
+<a id="more"></a>
+<ol>
+<li><h6 id="cmd-中的版本控制"><a href="#cmd-中的版本控制" class="headerlink" title="cmd 中的版本控制"></a>cmd 中的版本控制</h6><p>需求：每次在cmd中运行 python 的时候启动 python 3.8， 每次在cmd中运行python2的时候启动 python 2.7, 输入 python3 的时候运行 python 3.8. 如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200322202943200.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>第三个python使我之前装的anaconda 3带的版本。</p>
+<p>实现以上效果的具体配置如下：</p>
+<p>Step 1. Install Python 3.8 and Python 2.7 from <a href="https://www.python.org/downloads/，use" target="_blank" rel="noopener">https://www.python.org/downloads/，use</a> all the default settings. 安装过程中 <strong>注意不要勾选加入到path</strong>, 需要手动加入。或者喜欢anaconda的同学可以从这个网站下载 <a href="https://www.anaconda.com/distribution/，配置方法类似。" target="_blank" rel="noopener">https://www.anaconda.com/distribution/，配置方法类似。</a></p>
+<p>Step 2. Find the destination directory of your python files and change the name as below:</p>
+<p>找到Python 2.7 的安装目录，把 python 改成  python2。找到Python 3.8 的安装目录，把python 改成 python3 如图所示。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200322203112114.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center" alt=""><br><img src="https://img-blog.csdnimg.cn/2020032220321681.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+</li>
+</ol>
+<p>   Step 3. 把 Python 3.7 和 python 2.7 加入到环境变量，如图所示</p>
+<p><img src="https://img-blog.csdnimg.cn/20200322203244966.PNG#pic_center" alt="在这里插入图片描述"></p>
+<ol>
+<li><h6 id="Version-Control-in-Jupyter-lab"><a href="#Version-Control-in-Jupyter-lab" class="headerlink" title="Version Control in Jupyter lab."></a>Version Control in Jupyter lab.</h6><p>需求：如图所示，在Jupyter lab中可以随意切换版本。</p>
+<p><img src="https://img-blog.csdnimg.cn/2020032220332038.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>或在运行某一个程序时，也可以随时切换Kernel.</p>
+</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/20200322203424793.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>   可以看出R也是可以加入kernel的，这是我以前配置的，但对R来说还是Rstudio比较习惯，配置好了也没用过，所以大家有需要可以自行搜索一下。</p>
+<p>   如果是anaconda的用户，在 cmd 中连续输入以下的命令即可</p>
+   <figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">conda create <span class="literal">-n</span> py27 python=<span class="number">2.7</span></span><br><span class="line">conda activate py27</span><br><span class="line">conda install notebook ipykernel</span><br><span class="line">ipython kernel install -<span class="literal">-user</span></span><br></pre></td></tr></table></figure>
+<p>   如果不用 conda, 可以用以下的命令</p>
+   <figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">python2 <span class="literal">-m</span> pip install ipykernel</span><br><span class="line"></span><br><span class="line">python2 <span class="literal">-m</span> ipykernel install -<span class="literal">-user</span></span><br></pre></td></tr></table></figure>
+<p>​       参考链接：<a href="https://stackoverflow.com/questions/30492623/using-both-python-2-x-and-python-3-x-in-ipython-notebook" target="_blank" rel="noopener">https://stackoverflow.com/questions/30492623/using-both-python-2-x-and-python-3-x-in-ipython-notebook</a></p>
+]]></content>
+      <categories>
+        <category>Algorithm Study</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>Calibration</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Shecan|Monte Carlo Simulation for CIR Process</title>
     <url>/2020/02/21/Monte%20Carlo%20Simulation%20for%20CIR%20Process/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Monte-Carlo-Simulation-for-CIR-Process"><a href="#Monte-Carlo-Simulation-for-CIR-Process" class="headerlink" title="Monte Carlo Simulation for CIR Process"></a>Monte Carlo Simulation for CIR Process</h1><p>(To be continued ……)</p>
