@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Shecan|单变量随机扩散过程的参数估计——Hermite近似笔记似然函数</title>
-    <url>/2020/02/21/python%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/</url>
+    <title>Shecan|Python 在Jupyter Lab 和 cmd 下的版本控制</title>
+    <url>/2020/03/23/python%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>为何要进行版本控制？对我来说因为运行一些程序发现了版本不兼容的问题，特别是运行一些开源的软件。所以记下来自己控制版本的过程，避免以后重复搜索，浪费时间。</p>
 <a id="more"></a>
 <ol>
@@ -33,11 +33,10 @@
 <p>​       参考链接：<a href="https://stackoverflow.com/questions/30492623/using-both-python-2-x-and-python-3-x-in-ipython-notebook" target="_blank" rel="noopener">https://stackoverflow.com/questions/30492623/using-both-python-2-x-and-python-3-x-in-ipython-notebook</a></p>
 ]]></content>
       <categories>
-        <category>Algorithm Study</category>
+        <category>Coding Tips</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
-        <tag>Calibration</tag>
+        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
@@ -87,8 +86,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
         <tag>Simulation</tag>
       </tags>
   </entry>
@@ -262,8 +261,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
         <tag>Simulation</tag>
       </tags>
   </entry>
@@ -324,8 +323,8 @@ h'\left( \alpha \right) =n\left( -\frac {1} {\alpha^2}+\frac {\sum x_{i}^{\alpha
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
         <tag>Calibration</tag>
       </tags>
   </entry>
