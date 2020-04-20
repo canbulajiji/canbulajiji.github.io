@@ -396,4 +396,66 @@ testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20
         <tag>Hexo</tag>
       </tags>
   </entry>
+  <entry>
+    <title>MATLAB cell 与 matrix 之间的转换</title>
+    <url>/2020/02/21/MATLAB%20cell%20%E4%B8%8E%20matrix%20%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>本文记录了Shecan在研究中遇到的Cell与matrix相互转换的问题。cell2mat可以转换比较简单的cell类型，但是如果复杂一些，需要用cat和reshape，permute相结合。</p>
+<a id="more"></a>
+<p><strong>Example 1</strong></p>
+<p>cell2mat 可以实现简单的cell到矩阵的拼接，如</p>
+<script type="math/tex; mode=display">
+\{[1],[2];[3],[4]\}</script><p>变成</p>
+<script type="math/tex; mode=display">
+\left[ \begin{matrix} 1 & 2 \\ 3 & 4 \end{matrix} \right]</script><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A = cell(<span class="number">2</span>);</span><br><span class="line">A&#123;<span class="number">1</span>,<span class="number">1</span>&#125; = <span class="number">1</span>; </span><br><span class="line">A&#123;<span class="number">1</span>,<span class="number">2</span>&#125; = <span class="number">2</span>;</span><br><span class="line">A&#123;<span class="number">2</span>,<span class="number">1</span>&#125; = <span class="number">3</span>;</span><br><span class="line">A&#123;<span class="number">2</span>,<span class="number">2</span>&#125; = <span class="number">4</span>;</span><br><span class="line">B = cell2mat(A)</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2</strong></p>
+<p>输入：</p>
+<script type="math/tex; mode=display">
+A = \left\{ \begin{matrix}\left[ \begin{matrix} 2 & 2 \\ 2 & 2 \end{matrix} \right],\left[ \begin{matrix} 1 & 1 \\ 1 & 1 \end{matrix} \right]\end{matrix}\right\}</script><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A = cell(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">A&#123;<span class="number">1</span>,<span class="number">1</span>&#125; = [<span class="number">2</span>,<span class="number">2</span>;<span class="number">2</span>,<span class="number">2</span>];</span><br><span class="line">A&#123;<span class="number">1</span>,<span class="number">2</span>&#125; = [<span class="number">1</span>,<span class="number">1</span>;<span class="number">1</span>,<span class="number">1</span>];</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<p>cat(1,mat) 表示按列拼接， cat(2,mat)表示按行拼接，cat(3,mat)表示按第三个维度拼接。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">B = <span class="built_in">cat</span>(<span class="number">3</span>,A&#123;:&#125;);</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+B(:,:,1) = \left[ \begin{matrix} 2 & 2 \\ 2 & 2 \end{matrix} \right]\\
+B(:,:,2) = \left[ \begin{matrix} 1 & 1 \\ 1 & 1 \end{matrix} \right]</script><p><strong>Example 3</strong></p>
+<p>输入：</p>
+<script type="math/tex; mode=display">
+\left\{ \begin{matrix} \left[ \begin{matrix} 2 \\ 1 \end{matrix} \right] &  \left[ \begin{matrix} 2 \\ 1 \end{matrix} \right]\\ \left[ \begin{matrix} 2 \\ 1 \end{matrix} \right] &  \left[ \begin{matrix} 2 \\ 1 \end{matrix} \right]\end{matrix}\right\}</script><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A = cell(<span class="number">2</span>,<span class="number">2</span>);</span><br><span class="line">A&#123;<span class="number">1</span>,<span class="number">1</span>&#125; = [<span class="number">2</span>;<span class="number">1</span>]; </span><br><span class="line">A&#123;<span class="number">1</span>,<span class="number">2</span>&#125; = [<span class="number">2</span>;<span class="number">1</span>];</span><br><span class="line">A&#123;<span class="number">2</span>,<span class="number">1</span>&#125; = [<span class="number">2</span>;<span class="number">1</span>];</span><br><span class="line">A&#123;<span class="number">2</span>,<span class="number">2</span>&#125; = [<span class="number">2</span>;<span class="number">1</span>];</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">A &#x3D; 2×2 cell 数组</span><br><span class="line">    &#123;2×1 double&#125;    &#123;2×1 double&#125;</span><br><span class="line">    &#123;2×1 double&#125;    &#123;2×1 double&#125;</span><br></pre></td></tr></table></figure>
+<p>目标： 把 A 转换成以下的矩阵B</p>
+<script type="math/tex; mode=display">
+B(:,:,1) = \left[ \begin{matrix} 2 & 2 \\ 2 & 2 \end{matrix} \right]\\
+B(:,:,2) = \left[ \begin{matrix} 1 & 1 \\ 1 & 1 \end{matrix} \right]</script><script type="math/tex; mode=display">
+</script><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">B = <span class="built_in">cat</span>(<span class="number">2</span>,A&#123;:&#125;)</span><br></pre></td></tr></table></figure>
+<p>% cat(1,mat) 表示按列拼接， cat(2,mat)表示按行拼接，cat(3,mat)表示按第三个维度拼接。</p>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">B &#x3D; 2×4</span><br><span class="line">     2     2     2     2</span><br><span class="line">     1     1     1     1</span><br></pre></td></tr></table></figure>
+<p>以上的矩阵转置后reshape便可以的到需要的矩阵。reshape矩阵变换的优先方向是列-行-第三维度。</p>
+<p>输入：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="built_in">reshape</span>(B',[<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ans &#x3D; </span><br><span class="line">ans(:,:,1) &#x3D;</span><br><span class="line"></span><br><span class="line">     2     2</span><br><span class="line">     2     2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ans(:,:,2) &#x3D;</span><br><span class="line"></span><br><span class="line">     1     1</span><br><span class="line">     1     1</span><br></pre></td></tr></table></figure>
+<p>Alternatively, reshape based on columns. 如此，需要多费一番周折，最后需要一个高维矩阵转置。这样做的有点是当矩阵大于三维的时候比较容易理解和思考。</p>
+<p>输入：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">B = <span class="built_in">cat</span>(<span class="number">1</span>,A&#123;:&#125;)</span><br></pre></td></tr></table></figure>
+<p>输出：因为这里是按列拼接</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">B &#x3D; 8×1</span><br><span class="line">     2</span><br><span class="line">     1</span><br><span class="line">     2</span><br><span class="line">     1</span><br><span class="line">     2</span><br><span class="line">     1</span><br><span class="line">     2</span><br><span class="line">     1</span><br></pre></td></tr></table></figure>
+<p>同样，reshape成三维矩阵。</p>
+<p>输入：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">B=<span class="built_in">reshape</span>(B,[<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
+<p>输出：得到这样的结果是因为reshape是先放到列，再放到行，最后放到第三维度。这个和MATLAB矩阵存储方式有关，列优先。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">B &#x3D; </span><br><span class="line">B(:,:,1) &#x3D;</span><br><span class="line"></span><br><span class="line">     2     2</span><br><span class="line">     1     1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">B(:,:,2) &#x3D;</span><br><span class="line"></span><br><span class="line">     2     2</span><br><span class="line">     1     1</span><br></pre></td></tr></table></figure>
+<p>最后做一个一三维度的装置即可。</p>
+<p>输入：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">permute(B,[3,2,1])</span><br></pre></td></tr></table></figure>
+<p>即可以得到所需要的矩阵。</p>
+<p>结束语：寥寥记下几笔。说到cell，必须要在这里感谢一下昔日的老友，从他的程序里学来的，然后越用越顺手。</p>
+]]></content>
+      <categories>
+        <category>Coding Tips</category>
+      </categories>
+      <tags>
+        <tag>MATLAB</tag>
+      </tags>
+  </entry>
 </search>
