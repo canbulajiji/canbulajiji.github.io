@@ -3,7 +3,7 @@
   <entry>
     <title>Everything you should know about this blog</title>
     <url>/2020/05/14/Everything-you-should-know-about-this-blog/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="C:\Users\Hubu\Desktop\blog\source\invitation.png" alt=""></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="_posts/image/invitation.png" alt=""></p>
 ]]></content>
   </entry>
   <entry>
@@ -215,8 +215,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
         <tag>Python</tag>
+        <tag>Algorithm</tag>
         <tag>Simulation</tag>
       </tags>
   </entry>
@@ -277,8 +277,8 @@ h'\left( \alpha \right) =n\left( -\frac {1} {\alpha^2}+\frac {\sum x_{i}^{\alpha
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
         <tag>Python</tag>
+        <tag>Algorithm</tag>
         <tag>Calibration</tag>
       </tags>
   </entry>
@@ -437,8 +437,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
         <tag>Python</tag>
+        <tag>Algorithm</tag>
         <tag>Simulation</tag>
       </tags>
   </entry>
