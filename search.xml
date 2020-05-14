@@ -298,37 +298,6 @@ h'\left( \alpha \right) =n\left( -\frac {1} {\alpha^2}+\frac {\sum x_{i}^{\alpha
       </tags>
   </entry>
   <entry>
-    <title>Matlab 高维矩阵与向量的点乘 （Permute）</title>
-    <url>/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Matlab-高维矩阵与向量的点乘-（Permute）"><a href="#Matlab-高维矩阵与向量的点乘-（Permute）" class="headerlink" title="Matlab 高维矩阵与向量的点乘 （Permute）"></a>Matlab 高维矩阵与向量的点乘 （Permute）</h1><p>今天遇到一个问题，如何用一个n维的向量点乘一个$m\times k\times n$ 的矩阵， 并避免用循环。Matlab矩阵实验室名不虚传，通过permute这个命令可以有效解决这个问题。因此记录下来，以备不时之需 （几年前遇到过同样的问题，但是没做笔记，所以这次一定要记下来）。</p>
-<a id="more"></a>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]; <span class="comment">% 这里需要注意Matlab是按列存储的；</span></span><br><span class="line">test = <span class="built_in">repmat</span>(a,<span class="number">3</span>,<span class="number">1</span>,<span class="number">3</span>); <span class="comment">% 把向量a复制成一个3*3*3的矩阵；</span></span><br></pre></td></tr></table></figure>
-<p> 查看test矩阵</p>
-<script type="math/tex; mode=display">
-test\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right],test\left( :,: ,2\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right], test\left( :,: ,3\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right]</script><p>我想要的结果</p>
-<script type="math/tex; mode=display">
-testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 10& 20& 30\\ 10& 20& 30\\ 10& 20& 30\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 100& 200& 300\\ 100& 200& 300\\ 100& 200& 300\end{matrix} \right]</script><p>实现的方法</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">z = [<span class="number">1</span>,<span class="number">10</span>,<span class="number">100</span>]; <span class="comment">% 定义一个向量z</span></span><br><span class="line">test_z = <span class="built_in">permute</span>(z,[<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>])； <span class="comment">%permute 用于求三维矩阵的转置</span></span><br></pre></td></tr></table></figure>
-<p>对于二维矩阵的转置，我们通常用 ’ ；但是对于高维向量，需要使用permute, 上面的命令表示第二个维度的数据（列）放到第三个维度，所以我们猜测test_z会是一个 $1\times 1\times 3$的这么一个矩阵，查看test_z的结果</p>
-<script type="math/tex; mode=display">
-test_z\left( :,: ,1\right) = 1；test_z\left( :,: ,2\right) = 10； test_z\left( :,: ,3\right)=100；</script><p>如你所愿，最后我们有</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">testz = test_z.*test; <span class="comment">% 得到我想要的效果</span></span><br></pre></td></tr></table></figure>
-<p>注意，如果是对行(第一维度)点乘，只需要：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">z.* test</span><br></pre></td></tr></table></figure>
-<script type="math/tex; mode=display">
-testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right]</script><p>如果对列进行点乘，需要进行行列转置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">z&#39;.*test</span><br></pre></td></tr></table></figure>
-<script type="math/tex; mode=display">
-testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right]</script><p>虽然很简单，但是这么简单的问题我也是花了大概二十分钟去思考，再花二十分钟做笔记，希望以后可以帮助自己和有缘人。能遇到同样的变态问题，还看到我的博客，说明都是猿粪啊，既然这么有缘，你舍得不给我点赞吗？哈哈</p>
-]]></content>
-      <categories>
-        <category>Coding Tips</category>
-      </categories>
-      <tags>
-        <tag>MATLAB</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MATLAB cell 与 matrix 之间的转换</title>
     <url>/2020/02/21/MATLAB%20cell%20%E4%B8%8E%20matrix%20%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>本文记录了Shecan在研究中遇到的Cell与matrix相互转换的问题。cell2mat可以转换比较简单的cell类型，但是如果复杂一些，需要用cat和reshape，permute相结合。</p>
@@ -382,6 +351,37 @@ B(:,:,2) = \left[ \begin{matrix} 1 & 1 \\ 1 & 1 \end{matrix} \right]</script><sc
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">permute(B,[3,2,1])</span><br></pre></td></tr></table></figure>
 <p>即可以得到所需要的矩阵。</p>
 <p>结束语：寥寥记下几笔。说到cell，必须要在这里感谢一下昔日的老友，从他的程序里学来的，然后越用越顺手。</p>
+]]></content>
+      <categories>
+        <category>Coding Tips</category>
+      </categories>
+      <tags>
+        <tag>MATLAB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Matlab 高维矩阵与向量的点乘 （Permute）</title>
+    <url>/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Matlab-高维矩阵与向量的点乘-（Permute）"><a href="#Matlab-高维矩阵与向量的点乘-（Permute）" class="headerlink" title="Matlab 高维矩阵与向量的点乘 （Permute）"></a>Matlab 高维矩阵与向量的点乘 （Permute）</h1><p>今天遇到一个问题，如何用一个n维的向量点乘一个$m\times k\times n$ 的矩阵， 并避免用循环。Matlab矩阵实验室名不虚传，通过permute这个命令可以有效解决这个问题。因此记录下来，以备不时之需 （几年前遇到过同样的问题，但是没做笔记，所以这次一定要记下来）。</p>
+<a id="more"></a>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]; <span class="comment">% 这里需要注意Matlab是按列存储的；</span></span><br><span class="line">test = <span class="built_in">repmat</span>(a,<span class="number">3</span>,<span class="number">1</span>,<span class="number">3</span>); <span class="comment">% 把向量a复制成一个3*3*3的矩阵；</span></span><br></pre></td></tr></table></figure>
+<p> 查看test矩阵</p>
+<script type="math/tex; mode=display">
+test\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right],test\left( :,: ,2\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right], test\left( :,: ,3\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right]</script><p>我想要的结果</p>
+<script type="math/tex; mode=display">
+testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 10& 20& 30\\ 10& 20& 30\\ 10& 20& 30\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 100& 200& 300\\ 100& 200& 300\\ 100& 200& 300\end{matrix} \right]</script><p>实现的方法</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">z = [<span class="number">1</span>,<span class="number">10</span>,<span class="number">100</span>]; <span class="comment">% 定义一个向量z</span></span><br><span class="line">test_z = <span class="built_in">permute</span>(z,[<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>])； <span class="comment">%permute 用于求三维矩阵的转置</span></span><br></pre></td></tr></table></figure>
+<p>对于二维矩阵的转置，我们通常用 ’ ；但是对于高维向量，需要使用permute, 上面的命令表示第二个维度的数据（列）放到第三个维度，所以我们猜测test_z会是一个 $1\times 1\times 3$的这么一个矩阵，查看test_z的结果</p>
+<script type="math/tex; mode=display">
+test_z\left( :,: ,1\right) = 1；test_z\left( :,: ,2\right) = 10； test_z\left( :,: ,3\right)=100；</script><p>如你所愿，最后我们有</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">testz = test_z.*test; <span class="comment">% 得到我想要的效果</span></span><br></pre></td></tr></table></figure>
+<p>注意，如果是对行(第一维度)点乘，只需要：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">z.* test</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right]</script><p>如果对列进行点乘，需要进行行列转置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">z&#39;.*test</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right]</script><p>虽然很简单，但是这么简单的问题我也是花了大概二十分钟去思考，再花二十分钟做笔记，希望以后可以帮助自己和有缘人。能遇到同样的变态问题，还看到我的博客，说明都是猿粪啊，既然这么有缘，你舍得不给我点赞吗？哈哈</p>
 ]]></content>
       <categories>
         <category>Coding Tips</category>
