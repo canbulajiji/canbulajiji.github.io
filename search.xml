@@ -3,7 +3,7 @@
   <entry>
     <title>Everything you should know about this blog</title>
     <url>/2020/05/14/Everything-you-should-know-about-this-blog/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="https://img-blog.csdnimg.cn/20200514213548633.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70" alt=""></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="https://img-blog.csdnimg.cn/20200514214627829.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 ]]></content>
   </entry>
   <entry>
@@ -215,8 +215,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
         <tag>Simulation</tag>
       </tags>
   </entry>
@@ -277,9 +277,24 @@ h'\left( \alpha \right) =n\left( -\frac {1} {\alpha^2}+\frac {\sum x_{i}^{\alpha
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
         <tag>Calibration</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Matlab Plot with User Defined Color</title>
+    <url>/2020/02/21/MATLAB%20Plot%20user%20defined%20color/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="MATLAB-Plot-如何自定义颜色"><a href="#MATLAB-Plot-如何自定义颜色" class="headerlink" title="MATLAB Plot 如何自定义颜色"></a>MATLAB Plot 如何自定义颜色</h2><p>Tip: Matlab 作图时最好保存成fig格式，便于以后修改。</p>
+<p>写论文是一个漫长的过程，成文后最重要的一个问题就是如何让自己的论文排版和插图更加的好看，让枯燥的论文有一点生动的色彩。这里记录我在写论文时的困惑和一些小小的技巧。</p>
+<a id="more"></a>
+<p>以下面这个图为例：<br><img src="https://img-blog.csdnimg.cn/20200113001358688.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>X = linspace(0,5,51);<br>Y1 = sin(X);<br>Y2 = cos(0.5</em>X);<br>Z = 2<em>Y1+0.3</em>Y2;<br>plot(X,Y1,’color’,[1,0,1],’Marker’,’<em>‘);hold on;<br>plot(X,Y2,’color’,[0.9,0.5,0.5],’LineWidth’,2);hold on;<br>plot(X,Z,’color’,[0.9,1,0.7],’Marker’,’diamond’,’MarkerEdgeColor’,’r’)<br>xlabel(‘x’,’FontSize’,15)<br>ylabel(‘y’,’FontSize’,15)<br>title(‘Customized the plot color in Matlab’,’Color’,[0.7,0,1])<br>方括号中间的三个数字表示的三原色的比例，配色标准可以参考：Matlab配色<br>Plot的基本命令： plot(x,y,’property name’,property value)<br>如果不记得property name怎么办？不用担心，Matlab会给你提示，总是可以找到自己想要的。<br>如何画出渐变图？<br>当然是写个for循环就可以了。</em><br><img src="https://img-blog.csdnimg.cn/20200113001422904.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>clear all<br>hold off<br>X = linspace(-pi/2,pi/2,10)<br>figure(‘Color’,[0.94,1,0.94])<br>for i = 1:20<br>        plot(X,(-1)^(i)</em>i<em>X,’color’,[1-i</em>0.05,0+i<em>0.03,1-i</em>0.01],’LineWidth’,0.5+0.05<em>i);<br>        hold on;<br>end<br>axis([-pi/2,pi/2,-35,35])</em></p>
+]]></content>
+      <categories>
+        <category>Coding Tips</category>
+      </categories>
+      <tags>
+        <tag>MATLAB</tag>
       </tags>
   </entry>
   <entry>
@@ -376,21 +391,6 @@ testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20
       </tags>
   </entry>
   <entry>
-    <title>Matlab Plot with User Defined Color</title>
-    <url>/2020/02/21/MATLAB%20Plot%20user%20defined%20color/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="MATLAB-Plot-如何自定义颜色"><a href="#MATLAB-Plot-如何自定义颜色" class="headerlink" title="MATLAB Plot 如何自定义颜色"></a>MATLAB Plot 如何自定义颜色</h2><p>Tip: Matlab 作图时最好保存成fig格式，便于以后修改。</p>
-<p>写论文是一个漫长的过程，成文后最重要的一个问题就是如何让自己的论文排版和插图更加的好看，让枯燥的论文有一点生动的色彩。这里记录我在写论文时的困惑和一些小小的技巧。</p>
-<a id="more"></a>
-<p>以下面这个图为例：<br><img src="https://img-blog.csdnimg.cn/20200113001358688.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>X = linspace(0,5,51);<br>Y1 = sin(X);<br>Y2 = cos(0.5</em>X);<br>Z = 2<em>Y1+0.3</em>Y2;<br>plot(X,Y1,’color’,[1,0,1],’Marker’,’<em>‘);hold on;<br>plot(X,Y2,’color’,[0.9,0.5,0.5],’LineWidth’,2);hold on;<br>plot(X,Z,’color’,[0.9,1,0.7],’Marker’,’diamond’,’MarkerEdgeColor’,’r’)<br>xlabel(‘x’,’FontSize’,15)<br>ylabel(‘y’,’FontSize’,15)<br>title(‘Customized the plot color in Matlab’,’Color’,[0.7,0,1])<br>方括号中间的三个数字表示的三原色的比例，配色标准可以参考：Matlab配色<br>Plot的基本命令： plot(x,y,’property name’,property value)<br>如果不记得property name怎么办？不用担心，Matlab会给你提示，总是可以找到自己想要的。<br>如何画出渐变图？<br>当然是写个for循环就可以了。</em><br><img src="https://img-blog.csdnimg.cn/20200113001422904.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>clear all<br>hold off<br>X = linspace(-pi/2,pi/2,10)<br>figure(‘Color’,[0.94,1,0.94])<br>for i = 1:20<br>        plot(X,(-1)^(i)</em>i<em>X,’color’,[1-i</em>0.05,0+i<em>0.03,1-i</em>0.01],’LineWidth’,0.5+0.05<em>i);<br>        hold on;<br>end<br>axis([-pi/2,pi/2,-35,35])</em></p>
-]]></content>
-      <categories>
-        <category>Coding Tips</category>
-      </categories>
-      <tags>
-        <tag>MATLAB</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Shecan|Monte Carlo Simulation for CIR Process</title>
     <url>/2020/02/21/Monte%20Carlo%20Simulation%20for%20CIR%20Process/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Monte-Carlo-Simulation-for-CIR-Process"><a href="#Monte-Carlo-Simulation-for-CIR-Process" class="headerlink" title="Monte Carlo Simulation for CIR Process"></a>Monte Carlo Simulation for CIR Process</h1><p>(To be continued ……)</p>
@@ -437,8 +437,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
         <tag>Simulation</tag>
       </tags>
   </entry>
