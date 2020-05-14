@@ -166,6 +166,61 @@ c_{j}\left(y | y_{0} ; \theta\right)= j\left(y-y_{0}\right)^{-j} \int_{y_{0}}^{y
       </tags>
   </entry>
   <entry>
+    <title>Shecan|CIR过程蒙特卡洛模拟</title>
+    <url>/2020/02/21/CIR%E8%BF%87%E7%A8%8B%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A8%A1%E6%8B%9F/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="CIR过程蒙特卡洛模拟"><a href="#CIR过程蒙特卡洛模拟" class="headerlink" title="CIR过程蒙特卡洛模拟"></a>CIR过程蒙特卡洛模拟</h1><p>众所周知，利率是随着时间的变化而随机变化的，本文简要说明了两种常用的随机利率过程，并基于Python用蒙特卡洛的方法模拟出随机利率过程。</p>
+<p>(未完待续 ……)<br><a id="more"></a></p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>最常用的随机利率模型包括：OU 过程和 CIR 过程：</p>
+<ul>
+<li>The OU process:</li>
+</ul>
+<script type="math/tex; mode=display">
+d r_{t}=\alpha\left(\mu-r_{t}\right) d t+\sigma d W_{t}\tag{1}</script><ul>
+<li>The CIR process:</li>
+</ul>
+<script type="math/tex; mode=display">
+d r_{t}=\alpha\left(\mu-r_{t}\right) d t+\sigma \sqrt{r_{t}} d W_{t}\tag{2}</script><p>where $\mu$ 是均值回归的水平 and $\alpha$ 是均值回归的速度。</p>
+<p>利率虽然是随机的，但不会长久偏离均值水平，因而是均值回归的。OU 过程服从正态分布，而 CIR 过程服从一个非中心的卡方分布（具体可以看维基上的说明）。CIR 过程优于OU过程之处在于， 可以保证利率的非负性</p>
+<h2 id="Monte-Carlo-Simulation"><a href="#Monte-Carlo-Simulation" class="headerlink" title="Monte Carlo Simulation"></a>Monte Carlo Simulation</h2><p>对于以上两个随机过程的离散，通常有两种方法： <strong>Euler–Maruyama Method</strong> and the <strong>Milstein Method</strong>。和一般的不带随机变量的差分相似，两种方法的区别在于在不同的地方对泰勒展开公式进行截断，然而由于随机项的引入，我们需要用Ito-Taylor对其进行展开（具体的推导，我找到的最清楚（读得懂）的证明即参考文献中的’Ito Taylor Expansion’）。</p>
+<script type="math/tex; mode=display">
+X\left(t_{i+1}\right)=X\left(t_{i}\right)+a\left[X\left(t_{i}\right)\right] \Delta t+b\left[X\left(t_{i}\right)\right] \Delta W_{i}+\frac{1}{2} b\left[X\left(t_{i}\right)\right] b^{\prime}\left[X\left(t_{i}\right)\right]\left[\left(\Delta W_{i}\right)^{2}-\Delta t\right]+\mathcal{O}(\Delta t)</script><p>如上所示， Euler-Maruyama 是对上式的一阶截断， 而 Milstein 是对上式的二阶截断。这里的$\mathcal{O}$ 表示剩余的项是</p>
+<p>$\Delta t$ 的高阶项。</p>
+<p>因而，我们有以下的两个离散表达式：</p>
+<p>Specifically, for the CIR process, we have $a[r] = \alpha(\mu - r)$, $b[r]=\sigma\sqrt{r}$, and $b’[r]=\frac{1}{2}\frac{\sigma}{\sqrt{r}}$.</p>
+<ul>
+<li>The Euler-Maruyama Method:</li>
+</ul>
+<script type="math/tex; mode=display">
+r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Delta W_j, \quad j=1,2, \ldots, L</script><p>where $\Delta W_j = \sqrt{\Delta t}N(1,0)$.</p>
+<ul>
+<li>The Milstein Method:</li>
+</ul>
+<script type="math/tex; mode=display">
+r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Delta W_j+\frac{\sigma^2}{2}[(\Delta W_j)^2-\Delta t], \quad j=1,2, \ldots, L</script><p>The weak and strong convergence rate of Euler-Maruyama are $\mathcal{}$$\mathcal{O}(\Delta t)$. The Milstein scheme has the same weak convergence but better strong convergence rate of $\mathcal{O}(\sqrt{\Delta t)}$. The detail definition of the weak and the strong convergence rate refer to <em>Higham (2001).</em> （这篇文章是我一个师兄推荐给我的，我学习蒙特卡洛模拟也是从这篇文章开始的，后来有个刚读博士的泰国美女询问我如何做随机过程的蒙特卡洛模拟时，我也把这篇文章推荐给了她，分享使我们快乐。）</p>
+<h2 id="Python-Code"><a href="#Python-Code" class="headerlink" title="Python Code"></a>Python Code</h2><p>因为我觉得以后有时间可以在这个问题上玩出朵花来，所以我先写了一个类：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">Created on Wed Feb 26 22:42:55 2020</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">@author: Shecan</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">please save the file as CIR.py</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CIR</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, alpha, mu, sigma, r0)</span>:</span></span><br><span class="line">         self.alpha = alpha <span class="comment"># mean-reverted speed</span></span><br><span class="line">         self.mu = mu <span class="comment"># mean-reverted level</span></span><br><span class="line">         self.sigma = sigma <span class="comment"># vol of interest rate</span></span><br><span class="line">         self.r0 = r0 <span class="comment"># initial interest rate</span></span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Euler</span><span class="params">(self,t_init,t_end,dt)</span>:</span></span><br><span class="line">        np.random.seed(<span class="number">5</span>)</span><br><span class="line">        ts = np.arange(t_init, t_end, dt)</span><br><span class="line">        dW = np.random.normal(loc=<span class="number">0.0</span>, scale=np.sqrt(dt),size = ts.size)</span><br><span class="line">        r = []</span><br><span class="line">        r.append(self.r0)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, ts.size):</span><br><span class="line">            r.append(r[i<span class="number">-1</span>] + self.alpha*(self.mu-r[i<span class="number">-1</span>])*dt </span><br><span class="line">                     + self.sigma*np.sqrt(r[i<span class="number">-1</span>])*dW[i<span class="number">-1</span>])</span><br><span class="line">        <span class="keyword">return</span> r</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Milstein</span><span class="params">(self,t_init,t_end,dt)</span>:</span></span><br><span class="line">        np.random.seed(<span class="number">5</span>)</span><br><span class="line">        ts = np.arange(t_init, t_end, dt)</span><br><span class="line">        dW = np.random.normal(loc=<span class="number">0.0</span>, scale=np.sqrt(dt),size = ts.size)</span><br><span class="line">        r = []</span><br><span class="line">        r.append(self.r0)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, ts.size):</span><br><span class="line">            dw = dW[i<span class="number">-1</span>]</span><br><span class="line">            r.append(r[i<span class="number">-1</span>] + self.alpha*(self.mu-r[i<span class="number">-1</span>])*dt </span><br><span class="line">                     + self.sigma*np.sqrt(r[i<span class="number">-1</span>])*dw + </span><br><span class="line">                     (self.sigma**<span class="number">2</span>/<span class="number">2</span>)*(dw**<span class="number">2</span> - dt))</span><br><span class="line">        <span class="keyword">return</span> r</span><br></pre></td></tr></table></figure>
+<p>然后我们在 Jupyter notebook中调用以上的类, </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> CIR <span class="keyword">import</span> CIR <span class="comment"># from the module CIR load our class-file CIR</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="comment"># assume mean-reverted speed = 1, mean-reverted level = 0.05, vol of interest rate = 0.05, initial interest rate = 0.05, and pass to an object named C </span></span><br><span class="line">C = CIR(<span class="number">1</span>,<span class="number">0.05</span>,<span class="number">0.05</span>,<span class="number">0.05</span>)</span><br><span class="line"><span class="comment"># For Euler method</span></span><br><span class="line">r = C.Euler(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.001</span>) <span class="comment"># start time = 0, end time = 1, dt = 0.01</span></span><br><span class="line"><span class="comment"># For Milstern method</span></span><br><span class="line">r1 = C.Milstein(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.001</span>)</span><br><span class="line"><span class="comment"># Plot and compare</span></span><br><span class="line">plt.figure(figsize=(<span class="number">20</span>,<span class="number">10</span>))</span><br><span class="line">l1,=plt.plot(r)</span><br><span class="line">l2,=plt.plot(r1,<span class="string">'b*'</span>,markersize=<span class="number">4</span>)</span><br><span class="line">plt.ylabel(<span class="string">'interest rate r'</span>,fontsize = <span class="number">20</span>)</span><br><span class="line">plt.legend(handles=[l1, l2], labels=[<span class="string">'Euler'</span>, <span class="string">'Milstein'</span>], fontsize = <span class="number">16</span>)</span><br></pre></td></tr></table></figure>
+<p>Visualizing the results:</p>
+<p><img src="https://img-blog.csdnimg.cn/20200303225854819.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="Monte Carlo Simulation"></p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p>CIR Modeling of Interest Rates</p>
+<p><a href="http://lnu.diva-portal.org/smash/get/diva2:1270329/FULLTEXT01.pdf" target="_blank" rel="noopener">http://lnu.diva-portal.org/smash/get/diva2:1270329/FULLTEXT01.pdf</a></p>
+<p>Enlightened reading material</p>
+<p><em>Higham, D. J. (2001). An algorithmic introduction to numerical simulation of stochastic differential equations. SIAM review, 43(3), 525-546.</em></p>
+<p>Ito-Taylor Expansion</p>
+<p><a href="https://www.math.nyu.edu/~cai/Courses/Derivatives/compfin_lecture_5.pdf" target="_blank" rel="noopener">https://www.math.nyu.edu/~cai/Courses/Derivatives/compfin_lecture_5.pdf</a></p>
+<p>结束语：我做笔记博客主要有三个目的：1. 在疫情长假期间，闲下来有时间思考人生（睡觉），深刻意识到自己一直在追求一些浮名薄利，一味想高屋建瓴导致一事无成，却忽略了最根本的积累，因而通过博客逼迫自己把每一个小的问题搞清楚并记录下来。2. 虽然生活和事业收获了很多的帮助，但是科研和学习主要靠自己摸索（仰视巨人的肩膀然后脑补），难免有一些异想天开的不足，希望各路大神路过能留下足迹，帮我纠正，让我进步。3. 希望我的行为能帮助到同行人，也算是一点贡献，不枉此生。</p>
+]]></content>
+      <categories>
+        <category>Algorithm Study</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>Python</tag>
+        <tag>Simulation</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Weibull Distribution_MLE_with_Newton_Ranpson_Method</title>
     <url>/2020/02/21/Distribution-MLE-with-Newton-Ranpson-Method/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Censored-Weibull-Distribution-最大似然估计-（结合牛顿法求解）"><a href="#Censored-Weibull-Distribution-最大似然估计-（结合牛顿法求解）" class="headerlink" title="Censored Weibull Distribution 最大似然估计 （结合牛顿法求解）"></a>Censored Weibull Distribution 最大似然估计 （结合牛顿法求解）</h1><p><em>前言：写这篇博客是因为我前几天偶然读到一篇很有意思的文章， 然后想用自己的实验数据测试一下其分布情况，本以外是一个很简单的工作，但再简单的工作也需要不断的更新学习。在学习过程中，我发现已经有很多博文详述了Weibull分布的应用和意义，然而对于如何进行参数估计的问题，却缺乏更加详细的记录文档。于是无聊而又不务正业的Shecan稍微探索了一下，并把笔记分享给大家。如有错误或者疑问，请给Shecan留言。</em></p>
@@ -228,58 +283,18 @@ h'\left( \alpha \right) =n\left( -\frac {1} {\alpha^2}+\frac {\sum x_{i}^{\alpha
       </tags>
   </entry>
   <entry>
-    <title>Shecan|CIR过程蒙特卡洛模拟</title>
-    <url>/2020/02/21/CIR%E8%BF%87%E7%A8%8B%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A8%A1%E6%8B%9F/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="CIR过程蒙特卡洛模拟"><a href="#CIR过程蒙特卡洛模拟" class="headerlink" title="CIR过程蒙特卡洛模拟"></a>CIR过程蒙特卡洛模拟</h1><p>众所周知，利率是随着时间的变化而随机变化的，本文简要说明了两种常用的随机利率过程，并基于Python用蒙特卡洛的方法模拟出随机利率过程。</p>
-<p>(未完待续 ……)<br><a id="more"></a></p>
-<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>最常用的随机利率模型包括：OU 过程和 CIR 过程：</p>
-<ul>
-<li>The OU process:</li>
-</ul>
-<script type="math/tex; mode=display">
-d r_{t}=\alpha\left(\mu-r_{t}\right) d t+\sigma d W_{t}\tag{1}</script><ul>
-<li>The CIR process:</li>
-</ul>
-<script type="math/tex; mode=display">
-d r_{t}=\alpha\left(\mu-r_{t}\right) d t+\sigma \sqrt{r_{t}} d W_{t}\tag{2}</script><p>where $\mu$ 是均值回归的水平 and $\alpha$ 是均值回归的速度。</p>
-<p>利率虽然是随机的，但不会长久偏离均值水平，因而是均值回归的。OU 过程服从正态分布，而 CIR 过程服从一个非中心的卡方分布（具体可以看维基上的说明）。CIR 过程优于OU过程之处在于， 可以保证利率的非负性</p>
-<h2 id="Monte-Carlo-Simulation"><a href="#Monte-Carlo-Simulation" class="headerlink" title="Monte Carlo Simulation"></a>Monte Carlo Simulation</h2><p>对于以上两个随机过程的离散，通常有两种方法： <strong>Euler–Maruyama Method</strong> and the <strong>Milstein Method</strong>。和一般的不带随机变量的差分相似，两种方法的区别在于在不同的地方对泰勒展开公式进行截断，然而由于随机项的引入，我们需要用Ito-Taylor对其进行展开（具体的推导，我找到的最清楚（读得懂）的证明即参考文献中的’Ito Taylor Expansion’）。</p>
-<script type="math/tex; mode=display">
-X\left(t_{i+1}\right)=X\left(t_{i}\right)+a\left[X\left(t_{i}\right)\right] \Delta t+b\left[X\left(t_{i}\right)\right] \Delta W_{i}+\frac{1}{2} b\left[X\left(t_{i}\right)\right] b^{\prime}\left[X\left(t_{i}\right)\right]\left[\left(\Delta W_{i}\right)^{2}-\Delta t\right]+\mathcal{O}(\Delta t)</script><p>如上所示， Euler-Maruyama 是对上式的一阶截断， 而 Milstein 是对上式的二阶截断。这里的$\mathcal{O}$ 表示剩余的项是</p>
-<p>$\Delta t$ 的高阶项。</p>
-<p>因而，我们有以下的两个离散表达式：</p>
-<p>Specifically, for the CIR process, we have $a[r] = \alpha(\mu - r)$, $b[r]=\sigma\sqrt{r}$, and $b’[r]=\frac{1}{2}\frac{\sigma}{\sqrt{r}}$.</p>
-<ul>
-<li>The Euler-Maruyama Method:</li>
-</ul>
-<script type="math/tex; mode=display">
-r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Delta W_j, \quad j=1,2, \ldots, L</script><p>where $\Delta W_j = \sqrt{\Delta t}N(1,0)$.</p>
-<ul>
-<li>The Milstein Method:</li>
-</ul>
-<script type="math/tex; mode=display">
-r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Delta W_j+\frac{\sigma^2}{2}[(\Delta W_j)^2-\Delta t], \quad j=1,2, \ldots, L</script><p>The weak and strong convergence rate of Euler-Maruyama are $\mathcal{}$$\mathcal{O}(\Delta t)$. The Milstein scheme has the same weak convergence but better strong convergence rate of $\mathcal{O}(\sqrt{\Delta t)}$. The detail definition of the weak and the strong convergence rate refer to <em>Higham (2001).</em> （这篇文章是我一个师兄推荐给我的，我学习蒙特卡洛模拟也是从这篇文章开始的，后来有个刚读博士的泰国美女询问我如何做随机过程的蒙特卡洛模拟时，我也把这篇文章推荐给了她，分享使我们快乐。）</p>
-<h2 id="Python-Code"><a href="#Python-Code" class="headerlink" title="Python Code"></a>Python Code</h2><p>因为我觉得以后有时间可以在这个问题上玩出朵花来，所以我先写了一个类：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">Created on Wed Feb 26 22:42:55 2020</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">@author: Shecan</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">please save the file as CIR.py</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CIR</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, alpha, mu, sigma, r0)</span>:</span></span><br><span class="line">         self.alpha = alpha <span class="comment"># mean-reverted speed</span></span><br><span class="line">         self.mu = mu <span class="comment"># mean-reverted level</span></span><br><span class="line">         self.sigma = sigma <span class="comment"># vol of interest rate</span></span><br><span class="line">         self.r0 = r0 <span class="comment"># initial interest rate</span></span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Euler</span><span class="params">(self,t_init,t_end,dt)</span>:</span></span><br><span class="line">        np.random.seed(<span class="number">5</span>)</span><br><span class="line">        ts = np.arange(t_init, t_end, dt)</span><br><span class="line">        dW = np.random.normal(loc=<span class="number">0.0</span>, scale=np.sqrt(dt),size = ts.size)</span><br><span class="line">        r = []</span><br><span class="line">        r.append(self.r0)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, ts.size):</span><br><span class="line">            r.append(r[i<span class="number">-1</span>] + self.alpha*(self.mu-r[i<span class="number">-1</span>])*dt </span><br><span class="line">                     + self.sigma*np.sqrt(r[i<span class="number">-1</span>])*dW[i<span class="number">-1</span>])</span><br><span class="line">        <span class="keyword">return</span> r</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Milstein</span><span class="params">(self,t_init,t_end,dt)</span>:</span></span><br><span class="line">        np.random.seed(<span class="number">5</span>)</span><br><span class="line">        ts = np.arange(t_init, t_end, dt)</span><br><span class="line">        dW = np.random.normal(loc=<span class="number">0.0</span>, scale=np.sqrt(dt),size = ts.size)</span><br><span class="line">        r = []</span><br><span class="line">        r.append(self.r0)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, ts.size):</span><br><span class="line">            dw = dW[i<span class="number">-1</span>]</span><br><span class="line">            r.append(r[i<span class="number">-1</span>] + self.alpha*(self.mu-r[i<span class="number">-1</span>])*dt </span><br><span class="line">                     + self.sigma*np.sqrt(r[i<span class="number">-1</span>])*dw + </span><br><span class="line">                     (self.sigma**<span class="number">2</span>/<span class="number">2</span>)*(dw**<span class="number">2</span> - dt))</span><br><span class="line">        <span class="keyword">return</span> r</span><br></pre></td></tr></table></figure>
-<p>然后我们在 Jupyter notebook中调用以上的类, </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> CIR <span class="keyword">import</span> CIR <span class="comment"># from the module CIR load our class-file CIR</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="comment"># assume mean-reverted speed = 1, mean-reverted level = 0.05, vol of interest rate = 0.05, initial interest rate = 0.05, and pass to an object named C </span></span><br><span class="line">C = CIR(<span class="number">1</span>,<span class="number">0.05</span>,<span class="number">0.05</span>,<span class="number">0.05</span>)</span><br><span class="line"><span class="comment"># For Euler method</span></span><br><span class="line">r = C.Euler(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.001</span>) <span class="comment"># start time = 0, end time = 1, dt = 0.01</span></span><br><span class="line"><span class="comment"># For Milstern method</span></span><br><span class="line">r1 = C.Milstein(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.001</span>)</span><br><span class="line"><span class="comment"># Plot and compare</span></span><br><span class="line">plt.figure(figsize=(<span class="number">20</span>,<span class="number">10</span>))</span><br><span class="line">l1,=plt.plot(r)</span><br><span class="line">l2,=plt.plot(r1,<span class="string">'b*'</span>,markersize=<span class="number">4</span>)</span><br><span class="line">plt.ylabel(<span class="string">'interest rate r'</span>,fontsize = <span class="number">20</span>)</span><br><span class="line">plt.legend(handles=[l1, l2], labels=[<span class="string">'Euler'</span>, <span class="string">'Milstein'</span>], fontsize = <span class="number">16</span>)</span><br></pre></td></tr></table></figure>
-<p>Visualizing the results:</p>
-<p><img src="https://img-blog.csdnimg.cn/20200303225854819.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="Monte Carlo Simulation"></p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p>CIR Modeling of Interest Rates</p>
-<p><a href="http://lnu.diva-portal.org/smash/get/diva2:1270329/FULLTEXT01.pdf" target="_blank" rel="noopener">http://lnu.diva-portal.org/smash/get/diva2:1270329/FULLTEXT01.pdf</a></p>
-<p>Enlightened reading material</p>
-<p><em>Higham, D. J. (2001). An algorithmic introduction to numerical simulation of stochastic differential equations. SIAM review, 43(3), 525-546.</em></p>
-<p>Ito-Taylor Expansion</p>
-<p><a href="https://www.math.nyu.edu/~cai/Courses/Derivatives/compfin_lecture_5.pdf" target="_blank" rel="noopener">https://www.math.nyu.edu/~cai/Courses/Derivatives/compfin_lecture_5.pdf</a></p>
-<p>结束语：我做笔记博客主要有三个目的：1. 在疫情长假期间，闲下来有时间思考人生（睡觉），深刻意识到自己一直在追求一些浮名薄利，一味想高屋建瓴导致一事无成，却忽略了最根本的积累，因而通过博客逼迫自己把每一个小的问题搞清楚并记录下来。2. 虽然生活和事业收获了很多的帮助，但是科研和学习主要靠自己摸索（仰视巨人的肩膀然后脑补），难免有一些异想天开的不足，希望各路大神路过能留下足迹，帮我纠正，让我进步。3. 希望我的行为能帮助到同行人，也算是一点贡献，不枉此生。</p>
+    <title>Matlab Plot with User Defined Color</title>
+    <url>/2020/02/21/MATLAB%20Plot%20user%20defined%20color/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="MATLAB-Plot-如何自定义颜色"><a href="#MATLAB-Plot-如何自定义颜色" class="headerlink" title="MATLAB Plot 如何自定义颜色"></a>MATLAB Plot 如何自定义颜色</h2><p>Tip: Matlab 作图时最好保存成fig格式，便于以后修改。</p>
+<p>写论文是一个漫长的过程，成文后最重要的一个问题就是如何让自己的论文排版和插图更加的好看，让枯燥的论文有一点生动的色彩。这里记录我在写论文时的困惑和一些小小的技巧。</p>
+<a id="more"></a>
+<p>以下面这个图为例：<br><img src="https://img-blog.csdnimg.cn/20200113001358688.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>X = linspace(0,5,51);<br>Y1 = sin(X);<br>Y2 = cos(0.5</em>X);<br>Z = 2<em>Y1+0.3</em>Y2;<br>plot(X,Y1,’color’,[1,0,1],’Marker’,’<em>‘);hold on;<br>plot(X,Y2,’color’,[0.9,0.5,0.5],’LineWidth’,2);hold on;<br>plot(X,Z,’color’,[0.9,1,0.7],’Marker’,’diamond’,’MarkerEdgeColor’,’r’)<br>xlabel(‘x’,’FontSize’,15)<br>ylabel(‘y’,’FontSize’,15)<br>title(‘Customized the plot color in Matlab’,’Color’,[0.7,0,1])<br>方括号中间的三个数字表示的三原色的比例，配色标准可以参考：Matlab配色<br>Plot的基本命令： plot(x,y,’property name’,property value)<br>如果不记得property name怎么办？不用担心，Matlab会给你提示，总是可以找到自己想要的。<br>如何画出渐变图？<br>当然是写个for循环就可以了。</em><br><img src="https://img-blog.csdnimg.cn/20200113001422904.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>clear all<br>hold off<br>X = linspace(-pi/2,pi/2,10)<br>figure(‘Color’,[0.94,1,0.94])<br>for i = 1:20<br>        plot(X,(-1)^(i)</em>i<em>X,’color’,[1-i</em>0.05,0+i<em>0.03,1-i</em>0.01],’LineWidth’,0.5+0.05<em>i);<br>        hold on;<br>end<br>axis([-pi/2,pi/2,-35,35])</em></p>
 ]]></content>
       <categories>
-        <category>Algorithm Study</category>
+        <category>Coding Tips</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
-        <tag>Python</tag>
-        <tag>Simulation</tag>
+        <tag>MATLAB</tag>
       </tags>
   </entry>
   <entry>
@@ -336,21 +351,6 @@ B(:,:,2) = \left[ \begin{matrix} 1 & 1 \\ 1 & 1 \end{matrix} \right]</script><sc
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">permute(B,[3,2,1])</span><br></pre></td></tr></table></figure>
 <p>即可以得到所需要的矩阵。</p>
 <p>结束语：寥寥记下几笔。说到cell，必须要在这里感谢一下昔日的老友，从他的程序里学来的，然后越用越顺手。</p>
-]]></content>
-      <categories>
-        <category>Coding Tips</category>
-      </categories>
-      <tags>
-        <tag>MATLAB</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Matlab Plot with User Defined Color</title>
-    <url>/2020/02/21/MATLAB%20Plot%20user%20defined%20color/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="MATLAB-Plot-如何自定义颜色"><a href="#MATLAB-Plot-如何自定义颜色" class="headerlink" title="MATLAB Plot 如何自定义颜色"></a>MATLAB Plot 如何自定义颜色</h2><p>Tip: Matlab 作图时最好保存成fig格式，便于以后修改。</p>
-<p>写论文是一个漫长的过程，成文后最重要的一个问题就是如何让自己的论文排版和插图更加的好看，让枯燥的论文有一点生动的色彩。这里记录我在写论文时的困惑和一些小小的技巧。</p>
-<a id="more"></a>
-<p>以下面这个图为例：<br><img src="https://img-blog.csdnimg.cn/20200113001358688.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>X = linspace(0,5,51);<br>Y1 = sin(X);<br>Y2 = cos(0.5</em>X);<br>Z = 2<em>Y1+0.3</em>Y2;<br>plot(X,Y1,’color’,[1,0,1],’Marker’,’<em>‘);hold on;<br>plot(X,Y2,’color’,[0.9,0.5,0.5],’LineWidth’,2);hold on;<br>plot(X,Z,’color’,[0.9,1,0.7],’Marker’,’diamond’,’MarkerEdgeColor’,’r’)<br>xlabel(‘x’,’FontSize’,15)<br>ylabel(‘y’,’FontSize’,15)<br>title(‘Customized the plot color in Matlab’,’Color’,[0.7,0,1])<br>方括号中间的三个数字表示的三原色的比例，配色标准可以参考：Matlab配色<br>Plot的基本命令： plot(x,y,’property name’,property value)<br>如果不记得property name怎么办？不用担心，Matlab会给你提示，总是可以找到自己想要的。<br>如何画出渐变图？<br>当然是写个for循环就可以了。</em><br><img src="https://img-blog.csdnimg.cn/20200113001422904.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><em>clear all<br>hold off<br>X = linspace(-pi/2,pi/2,10)<br>figure(‘Color’,[0.94,1,0.94])<br>for i = 1:20<br>        plot(X,(-1)^(i)</em>i<em>X,’color’,[1-i</em>0.05,0+i<em>0.03,1-i</em>0.01],’LineWidth’,0.5+0.05<em>i);<br>        hold on;<br>end<br>axis([-pi/2,pi/2,-35,35])</em></p>
 ]]></content>
       <categories>
         <category>Coding Tips</category>
