@@ -310,7 +310,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/21/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/21/supply%20chain/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shecan">
@@ -329,7 +329,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/02/21/hello-world/" itemprop="url">Hexo Cheatsheet</a></h1>
+                <a class="post-title-link" href="/2020/02/21/supply%20chain/" itemprop="url">Optimization  in supply chain network design by python</a></h1>
         
 
         <div class="post-meta">
@@ -365,8 +365,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Coding-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">Coding Tips</span>
+                  <a href="/categories/Teaching/" itemprop="url" rel="index">
+                    <span itemprop="name">Teaching</span>
                   </a>
                 </span>
 
@@ -376,6 +376,18 @@
             </span>
           
 
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/02/21/supply%20chain/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/21/supply%20chain/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
          
@@ -391,7 +403,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  85 words
+                  658 words
                 </span>
               
 
@@ -407,7 +419,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1 minutes
+                  4 minutes
                 </span>
               
             </div>
@@ -429,15 +441,65 @@
 
       
         
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/21/hello-world/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <hr>
+<h3 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h3><p>This Blog aims at providing the students <strong>python</strong> version examples of supply chain network design.  The case studies are from the book <em>the supply chain management</em>, written by Sunil Chopra and Peter Meindl. In this blog, I convert the Chapter five examples into python code to show students how the constraint and unconstrained optimization can be applied to the supply chain management. </p>
+<hr>
+<h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><p>Network design plays a significant role in supply chain strategy phase. In order to maximize the profit, four decisions have to be made, includes:</p>
+<ul>
+<li>Facility role</li>
+<li>Facility location</li>
+<li>Capacity allocation</li>
+<li>Market and supply allocation</li>
+</ul>
+<p>The thumb rule of those decisions is to reduce the cost and improve the responsiveness. Mathematically, network design is a series of constraint and unconstrained optimization problem. To show you how math and economics can be connected and applied in the real industry. I adopt the example from the book <em>supply chain management</em>.</p>
+<h3 id="Case-study-I-SunOil-Facility-Allocation"><a href="#Case-study-I-SunOil-Facility-Allocation" class="headerlink" title="Case study I SunOil Facility Allocation"></a>Case study I SunOil Facility Allocation</h3><p>SunOil, a manufacturer of petrochemical products with worldwide sales. Shican, as a supply chain manager, is considering establishing facilities to meet demand. One possibility is to set up a facility in a few of the regions. Shican made an investigation of the following five regions- North American, South American, Europe, Africa, and Asia. The data is collected in the Table 1. Shican has to decide the location of the facility and allocate the demand to minimize the cost.</p>
+<ol>
+<li>What is the annual demand of each region?</li>
+<li>Which part shows us the production/transportation cost?</li>
+<li>Which part shows us the fixed cost associated with the capacities?</li>
+<li>What is the difference between the variable cost and the fixed cost?</li>
+</ol>
+<p><img src="C:\Users\Hubu\Desktop\VIX\vix-master\vix-master\notebooks\picture1.png" alt=""></p>
+<h4 id="Model-Setup"><a href="#Model-Setup" class="headerlink" title="Model Setup"></a>Model Setup</h4><font color=blue>Objective function</font>
+$$
+\operatorname{Max} Profit=\sum_{i=1}^{n} f_{i} \cdot y_{i}+\sum_{i=1}^{n} \sum_{i=1}^{m} c_{i, j} \cdot x_{i, j}
+$$
+<font color=blue>Boundary Conditions</font>
+
+<p>$\sum_{i=1}^{n} x_{i, j}=D_{j} \quad j=1, \ldots m$</p>
+<p>$\begin{array}{ll}\sum_{j=1}^{m} x_{i, j} \leq K_{i} \cdot y_{i} &amp; i=1, \ldots n   \end{array}$</p>
+<p>$y_{i} \in\{0,1\}$</p>
+<h3 id="Case-study-II-GRAVITY-LOCATION-MODELS"><a href="#Case-study-II-GRAVITY-LOCATION-MODELS" class="headerlink" title="Case study II GRAVITY LOCATION MODELS"></a>Case study II GRAVITY LOCATION MODELS</h3><p>Steel Appliances(SA), a manufacturer of high-quality refrigerators and cooking ranges. SA has one assembly factory located near Denver, from which it has supplied the entire United States. Demand has grown rapidly and the CEO of SA has decided to set up another factory to serve its eastern markets. The supply chain manager is asked to find a suitable location for the new factory. Three parts plants located in Buffalo, Boston, Jacksonville, Philadelphia, and New York. The coordinate location, the demand in each market, the required supply from each parts plant, and the shipping cost for each supply source or market are shown in SA.Excel.</p>
+<p><img src="https://img-blog.csdnimg.cn/20200515235257285.png" alt="在这里插入图片描述"></p>
+<h4 id="Model-Setup-1"><a href="#Model-Setup-1" class="headerlink" title="Model Setup"></a>Model Setup</h4><p><font color=blue>Objective function</font></p>
+<script type="math/tex; mode=display">
+\operatorname{Min} \mathrm{TC}=\sum_{n=1}^{k} d_{n} D_{n} F_{n}</script><p>with distance: $d_{n}=\sqrt{\left(x-x_{n}\right)^{2}+\left(y-y_{n}\right)^{2}}$</p>
+<hr>
+<p>Iterative procedure for the gravity model</p>
+<ol>
+<li><p>For each supply source or market n , evaluate $𝑑_𝑛$;</p>
+</li>
+<li><p>Obtain a new location $(𝑥’,𝑦’)$ for the facility, where</p>
+<script type="math/tex; mode=display">
+x^{\prime}=\frac{\sum_{n=1}^{k} \frac{D_{n} F_{n} x_{n}}{d_{n}}}{\sum_{n=1}^{k} \frac{D_{n} F_{n}}{d_{n}}} \quad y^{\prime}=\frac{\sum_{n=1}^{k} \frac{D_{n} F_{n} y_{n}}{d_{n}}}{\sum_{n=1}^{k} \frac{D_{n} F_{n}}{d_{n}}}</script></li>
+<li><p>If the new location  $(𝑥’,𝑦’)$ is almost the same as $( 𝑥, y )$ stop</p>
+</li>
+<li>Otherwise set $( 𝑥, y )=(x’,y’)$ and go to step 1.</li>
+</ol>
+<hr>
+<h3 id="Python-Code"><a href="#Python-Code" class="headerlink" title="Python Code"></a>Python Code</h3><p>Solution with Python can be clone from my Github:</p>
+<p><a href="%E2%80%8B%C2%A0https://github.com/canbulajiji/Supply-Chain-Optimization">SC Network Design</a></p>
+<p><a href="https://github.com/canbulajiji/Supply-Chain-Optimization" target="_blank" rel="noopener">https://github.com/canbulajiji/Supply-Chain-Optimization</a></p>
+<p>The contents of my Repo:</p>
+<ol>
+<li>Introduction of the optimization in Python. </li>
+<li>Market and supply source allocation. Case study I solution.</li>
+<li>Gravity Model.  Case study II solution and visualization.</li>
+</ol>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p> Chopra S, Meindl P, Kalra D V. Supply chain management: strategy, planning, and operation[M]. Boston, MA: Pearson, 2013.</p>
+
+          
         
       
     </div>
@@ -488,7 +550,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/21/%E4%BE%9B%E5%BA%94%E9%93%BE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shecan">
@@ -507,7 +569,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/" itemprop="url">Matlab 高维矩阵与向量的点乘 （Permute）</a></h1>
+                <a class="post-title-link" href="/2020/02/21/%E4%BE%9B%E5%BA%94%E9%93%BE/" itemprop="url">最优化在供应链网络设计中的应用：基于Python</a></h1>
         
 
         <div class="post-meta">
@@ -543,8 +605,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Coding-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">Coding Tips</span>
+                  <a href="/categories/Teaching/" itemprop="url" rel="index">
+                    <span itemprop="name">Teaching</span>
                   </a>
                 </span>
 
@@ -561,8 +623,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/" itemprop="commentCount"></span>
+                <a href="/2020/02/21/%E4%BE%9B%E5%BA%94%E9%93%BE/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/21/%E4%BE%9B%E5%BA%94%E9%93%BE/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -581,7 +643,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  665 words
+                  1.2k words
                 </span>
               
 
@@ -597,7 +659,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  3 minutes
+                  4 minutes
                 </span>
               
             </div>
@@ -619,10 +681,12 @@
 
       
         
-          <h1 id="Matlab-高维矩阵与向量的点乘-（Permute）"><a href="#Matlab-高维矩阵与向量的点乘-（Permute）" class="headerlink" title="Matlab 高维矩阵与向量的点乘 （Permute）"></a>Matlab 高维矩阵与向量的点乘 （Permute）</h1><p>今天遇到一个问题，如何用一个n维的向量点乘一个$m\times k\times n$ 的矩阵， 并避免用循环。Matlab矩阵实验室名不虚传，通过permute这个命令可以有效解决这个问题。因此记录下来，以备不时之需 （几年前遇到过同样的问题，但是没做笔记，所以这次一定要记下来）。</p>
+          <hr>
+<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>本博客旨在提供学生<strong>python</strong>版本的供应链网络设计的例子。案例研究来自苏尼尔•乔普拉(Sunil Chopra)和彼得•迈德尔(Peter Meindl)合著的《供应链管理》(The supply chain management)一书。在这篇博客中，我将第五章的例子转换成python代码，向学生展示约束和无约束优化如何应用于供应链管理。<strong>重点</strong>：由于内容较长，这篇博文主要目的是简介案例内容，建模与程序实践请<strong>直接拉到最后</strong>，看Shecan提供的Github链接。</p>
+<hr>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/#more" rel="contents">
+            <a class="btn" href="/2020/02/21/%E4%BE%9B%E5%BA%94%E9%93%BE/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
