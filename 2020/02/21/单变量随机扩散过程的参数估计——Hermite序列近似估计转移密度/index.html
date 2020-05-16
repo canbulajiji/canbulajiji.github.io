@@ -624,13 +624,6 @@ c_{j}\left(y | y_{0} ; \theta\right)= j\left(y-y_{0}\right)^{-j} \int_{y_{0}}^{y
         
 
         
-          
-          <div id="needsharebutton-postbottom">
-            <span class="btn">
-              <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </span>
-          </div>
-        
         </div>
       
       
@@ -890,6 +883,12 @@ c_{j}\left(y | y_{0} ; \theta\right)= j\left(y-y_{0}\right)^{-j} \int_{y_{0}}^{y
       </div>
     
 
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
     
 
   </div>
@@ -1504,18 +1503,18 @@ c_{j}\left(y | y_{0} ; \theta\right)= j\left(y-y_{0}\right)^{-j} \int_{y_{0}}^{y
 
   <script>
     
-      pbOptions = {};
-      
-          pbOptions.iconStyle = "box";
-      
-          pbOptions.boxForm = "horizontal";
-      
-          pbOptions.position = "topCenter";
-      
-          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
-      
-      new needShareButton('#needsharebutton-postbottom', pbOptions);
     
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "horizontal";
+      
+          flOptions.position = "topRight";
+      
+          flOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
     
   </script>
 
