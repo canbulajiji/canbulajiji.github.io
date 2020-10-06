@@ -79,7 +79,7 @@
 
 
 
-  <meta name="keywords" content="Python,Algorithm,Simulation," />
+  <meta name="keywords" content="Algorithm,Simulation,Matlab," />
 
 
 
@@ -92,22 +92,29 @@
 
 
 
-<meta name="description" content="Monte Carlo Simulation for CIR Process(To be continued ……) IntroductionTwo models are commonly applied to describe the stochastic interest rate process (or the stochastic volatility process), includin">
+<meta name="description" content="一般随机抽样我们知道蒙特卡洛模拟在金融领域有着广泛的应用，比如说模拟股票的路径，通常来讲我们会假设股票价格服从以下的随机过程：  dS_t&#x3D;rS_tdt+\sigma S_t dW_t\tag{1}如果我们把以上的随机过程离散化，就有如下的表达式  S_{t+1}&#x3D;S_{t}+rS_t\Delta t+\sigma S_t\Delta W_t\tag{2}而$W_t$是一个布朗运动，因而$\Del">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Shecan|Monte Carlo Simulation for CIR Process">
-<meta property="og:url" content="http://yoursite.com/2020/02/21/Monte%20Carlo%20Simulation%20for%20CIR%20Process/index.html">
+<meta property="og:title" content="Shecan|一般随机抽样">
+<meta property="og:url" content="http://yoursite.com/2020/02/21/%E4%B8%80%E8%88%AC%E6%8A%BD%E6%A0%B7%E6%96%B9%E6%B3%95/index.html">
 <meta property="og:site_name" content="Shecan Research Notes">
-<meta property="og:description" content="Monte Carlo Simulation for CIR Process(To be continued ……) IntroductionTwo models are commonly applied to describe the stochastic interest rate process (or the stochastic volatility process), includin">
+<meta property="og:description" content="一般随机抽样我们知道蒙特卡洛模拟在金融领域有着广泛的应用，比如说模拟股票的路径，通常来讲我们会假设股票价格服从以下的随机过程：  dS_t&#x3D;rS_tdt+\sigma S_t dW_t\tag{1}如果我们把以上的随机过程离散化，就有如下的表达式  S_{t+1}&#x3D;S_{t}+rS_t\Delta t+\sigma S_t\Delta W_t\tag{2}而$W_t$是一个布朗运动，因而$\Del">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200303225854819.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201006142813103.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201006142920937.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_10,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020100614303350.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201006143158672.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201006143228675.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_10,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201006143856180.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201006143933305.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201006143958985.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="article:published_time" content="2020-02-21T14:01:06.000Z">
-<meta property="article:modified_time" content="2020-05-14T13:15:15.771Z">
+<meta property="article:modified_time" content="2020-10-06T06:44:06.405Z">
 <meta property="article:author" content="Shecan">
-<meta property="article:tag" content="Python">
 <meta property="article:tag" content="Algorithm">
 <meta property="article:tag" content="Simulation">
+<meta property="article:tag" content="Matlab">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200303225854819.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20201006142813103.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center">
 
 
 
@@ -137,13 +144,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/02/21/Monte Carlo Simulation for CIR Process/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/02/21/一般抽样方法/"/>
 
 
 
 
 
-  <title>Shecan|Monte Carlo Simulation for CIR Process | Shecan Research Notes</title>
+  <title>Shecan|一般随机抽样 | Shecan Research Notes</title>
   
 
 
@@ -315,7 +322,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/21/Monte%20Carlo%20Simulation%20for%20CIR%20Process/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/21/%E4%B8%80%E8%88%AC%E6%8A%BD%E6%A0%B7%E6%96%B9%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shecan">
@@ -332,7 +339,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Shecan|Monte Carlo Simulation for CIR Process</h1>
+          <h1 class="post-title" itemprop="name headline">Shecan|一般随机抽样</h1>
         
 
         <div class="post-meta">
@@ -386,8 +393,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/02/21/Monte%20Carlo%20Simulation%20for%20CIR%20Process/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/21/Monte%20Carlo%20Simulation%20for%20CIR%20Process/" itemprop="commentCount"></span>
+                <a href="/2020/02/21/%E4%B8%80%E8%88%AC%E6%8A%BD%E6%A0%B7%E6%96%B9%E6%B3%95/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/21/%E4%B8%80%E8%88%AC%E6%8A%BD%E6%A0%B7%E6%96%B9%E6%B3%95/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -411,7 +418,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  834 words
+                  1.1k words
                 </span>
               
 
@@ -427,7 +434,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  5 minutes
+                  4 minutes
                 </span>
               
             </div>
@@ -448,45 +455,73 @@
       
 
       
-        <h1 id="Monte-Carlo-Simulation-for-CIR-Process"><a href="#Monte-Carlo-Simulation-for-CIR-Process" class="headerlink" title="Monte Carlo Simulation for CIR Process"></a>Monte Carlo Simulation for CIR Process</h1><p>(To be continued ……)</p>
-<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Two models are commonly applied to describe the stochastic interest rate process (or the stochastic volatility process), including the OU process and the CIR process.</p>
+        <h1 id="一般随机抽样"><a href="#一般随机抽样" class="headerlink" title="一般随机抽样"></a>一般随机抽样</h1><p>我们知道蒙特卡洛模拟在金融领域有着广泛的应用，比如说模拟股票的路径，通常来讲我们会假设股票价格服从以下的随机过程：</p>
+<script type="math/tex; mode=display">
+dS_t=rS_tdt+\sigma S_t dW_t\tag{1}</script><p>如果我们把以上的随机过程离散化，就有如下的表达式</p>
+<script type="math/tex; mode=display">
+S_{t+1}=S_{t}+rS_t\Delta t+\sigma S_t\Delta W_t\tag{2}</script><p>而$W_t$是一个布朗运动，因而$\Delta W_t$可以表示成$\Delta W_t=\sqrt{\Delta t}*\mathcal{N}(0,1)$。蒙特卡洛模拟即是产生服从正态分布的随机数，从而可以模拟出服从(1)的资产过程，详见<a href="http://shecan66.com/2020/02/21/CIR%E8%BF%87%E7%A8%8B%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A8%A1%E6%8B%9F/" target="_blank" rel="noopener">CIR过程蒙特卡洛模拟</a>。</p>
+<p>MATLAB中我们知道可以通过randn这个命令来产生服从正太分布的随机数，对于其它的分布形式，比如说Possion分布，Weibull分布，Binomial分布等等，我们也可以有现成的命令来产生相应的随机数。但是，如果我们要产生一些不常见分布的随机数，或者说如果大家好奇这些命令背后的过程，就需要说说随机数抽取的原理，我们这里所说的随机抽样即是已知分布形式时，如何产生相应的随机数。</p>
 <a id="more"></a>
-<ul>
-<li>The OU process:</li>
-</ul>
+<p>通过分布抽取随机数通常有以下的方法：<br><img src="https://img-blog.csdnimg.cn/20201006142813103.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="逆变换法"><a href="#逆变换法" class="headerlink" title="逆变换法"></a>逆变换法</h2><p>逆变换法的原理在于如果我们能够求出已知分布$Y=F(X)$的逆函数的解析形式，即$X=F^{-1}(Y)$, 我们即可以通过这个解析表达式来产生满足既定分布的随机数，这里需要注意的是，$Y$通常在0，1之间取值，所以我们假定它是一个0到1的均匀分布$U(0,1)$, 下面的几个例子可以帮助大家理解逆变换法的原理。</p>
+<ol>
+<li><p>均匀分布（Uniform Distribution）<br>pdf: $f(x)=\left\{\begin{array}{cc}<br>\frac{1}{b-a} &amp; a \leq x \leq b \\<br>0 &amp; \text { 其它 }<br>\end{array}\right.$<br>cdf: $F(x)=\frac{x-a}{b-a}, a \leq x \leq b$<br>Inverse Random: $x=(b-a) y+a$</p>
+<p>Matlab 代码</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">u1=<span class="built_in">rand</span>(<span class="number">1</span>,<span class="number">2000</span>);</span><br><span class="line">a=<span class="number">1</span>;</span><br><span class="line">b=<span class="number">5</span>;</span><br><span class="line">x1(<span class="number">1</span>:<span class="number">2000</span>)=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">2000</span></span><br><span class="line">    x1(<span class="built_in">i</span>)=a+(b-a)*u1(<span class="built_in">i</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">hist(x1,<span class="number">10</span>)</span><br><span class="line"><span class="built_in">hold</span> on</span><br><span class="line">t=<span class="built_in">linspace</span>(<span class="number">1</span>,<span class="number">5</span>,<span class="number">100</span>);</span><br><span class="line">y=<span class="built_in">ones</span>(<span class="built_in">length</span>(t),<span class="number">1</span>).*<span class="number">1</span>/(b-a);</span><br><span class="line">scale=<span class="number">2000</span>*<span class="number">4</span>/<span class="number">10</span>;</span><br><span class="line"><span class="built_in">plot</span>(t,scale*y,<span class="string">'r'</span>)</span><br><span class="line"><span class="built_in">hold</span> off</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/20201006142920937.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_10,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<ol>
+<li><p>指数分布指数分布（exponential distribution）<br>pdf: $f(x)=\left\{\begin{array}{cc}<br>\lambda e^{-i x} &amp; x&gt;0 \\<br>0 &amp; \text { 其它 }<br>\end{array}\right.$<br>cdf: $F\left(x\right)=1-e^{-\lambda x}, x&gt;0$<br>Inverse Random: $x=-\frac{1}{\lambda }\ln \left(1-y\right)$</p>
+<p>Matlab 代码：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">u2=<span class="built_in">rand</span>(<span class="number">1</span>,<span class="number">2000</span>);</span><br><span class="line">v=<span class="number">2</span>;</span><br><span class="line">X2(<span class="number">1</span>:<span class="number">2000</span>)=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">2000</span></span><br><span class="line">  X2(<span class="built_in">i</span>)=-<span class="built_in">log</span>(u2(<span class="built_in">i</span>))/v;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">hist(X2,<span class="number">10</span>)</span><br><span class="line"><span class="built_in">hold</span> on</span><br><span class="line">t=<span class="built_in">linspace</span>(<span class="number">0</span>,<span class="number">5</span>,<span class="number">100</span>);</span><br><span class="line">y=<span class="built_in">exp</span>(-v*t).*v;</span><br><span class="line">scale=<span class="number">2000</span>*<span class="number">5</span>/<span class="number">10</span>;</span><br><span class="line"><span class="built_in">plot</span>(t,scale*y,<span class="string">'r'</span>)</span><br><span class="line"><span class="built_in">hold</span> off</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line">cdfplot(X2)</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/2020100614303350.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+</li>
+</ol>
+<h2 id="函数变换法"><a href="#函数变换法" class="headerlink" title="函数变换法"></a>函数变换法</h2><p>有些分布的逆函数比较难求，比如说正态分布，这个时候我们可以通过变量替换的方法来得到解析表达式。</p>
+<p>通过Box-Muller变换（直角坐标和极坐标的转换），我们可以有如下的表达式：</p>
 <script type="math/tex; mode=display">
-d r_{t}=\alpha\left(\mu-r_{t}\right) d t+\sigma d W_{t}\tag{1}</script><ul>
-<li>The CIR process:</li>
-</ul>
+\begin{array}{c}
+x_{1}=\left(-2 \ln r_{1}\right)^{1 / 2} \cos \left(2 \pi r_{2}\right) \\
+x_{2}=\left(-2 \ln r_{1}\right)^{1 / 2} \sin \left(2 \pi r_{2}\right) \\
+r_{1}, r_{2} \sim U(0,1)
+\end{array}</script><p>详细推导过程见<a href="https://blog.csdn.net/weixin_41793877/article/details/84700875" target="_blank" rel="noopener">Box-Muller</a>。</p>
+<p>Matlab 代码：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mm=<span class="number">10000</span>;</span><br><span class="line">R1=unifrnd(<span class="number">0</span>,<span class="number">1</span>,mm,<span class="number">1</span>);</span><br><span class="line">R2=unifrnd(<span class="number">0</span>,<span class="number">1</span>,mm,<span class="number">1</span>);</span><br><span class="line">X = <span class="built_in">sqrt</span>(<span class="number">-2</span>*<span class="built_in">log</span>(R1)).*<span class="built_in">cos</span>(<span class="number">2</span>*<span class="built_in">pi</span>.*R2);</span><br><span class="line"><span class="comment">% 可视化</span></span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>),cdfplot(X)</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>),histfit(X)</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20201006143158672.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>可以通过k-s检验和qqplot的方法来检验它的正态性：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">h=kstest(X, [X normcdf(X, <span class="number">0</span>,<span class="number">1</span>)])<span class="comment">%h=0,  kstest fails to reject the null hypothesis at the default 5% significance level, suggesting it is normal distribution.</span></span><br><span class="line"><span class="built_in">figure</span></span><br><span class="line">qqplot(X)</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20201006143228675.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_10,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>comments: The plot produces an approximately straight line, suggesting that X follow a normal distribution.</p>
+<h2 id="拒绝-接受法"><a href="#拒绝-接受法" class="headerlink" title="拒绝-接受法"></a>拒绝-接受法</h2><p>对于有些分布，我们无法求解出逆函数的解析表达式，拒绝-接受法给我们提供了一般抽样的另一种思路。</p>
+<p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-sRWCjXlZ-1601959498110)(C:\Users\Hubu\Downloads\AcceptReject.png)]</p>
+<p>直观解释就是我们假设另外一个已知的简单分布$g(x)$, 使得$Mg(x)$可以完全覆盖所需的分布$f(x)$。选取满足分布$g(x)$中的点，如果点落到$f(x)$中就接受它，否则就拒绝它。当然，这种解释是不严谨的，更加严谨的数学解释可以通过证明以下的概率公式来理解：</p>
 <script type="math/tex; mode=display">
-d r_{t}=\alpha\left(\mu-r_{t}\right) d t+\sigma \sqrt{r_{t}} d W_{t}\tag{2}</script><p>where $\mu$ is the mean reversion level and $\alpha$ is the mean reversion speed.</p>
-<p>Both of the models are mean-reverted, however, the OU process cannot ensure the nonnegativity of the interest rate. The OU process is driven by a normal distribution, but the underlying distribution of the CIR process is a non-central Chi-square distribution. </p>
-<h2 id="Monte-Carlo-Simulation"><a href="#Monte-Carlo-Simulation" class="headerlink" title="Monte Carlo Simulation"></a>Monte Carlo Simulation</h2><p>Two methods are commonly applied to simulate the stochastic process, including the <strong>Euler–Maruyama Method</strong> and the <strong>Milstein Method</strong>. The differences between the two methods are the way of discretization and the order of convergence. The preliminary knowledge of the two discretization is the Ito Taylor expansion (For deriving details, please refer to the reference ‘Ito Taylor Expansion’). </p>
+P(X<x)=P(y<x|u\leq \frac{f_X(y)}{cg_Y(y)})</script><p>即右边的这个条件分布等同于我们所需的分布，因而我们可以用这个关系来进行随机抽样。详细的推导可以参见《随机模拟方法与应用》第五章，依然以正态分布为例：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">N = <span class="number">100000</span>;</span><br><span class="line">M = <span class="number">1</span>/(<span class="built_in">sqrt</span>(<span class="number">2</span>*<span class="built_in">pi</span>));</span><br><span class="line">Y = unifrnd(<span class="number">-4</span>,<span class="number">4</span>,<span class="number">1</span>,N);</span><br><span class="line">U = unifrnd(<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,N);</span><br><span class="line">gy = <span class="number">1</span>;</span><br><span class="line">fy = (<span class="number">1</span>/(<span class="built_in">sqrt</span>(<span class="number">2</span>*<span class="built_in">pi</span>)))*<span class="built_in">exp</span>(-Y.^<span class="number">2.</span>/<span class="number">2</span>);</span><br><span class="line">X = Y(U&lt;fy./gy/M);</span><br><span class="line">count = <span class="built_in">length</span>(X);</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>),histfit(X)</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>),cdfplot(X)</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20201006143856180.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>同理，我们也可以用kstest和qqplot更为严谨地去检查它的正态性。</p>
+<h2 id="多维随机抽样"><a href="#多维随机抽样" class="headerlink" title="多维随机抽样"></a>多维随机抽样</h2><h5 id="各个维度随机变量相互独立"><a href="#各个维度随机变量相互独立" class="headerlink" title="各个维度随机变量相互独立"></a>各个维度随机变量相互独立</h5><h5 id="各个维度随机变量不独立（Cholesky-Decomposition正交分解）"><a href="#各个维度随机变量不独立（Cholesky-Decomposition正交分解）" class="headerlink" title="各个维度随机变量不独立（Cholesky Decomposition正交分解）"></a>各个维度随机变量不独立（Cholesky Decomposition正交分解）</h5><p>如果我们要抽样出一个高维的随机分布，通常说我们要对其每个维度进行随机抽样，如果每个维度的变量之间是相互独立的，那么非常容易，我们只要对每个维度进行抽样，然后扩展到多维即可，依然以正态分布为例：</p>
+<p>Matlab代码：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">N=<span class="number">1000</span>;</span><br><span class="line">X=<span class="built_in">randn</span>(N,<span class="number">2</span>);</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>),<span class="built_in">plot</span>(X(:,<span class="number">1</span>),X(:,<span class="number">2</span>),<span class="string">'k.'</span>)</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>),hist3(X,[<span class="number">10</span>,<span class="number">10</span>])</span><br></pre></td></tr></table></figure>
+<p>可以画出二维独立正态分布的直方图和散点图：</p>
+<p><img src="https://img-blog.csdnimg.cn/20201006143933305.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>如果各个维度之间的分布不独立，具有一定的相关性，那我们又该如何抽样出具有相关性的高维随机变量呢，这个时候大家需要知道一个概念叫做Cholesky正交分解。</p>
+<h3 id="Cholesky-Decomposition正交分解"><a href="#Cholesky-Decomposition正交分解" class="headerlink" title="Cholesky Decomposition正交分解"></a>Cholesky Decomposition正交分解</h3><p>目标：构造一个新的向量$Y=L^{-1} X$，使得</p>
 <script type="math/tex; mode=display">
-X\left(t_{i+1}\right)=X\left(t_{i}\right)+a\left[X\left(t_{i}\right)\right] \Delta t+b\left[X\left(t_{i}\right)\right] \Delta W_{i}+\frac{1}{2} b\left[X\left(t_{i}\right)\right] b^{\prime}\left[X\left(t_{i}\right)\right]\left[\left(\Delta W_{i}\right)^{2}-\Delta t\right]+\mathcal{O}(\Delta t)</script><p>The Euler-Maruyama method is the first-order truncation of the Ito Taylor expansion and the Milstein Method is the second-order truncation of the Ito Taylor expansion. </p>
-<p>Specifically, for the CIR process, we have $a[r] = \alpha(\mu - r)$, $b[r]=\sigma\sqrt{r}$, and $b’[r]=\frac{1}{2}\frac{\sigma}{\sqrt{r}}$.</p>
-<ul>
-<li>The Euler-Maruyama Method:</li>
-</ul>
+\textrm{cov}\left(Y,Y^T \right)=L^{-1} E\left(XX^T \right){\left(L^{-1} \right)}^T =L^{-1} \Sigma {\left(L^{-1} \right)}^T =\Sigma \Sigma^{-1} =I</script><p>其中$\Sigma$是协方差矩阵，I 是单位矩阵，L是一个下三角矩阵并满足$LL^T =\Sigma$。</p>
+<p>反之，我们就可以通过独立向量$Y$， 反推出具有相关关系的$X$。</p>
+<p>例如，生成一个三维的多元正态分布$X=\left(X_1 ,X_2 ,X_3 \right)$，其中，$X_1 \sim N\left(2,3\right)$,$X_2 \sim N\left(-1,2\right)$,$X_3 \sim N\left(0,1\right)$并满足如下的协方差矩阵</p>
 <script type="math/tex; mode=display">
-r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Delta W_j, \quad j=1,2, \ldots, L</script><p>where $\Delta W_j = \sqrt{\Delta t}N(1,0)$.</p>
-<ul>
-<li>The Milstein Method:</li>
-</ul>
-<script type="math/tex; mode=display">
-r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Delta W_j+\frac{\sigma^2}{2}[(\Delta W_j)^2-\Delta t], \quad j=1,2, \ldots, L</script><p>The weak and strong convergence rate of Euler-Maruyama are $\mathcal{}$$\mathcal{O}(\Delta t)$. The Milstein scheme has the same weak convergence but better strong convergence rate of $\mathcal{O}(\sqrt{\Delta t)}$. The detail definition of the weak and the strong convergence rate refer to <em>Higham (2001).</em></p>
-<h2 id="Python-Code"><a href="#Python-Code" class="headerlink" title="Python Code"></a>Python Code</h2><p>For further extension, I wrote a class file first.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">Created on Wed Feb 26 22:42:55 2020</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">@author: Shecan</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">please save the file as CIR.py</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CIR</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, alpha, mu, sigma, r0)</span>:</span></span><br><span class="line">         self.alpha = alpha <span class="comment"># mean-reverted speed</span></span><br><span class="line">         self.mu = mu <span class="comment"># mean-reverted level</span></span><br><span class="line">         self.sigma = sigma <span class="comment"># vol of interest rate</span></span><br><span class="line">         self.r0 = r0 <span class="comment"># initial interest rate</span></span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Euler</span><span class="params">(self,t_init,t_end,dt)</span>:</span></span><br><span class="line">        np.random.seed(<span class="number">5</span>)</span><br><span class="line">        ts = np.arange(t_init, t_end, dt)</span><br><span class="line">        dW = np.random.normal(loc=<span class="number">0.0</span>, scale=np.sqrt(dt),size = ts.size)</span><br><span class="line">        r = []</span><br><span class="line">        r.append(self.r0)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, ts.size):</span><br><span class="line">            r.append(r[i<span class="number">-1</span>] + self.alpha*(self.mu-r[i<span class="number">-1</span>])*dt </span><br><span class="line">                     + self.sigma*np.sqrt(r[i<span class="number">-1</span>])*dW[i<span class="number">-1</span>])</span><br><span class="line">        <span class="keyword">return</span> r</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Milstein</span><span class="params">(self,t_init,t_end,dt)</span>:</span></span><br><span class="line">        np.random.seed(<span class="number">5</span>)</span><br><span class="line">        ts = np.arange(t_init, t_end, dt)</span><br><span class="line">        dW = np.random.normal(loc=<span class="number">0.0</span>, scale=np.sqrt(dt),size = ts.size)</span><br><span class="line">        r = []</span><br><span class="line">        r.append(self.r0)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, ts.size):</span><br><span class="line">            dw = dW[i<span class="number">-1</span>]</span><br><span class="line">            r.append(r[i<span class="number">-1</span>] + self.alpha*(self.mu-r[i<span class="number">-1</span>])*dt </span><br><span class="line">                     + self.sigma*np.sqrt(r[i<span class="number">-1</span>])*dw + </span><br><span class="line">                     (self.sigma**<span class="number">2</span>/<span class="number">2</span>)*(dw**<span class="number">2</span> - dt))</span><br><span class="line">        <span class="keyword">return</span> r</span><br></pre></td></tr></table></figure>
-<p>Then we can load the class file in Jupyter notebook, </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> CIR <span class="keyword">import</span> CIR <span class="comment"># from the module CIR load our class-file CIR</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="comment"># assume mean-reverted speed = 1, mean-reverted level = 0.05, vol of interest rate = 0.05, initial interest rate = 0.05, and pass to an object named C </span></span><br><span class="line">C = CIR(<span class="number">1</span>,<span class="number">0.05</span>,<span class="number">0.05</span>,<span class="number">0.05</span>)</span><br><span class="line"><span class="comment"># For Euler method</span></span><br><span class="line">r = C.Euler(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.001</span>) <span class="comment"># start time = 0, end time = 1, dt = 0.01</span></span><br><span class="line"><span class="comment"># For Milstern method</span></span><br><span class="line">r1 = C.Milstein(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.001</span>)</span><br><span class="line"><span class="comment"># Plot and compare</span></span><br><span class="line">plt.figure(figsize=(<span class="number">20</span>,<span class="number">10</span>))</span><br><span class="line">l1,=plt.plot(r)</span><br><span class="line">l2,=plt.plot(r1,<span class="string">'b*'</span>,markersize=<span class="number">4</span>)</span><br><span class="line">plt.ylabel(<span class="string">'interest rate r'</span>,fontsize = <span class="number">20</span>)</span><br><span class="line">plt.legend(handles=[l1, l2], labels=[<span class="string">'Euler'</span>, <span class="string">'Milstein'</span>], fontsize = <span class="number">16</span>)</span><br></pre></td></tr></table></figure>
-<p>Visualizing the results:</p>
-<p><img src="https://img-blog.csdnimg.cn/20200303225854819.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70" alt="Monte Carlo Simulation"></p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p>CIR Modeling of Interest Rates</p>
-<p><a href="http://lnu.diva-portal.org/smash/get/diva2:1270329/FULLTEXT01.pdf" target="_blank" rel="noopener">http://lnu.diva-portal.org/smash/get/diva2:1270329/FULLTEXT01.pdf</a></p>
-<p>Enlightened reading material</p>
-<p><em>Higham, D. J. (2001). An algorithmic introduction to numerical simulation of stochastic differential equations. SIAM review, 43(3), 525-546.</em></p>
-<p>Ito-Taylor Expansion</p>
-<p><a href="https://www.math.nyu.edu/~cai/Courses/Derivatives/compfin_lecture_5.pdf" target="_blank" rel="noopener">https://www.math.nyu.edu/~cai/Courses/Derivatives/compfin_lecture_5.pdf</a></p>
+\Sigma =\left\lbrack \begin{array}{ccc}
+1 & 0\ldotp 3 & 0\ldotp 4\\
+0\ldotp 3 & 1 & 0\ldotp 2\\
+0\ldotp 4 & 0\ldotp 2 & 1
+\end{array}\right\rbrack</script><p>Matlab代码：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">N = <span class="number">10000</span>;</span><br><span class="line"><span class="comment">% 生成独立的随机变量</span></span><br><span class="line">Y = [normrnd(<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,N);normrnd(<span class="number">-1</span>,<span class="number">2</span>,<span class="number">1</span>,N);normrnd(<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,N)];</span><br><span class="line">rho = [<span class="number">1</span>,<span class="number">0.3</span>,<span class="number">0.4</span>;<span class="number">0.3</span>,<span class="number">1</span>,<span class="number">0.2</span>;<span class="number">0.4</span>,<span class="number">0.2</span>,<span class="number">1</span>];</span><br><span class="line">L = chol(rho,<span class="string">'lower'</span>);</span><br><span class="line"><span class="comment">% 构造一个协方差矩阵为Σ的随机变量</span></span><br><span class="line">X = L*Y;</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">scatter</span>(X(<span class="number">1</span>,:),X(<span class="number">2</span>,:),<span class="string">'marker'</span>,<span class="string">'.'</span>,<span class="string">'sizedata'</span>,<span class="number">1</span>)</span><br><span class="line">xlabel(<span class="string">'X轴'</span>);ylabel(<span class="string">'Y轴'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">scatter</span>(X(<span class="number">2</span>,:),X(<span class="number">3</span>,:),<span class="string">'marker'</span>,<span class="string">'.'</span>,<span class="string">'sizedata'</span>,<span class="number">1</span>)</span><br><span class="line">xlabel(<span class="string">'X轴'</span>);ylabel(<span class="string">'Z轴'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">scatter</span>(X(<span class="number">3</span>,:),X(<span class="number">1</span>,:),<span class="string">'marker'</span>,<span class="string">'.'</span>,<span class="string">'sizedata'</span>,<span class="number">1</span>)</span><br><span class="line">xlabel(<span class="string">'Z轴'</span>);ylabel(<span class="string">'X轴'</span>)</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line"><span class="built_in">scatter3</span>(X(<span class="number">1</span>,:),X(<span class="number">2</span>,:),X(<span class="number">3</span>,:),<span class="string">'marker'</span>,<span class="string">'.'</span>,<span class="string">'sizedata'</span>,<span class="number">1</span>)</span><br><span class="line">xlabel(<span class="string">'X轴'</span>);ylabel(<span class="string">'Y轴'</span>);zlabel(<span class="string">'Z轴'</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20201006143958985.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NoZWNhbg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>肖柳青, 周石鹏. 随机模拟方法与应用[M]. 北京大学出版社, 2014.</p>
+<p>Huynh. Stochastic Simulation and Applications in Finance with Matla[M]// Stochastic simulation and applications in finance with MATLAB programs</p>
 
       
     </div>
@@ -518,7 +553,7 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
   </li>
   <li class="post-copyright-link">
     <strong>Post link:</strong>
-    <a href="http://yoursite.com/2020/02/21/Monte%20Carlo%20Simulation%20for%20CIR%20Process/" title="Shecan|Monte Carlo Simulation for CIR Process">http://yoursite.com/2020/02/21/Monte%20Carlo%20Simulation%20for%20CIR%20Process/</a>
+    <a href="http://yoursite.com/2020/02/21/%E4%B8%80%E8%88%AC%E6%8A%BD%E6%A0%B7%E6%96%B9%E6%B3%95/" title="Shecan|一般随机抽样">http://yoursite.com/2020/02/21/%E4%B8%80%E8%88%AC%E6%8A%BD%E6%A0%B7%E6%96%B9%E6%B3%95/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice: </strong>
@@ -533,11 +568,11 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
       
         <div class="post-tags">
           
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
             <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
           
             <a href="/tags/Simulation/" rel="tag"># Simulation</a>
+          
+            <a href="/tags/Matlab/" rel="tag"># Matlab</a>
           
         </div>
       
@@ -562,8 +597,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/hello-world/" rel="next" title="Hexo Cheatsheet">
-                <i class="fa fa-chevron-left"></i> Hexo Cheatsheet
+              <a href="/2020/02/21/%E5%8D%95%E5%8F%98%E9%87%8F%E9%9A%8F%E6%9C%BA%E6%89%A9%E6%95%A3%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1%E2%80%94%E2%80%94Hermite%E5%BA%8F%E5%88%97%E8%BF%91%E4%BC%BC%E4%BC%B0%E8%AE%A1%E8%BD%AC%E7%A7%BB%E5%AF%86%E5%BA%A6/" rel="next" title="Shecan|单变量随机扩散过程的参数估计——Hermite近似笔记似然函数">
+                <i class="fa fa-chevron-left"></i> Shecan|单变量随机扩散过程的参数估计——Hermite近似笔记似然函数
               </a>
             
           </div>
@@ -572,8 +607,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/21/MATLAB%20cell%20%E4%B8%8E%20matrix%20%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2/" rel="prev" title="MATLAB cell 与 matrix 之间的转换">
-                MATLAB cell 与 matrix 之间的转换 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/02/21/Distribution-MLE-with-Newton-Ranpson-Method/" rel="prev" title="Weibull Distribution_MLE_with_Newton_Ranpson_Method">
+                Weibull Distribution_MLE_with_Newton_Ranpson_Method <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -737,7 +772,7 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Monte-Carlo-Simulation-for-CIR-Process"><span class="nav-number">1.</span> <span class="nav-text">Monte Carlo Simulation for CIR Process</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Monte-Carlo-Simulation"><span class="nav-number">1.2.</span> <span class="nav-text">Monte Carlo Simulation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python-Code"><span class="nav-number">1.3.</span> <span class="nav-text">Python Code</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Reference"><span class="nav-number">1.3.0.0.1.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一般随机抽样"><span class="nav-number">1.</span> <span class="nav-text">一般随机抽样</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#逆变换法"><span class="nav-number">1.1.</span> <span class="nav-text">逆变换法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数变换法"><span class="nav-number">1.2.</span> <span class="nav-text">函数变换法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拒绝-接受法"><span class="nav-number">1.3.</span> <span class="nav-text">拒绝-接受法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多维随机抽样"><span class="nav-number">1.4.</span> <span class="nav-text">多维随机抽样</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#各个维度随机变量相互独立"><span class="nav-number">1.4.0.0.1.</span> <span class="nav-text">各个维度随机变量相互独立</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#各个维度随机变量不独立（Cholesky-Decomposition正交分解）"><span class="nav-number">1.4.0.0.2.</span> <span class="nav-text">各个维度随机变量不独立（Cholesky Decomposition正交分解）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cholesky-Decomposition正交分解"><span class="nav-number">1.4.1.</span> <span class="nav-text">Cholesky Decomposition正交分解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">1.5.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol></div>
             
 
           </div>
