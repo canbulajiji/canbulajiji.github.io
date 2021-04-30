@@ -25,6 +25,75 @@
       </tags>
   </entry>
   <entry>
+    <title>Optimization  in supply chain network design by python</title>
+    <url>/2020/05/16/supply%20chain/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><hr>
+<h3 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h3><p>This Blog aims at providing the students <strong>python</strong> version examples of supply chain network design.  The case studies are from the book <em>the supply chain management</em>, written by Sunil Chopra and Peter Meindl. In this blog, I convert the Chapter five examples into python code to show students how the constraint and unconstrained optimization can be applied to the supply chain management. </p>
+<hr>
+<a id="more"></a>
+<h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><p>Network design plays a significant role in supply chain strategy phase. In order to maximize the profit, four decisions have to be made, includes:</p>
+<ul>
+<li>Facility role</li>
+<li>Facility location</li>
+<li>Capacity allocation</li>
+<li>Market and supply allocation</li>
+</ul>
+<p>The thumb rule of those decisions is to reduce the cost and improve the responsiveness. Mathematically, network design is a series of constraint and unconstrained optimization problem. To show you how math and economics can be connected and applied in the real industry. I adopt the example from the book <em>supply chain management</em>.</p>
+<h3 id="Case-study-I-SunOil-Facility-Allocation"><a href="#Case-study-I-SunOil-Facility-Allocation" class="headerlink" title="Case study I SunOil Facility Allocation"></a>Case study I SunOil Facility Allocation</h3><p>SunOil, a manufacturer of petrochemical products with worldwide sales. Shican, as a supply chain manager, is considering establishing facilities to meet demand. One possibility is to set up a facility in a few of the regions. Shican made an investigation of the following five regions- North American, South American, Europe, Africa, and Asia. The data is collected in the Table 1. Shican has to decide the location of the facility and allocate the demand to minimize the cost.</p>
+<ol>
+<li>What is the annual demand of each region?</li>
+<li>Which part shows us the production/transportation cost?</li>
+<li>Which part shows us the fixed cost associated with the capacities?</li>
+<li>What is the difference between the variable cost and the fixed cost?</li>
+</ol>
+<p><img src="C:\Users\Hubu\Desktop\VIX\vix-master\vix-master\notebooks\picture1.png" alt=""></p>
+<h4 id="Model-Setup"><a href="#Model-Setup" class="headerlink" title="Model Setup"></a>Model Setup</h4><font color=blue>Objective function</font>
+$$
+\operatorname{Max} Profit=\sum_{i=1}^{n} f_{i} \cdot y_{i}+\sum_{i=1}^{n} \sum_{i=1}^{m} c_{i, j} \cdot x_{i, j}
+$$
+<font color=blue>Boundary Conditions</font>
+
+<p>$\sum_{i=1}^{n} x_{i, j}=D_{j} \quad j=1, \ldots m$</p>
+<p>$\begin{array}{ll}\sum_{j=1}^{m} x_{i, j} \leq K_{i} \cdot y_{i} &amp; i=1, \ldots n   \end{array}$</p>
+<p>$y_{i} \in\{0,1\}$</p>
+<h3 id="Case-study-II-GRAVITY-LOCATION-MODELS"><a href="#Case-study-II-GRAVITY-LOCATION-MODELS" class="headerlink" title="Case study II GRAVITY LOCATION MODELS"></a>Case study II GRAVITY LOCATION MODELS</h3><p>Steel Appliances(SA), a manufacturer of high-quality refrigerators and cooking ranges. SA has one assembly factory located near Denver, from which it has supplied the entire United States. Demand has grown rapidly and the CEO of SA has decided to set up another factory to serve its eastern markets. The supply chain manager is asked to find a suitable location for the new factory. Three parts plants located in Buffalo, Boston, Jacksonville, Philadelphia, and New York. The coordinate location, the demand in each market, the required supply from each parts plant, and the shipping cost for each supply source or market are shown in SA.Excel.</p>
+<p><img src="https://img-blog.csdnimg.cn/20200515235257285.png" alt="在这里插入图片描述"></p>
+<h4 id="Model-Setup-1"><a href="#Model-Setup-1" class="headerlink" title="Model Setup"></a>Model Setup</h4><p><font color=blue>Objective function</font></p>
+<script type="math/tex; mode=display">
+\operatorname{Min} \mathrm{TC}=\sum_{n=1}^{k} d_{n} D_{n} F_{n}</script><p>with distance: $d_{n}=\sqrt{\left(x-x_{n}\right)^{2}+\left(y-y_{n}\right)^{2}}$</p>
+<hr>
+<p>Iterative procedure for the gravity model</p>
+<ol>
+<li><p>For each supply source or market n , evaluate $𝑑_𝑛$;</p>
+</li>
+<li><p>Obtain a new location $(𝑥’,𝑦’)$ for the facility, where</p>
+<script type="math/tex; mode=display">
+x^{\prime}=\frac{\sum_{n=1}^{k} \frac{D_{n} F_{n} x_{n}}{d_{n}}}{\sum_{n=1}^{k} \frac{D_{n} F_{n}}{d_{n}}} \quad y^{\prime}=\frac{\sum_{n=1}^{k} \frac{D_{n} F_{n} y_{n}}{d_{n}}}{\sum_{n=1}^{k} \frac{D_{n} F_{n}}{d_{n}}}</script></li>
+<li><p>If the new location  $(𝑥’,𝑦’)$ is almost the same as $( 𝑥, y )$ stop</p>
+</li>
+<li>Otherwise set $( 𝑥, y )=(x’,y’)$ and go to step 1.</li>
+</ol>
+<hr>
+<h3 id="Python-Code"><a href="#Python-Code" class="headerlink" title="Python Code"></a>Python Code</h3><p>Solution with Python can be clone from my Github:</p>
+<p><a href="%E2%80%8B%C2%A0https://github.com/canbulajiji/Supply-Chain-Optimization">SC Network Design</a></p>
+<p><a href="https://github.com/canbulajiji/Supply-Chain-Optimization" target="_blank" rel="noopener">https://github.com/canbulajiji/Supply-Chain-Optimization</a></p>
+<p>The contents of my Repo:</p>
+<ol>
+<li>Introduction of the optimization in Python. </li>
+<li>Market and supply source allocation. Case study I solution.</li>
+<li>Gravity Model.  Case study II solution and visualization.</li>
+</ol>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p> Chopra S, Meindl P, Kalra D V. Supply chain management: strategy, planning, and operation[M]. Boston, MA: Pearson, 2013.</p>
+]]></content>
+      <categories>
+        <category>Teaching</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>Supply Chain</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>最优化在供应链网络设计中的应用：基于Python</title>
     <url>/2020/05/16/%E4%BE%9B%E5%BA%94%E9%93%BE/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><hr>
@@ -85,75 +154,6 @@ x^{\prime}=\frac{\sum_{n=1}^{k} \frac{D_{n} F_{n} x_{n}}{d_{n}}}{\sum_{n=1}^{k} 
 <p><a href="https://www.bilibili.com/video/av95201323" target="_blank" rel="noopener">B站公开课链接</a></p>
 <p><a href="https://www.bilibili.com/video/av95201323" target="_blank" rel="noopener">https://www.bilibili.com/video/av95201323</a></p>
 <h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p> Chopra S, Meindl P, Kalra D V. Supply chain management: strategy, planning, and operation[M]. Boston, MA: Pearson, 2013.</p>
-]]></content>
-      <categories>
-        <category>Teaching</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>Supply Chain</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Optimization  in supply chain network design by python</title>
-    <url>/2020/05/16/supply%20chain/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><hr>
-<h3 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h3><p>This Blog aims at providing the students <strong>python</strong> version examples of supply chain network design.  The case studies are from the book <em>the supply chain management</em>, written by Sunil Chopra and Peter Meindl. In this blog, I convert the Chapter five examples into python code to show students how the constraint and unconstrained optimization can be applied to the supply chain management. </p>
-<hr>
-<a id="more"></a>
-<h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><p>Network design plays a significant role in supply chain strategy phase. In order to maximize the profit, four decisions have to be made, includes:</p>
-<ul>
-<li>Facility role</li>
-<li>Facility location</li>
-<li>Capacity allocation</li>
-<li>Market and supply allocation</li>
-</ul>
-<p>The thumb rule of those decisions is to reduce the cost and improve the responsiveness. Mathematically, network design is a series of constraint and unconstrained optimization problem. To show you how math and economics can be connected and applied in the real industry. I adopt the example from the book <em>supply chain management</em>.</p>
-<h3 id="Case-study-I-SunOil-Facility-Allocation"><a href="#Case-study-I-SunOil-Facility-Allocation" class="headerlink" title="Case study I SunOil Facility Allocation"></a>Case study I SunOil Facility Allocation</h3><p>SunOil, a manufacturer of petrochemical products with worldwide sales. Shican, as a supply chain manager, is considering establishing facilities to meet demand. One possibility is to set up a facility in a few of the regions. Shican made an investigation of the following five regions- North American, South American, Europe, Africa, and Asia. The data is collected in the Table 1. Shican has to decide the location of the facility and allocate the demand to minimize the cost.</p>
-<ol>
-<li>What is the annual demand of each region?</li>
-<li>Which part shows us the production/transportation cost?</li>
-<li>Which part shows us the fixed cost associated with the capacities?</li>
-<li>What is the difference between the variable cost and the fixed cost?</li>
-</ol>
-<p><img src="C:\Users\Hubu\Desktop\VIX\vix-master\vix-master\notebooks\picture1.png" alt=""></p>
-<h4 id="Model-Setup"><a href="#Model-Setup" class="headerlink" title="Model Setup"></a>Model Setup</h4><font color=blue>Objective function</font>
-$$
-\operatorname{Max} Profit=\sum_{i=1}^{n} f_{i} \cdot y_{i}+\sum_{i=1}^{n} \sum_{i=1}^{m} c_{i, j} \cdot x_{i, j}
-$$
-<font color=blue>Boundary Conditions</font>
-
-<p>$\sum_{i=1}^{n} x_{i, j}=D_{j} \quad j=1, \ldots m$</p>
-<p>$\begin{array}{ll}\sum_{j=1}^{m} x_{i, j} \leq K_{i} \cdot y_{i} &amp; i=1, \ldots n   \end{array}$</p>
-<p>$y_{i} \in\{0,1\}$</p>
-<h3 id="Case-study-II-GRAVITY-LOCATION-MODELS"><a href="#Case-study-II-GRAVITY-LOCATION-MODELS" class="headerlink" title="Case study II GRAVITY LOCATION MODELS"></a>Case study II GRAVITY LOCATION MODELS</h3><p>Steel Appliances(SA), a manufacturer of high-quality refrigerators and cooking ranges. SA has one assembly factory located near Denver, from which it has supplied the entire United States. Demand has grown rapidly and the CEO of SA has decided to set up another factory to serve its eastern markets. The supply chain manager is asked to find a suitable location for the new factory. Three parts plants located in Buffalo, Boston, Jacksonville, Philadelphia, and New York. The coordinate location, the demand in each market, the required supply from each parts plant, and the shipping cost for each supply source or market are shown in SA.Excel.</p>
-<p><img src="https://img-blog.csdnimg.cn/20200515235257285.png" alt="在这里插入图片描述"></p>
-<h4 id="Model-Setup-1"><a href="#Model-Setup-1" class="headerlink" title="Model Setup"></a>Model Setup</h4><p><font color=blue>Objective function</font></p>
-<script type="math/tex; mode=display">
-\operatorname{Min} \mathrm{TC}=\sum_{n=1}^{k} d_{n} D_{n} F_{n}</script><p>with distance: $d_{n}=\sqrt{\left(x-x_{n}\right)^{2}+\left(y-y_{n}\right)^{2}}$</p>
-<hr>
-<p>Iterative procedure for the gravity model</p>
-<ol>
-<li><p>For each supply source or market n , evaluate $𝑑_𝑛$;</p>
-</li>
-<li><p>Obtain a new location $(𝑥’,𝑦’)$ for the facility, where</p>
-<script type="math/tex; mode=display">
-x^{\prime}=\frac{\sum_{n=1}^{k} \frac{D_{n} F_{n} x_{n}}{d_{n}}}{\sum_{n=1}^{k} \frac{D_{n} F_{n}}{d_{n}}} \quad y^{\prime}=\frac{\sum_{n=1}^{k} \frac{D_{n} F_{n} y_{n}}{d_{n}}}{\sum_{n=1}^{k} \frac{D_{n} F_{n}}{d_{n}}}</script></li>
-<li><p>If the new location  $(𝑥’,𝑦’)$ is almost the same as $( 𝑥, y )$ stop</p>
-</li>
-<li>Otherwise set $( 𝑥, y )=(x’,y’)$ and go to step 1.</li>
-</ol>
-<hr>
-<h3 id="Python-Code"><a href="#Python-Code" class="headerlink" title="Python Code"></a>Python Code</h3><p>Solution with Python can be clone from my Github:</p>
-<p><a href="%E2%80%8B%C2%A0https://github.com/canbulajiji/Supply-Chain-Optimization">SC Network Design</a></p>
-<p><a href="https://github.com/canbulajiji/Supply-Chain-Optimization" target="_blank" rel="noopener">https://github.com/canbulajiji/Supply-Chain-Optimization</a></p>
-<p>The contents of my Repo:</p>
-<ol>
-<li>Introduction of the optimization in Python. </li>
-<li>Market and supply source allocation. Case study I solution.</li>
-<li>Gravity Model.  Case study II solution and visualization.</li>
-</ol>
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p> Chopra S, Meindl P, Kalra D V. Supply chain management: strategy, planning, and operation[M]. Boston, MA: Pearson, 2013.</p>
 ]]></content>
       <categories>
         <category>Teaching</category>
@@ -388,8 +388,8 @@ P(S^*,\tau)=K-S^*\tag{B3}</script><p>python程序实现：参考<a href="https:/
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
@@ -442,8 +442,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
         <tag>Simulation</tag>
       </tags>
   </entry>
@@ -504,8 +504,8 @@ h'\left( \alpha \right) =n\left( -\frac {1} {\alpha^2}+\frac {\sum x_{i}^{\alpha
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
         <tag>Calibration</tag>
       </tags>
   </entry>
@@ -664,8 +664,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
         <tag>Simulation</tag>
       </tags>
   </entry>
