@@ -525,37 +525,6 @@ h'\left( \alpha \right) =n\left( -\frac {1} {\alpha^2}+\frac {\sum x_{i}^{\alpha
       </tags>
   </entry>
   <entry>
-    <title>Matlab 高维矩阵与向量的点乘 （Permute）</title>
-    <url>/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Matlab-高维矩阵与向量的点乘-（Permute）"><a href="#Matlab-高维矩阵与向量的点乘-（Permute）" class="headerlink" title="Matlab 高维矩阵与向量的点乘 （Permute）"></a>Matlab 高维矩阵与向量的点乘 （Permute）</h1><p>今天遇到一个问题，如何用一个n维的向量点乘一个$m\times k\times n$ 的矩阵， 并避免用循环。Matlab矩阵实验室名不虚传，通过permute这个命令可以有效解决这个问题。因此记录下来，以备不时之需 （几年前遇到过同样的问题，但是没做笔记，所以这次一定要记下来）。</p>
-<a id="more"></a>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]; <span class="comment">% 这里需要注意Matlab是按列存储的；</span></span><br><span class="line">test = <span class="built_in">repmat</span>(a,<span class="number">3</span>,<span class="number">1</span>,<span class="number">3</span>); <span class="comment">% 把向量a复制成一个3*3*3的矩阵；</span></span><br></pre></td></tr></table></figure>
-<p> 查看test矩阵</p>
-<script type="math/tex; mode=display">
-test\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right],test\left( :,: ,2\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right], test\left( :,: ,3\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right]</script><p>我想要的结果</p>
-<script type="math/tex; mode=display">
-testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 10& 20& 30\\ 10& 20& 30\\ 10& 20& 30\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 100& 200& 300\\ 100& 200& 300\\ 100& 200& 300\end{matrix} \right]</script><p>实现的方法</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">z = [<span class="number">1</span>,<span class="number">10</span>,<span class="number">100</span>]; <span class="comment">% 定义一个向量z</span></span><br><span class="line">test_z = <span class="built_in">permute</span>(z,[<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>])； <span class="comment">%permute 用于求三维矩阵的转置</span></span><br></pre></td></tr></table></figure>
-<p>对于二维矩阵的转置，我们通常用 ’ ；但是对于高维向量，需要使用permute, 上面的命令表示第二个维度的数据（列）放到第三个维度，所以我们猜测test_z会是一个 $1\times 1\times 3$的这么一个矩阵，查看test_z的结果</p>
-<script type="math/tex; mode=display">
-test_z\left( :,: ,1\right) = 1；test_z\left( :,: ,2\right) = 10； test_z\left( :,: ,3\right)=100；</script><p>如你所愿，最后我们有</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">testz = test_z.*test; <span class="comment">% 得到我想要的效果</span></span><br></pre></td></tr></table></figure>
-<p>注意，如果是对行(第一维度)点乘，只需要：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">z.* test</span><br></pre></td></tr></table></figure>
-<script type="math/tex; mode=display">
-testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right]</script><p>如果对列进行点乘，需要进行行列转置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">z&#39;.*test</span><br></pre></td></tr></table></figure>
-<script type="math/tex; mode=display">
-testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right]</script><p>虽然很简单，但是这么简单的问题我也是花了大概二十分钟去思考，再花二十分钟做笔记，希望以后可以帮助自己和有缘人。能遇到同样的变态问题，还看到我的博客，说明都是猿粪啊，既然这么有缘，你舍得不给我点赞吗？哈哈</p>
-]]></content>
-      <categories>
-        <category>Coding Tips</category>
-      </categories>
-      <tags>
-        <tag>MATLAB</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MATLAB cell 与 matrix 之间的转换</title>
     <url>/2020/02/21/MATLAB%20cell%20%E4%B8%8E%20matrix%20%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>本文记录了Shecan在研究中遇到的Cell与matrix相互转换的问题。cell2mat可以转换比较简单的cell类型，但是如果复杂一些，需要用cat和reshape，permute相结合。</p>
@@ -609,6 +578,37 @@ B(:,:,2) = \left[ \begin{matrix} 1 & 1 \\ 1 & 1 \end{matrix} \right]</script><sc
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">permute(B,[3,2,1])</span><br></pre></td></tr></table></figure>
 <p>即可以得到所需要的矩阵。</p>
 <p>结束语：寥寥记下几笔。说到cell，必须要在这里感谢一下昔日的老友，从他的程序里学来的，然后越用越顺手。</p>
+]]></content>
+      <categories>
+        <category>Coding Tips</category>
+      </categories>
+      <tags>
+        <tag>MATLAB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Matlab 高维矩阵与向量的点乘 （Permute）</title>
+    <url>/2020/02/21/Matlab%20%E9%AB%98%E7%BB%B4%E7%9F%A9%E9%98%B5%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E7%82%B9%E4%B9%98%20%EF%BC%88Permute%EF%BC%89/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Matlab-高维矩阵与向量的点乘-（Permute）"><a href="#Matlab-高维矩阵与向量的点乘-（Permute）" class="headerlink" title="Matlab 高维矩阵与向量的点乘 （Permute）"></a>Matlab 高维矩阵与向量的点乘 （Permute）</h1><p>今天遇到一个问题，如何用一个n维的向量点乘一个$m\times k\times n$ 的矩阵， 并避免用循环。Matlab矩阵实验室名不虚传，通过permute这个命令可以有效解决这个问题。因此记录下来，以备不时之需 （几年前遇到过同样的问题，但是没做笔记，所以这次一定要记下来）。</p>
+<a id="more"></a>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]; <span class="comment">% 这里需要注意Matlab是按列存储的；</span></span><br><span class="line">test = <span class="built_in">repmat</span>(a,<span class="number">3</span>,<span class="number">1</span>,<span class="number">3</span>); <span class="comment">% 把向量a复制成一个3*3*3的矩阵；</span></span><br></pre></td></tr></table></figure>
+<p> 查看test矩阵</p>
+<script type="math/tex; mode=display">
+test\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right],test\left( :,: ,2\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right], test\left( :,: ,3\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right]</script><p>我想要的结果</p>
+<script type="math/tex; mode=display">
+testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 1& 2& 3\\ 1& 2& 3\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 10& 20& 30\\ 10& 20& 30\\ 10& 20& 30\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 100& 200& 300\\ 100& 200& 300\\ 100& 200& 300\end{matrix} \right]</script><p>实现的方法</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">z = [<span class="number">1</span>,<span class="number">10</span>,<span class="number">100</span>]; <span class="comment">% 定义一个向量z</span></span><br><span class="line">test_z = <span class="built_in">permute</span>(z,[<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>])； <span class="comment">%permute 用于求三维矩阵的转置</span></span><br></pre></td></tr></table></figure>
+<p>对于二维矩阵的转置，我们通常用 ’ ；但是对于高维向量，需要使用permute, 上面的命令表示第二个维度的数据（列）放到第三个维度，所以我们猜测test_z会是一个 $1\times 1\times 3$的这么一个矩阵，查看test_z的结果</p>
+<script type="math/tex; mode=display">
+test_z\left( :,: ,1\right) = 1；test_z\left( :,: ,2\right) = 10； test_z\left( :,: ,3\right)=100；</script><p>如你所愿，最后我们有</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">testz = test_z.*test; <span class="comment">% 得到我想要的效果</span></span><br></pre></td></tr></table></figure>
+<p>注意，如果是对行(第一维度)点乘，只需要：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">z.* test</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 1& 2& 3\\ 10& 20& 30\\ 100& 200& 300\end{matrix} \right]</script><p>如果对列进行点乘，需要进行行列转置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">z&#39;.*test</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+testz\left( :,: ,1\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right],testz\left( :,: ,2\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right], testz\left( :,: ,3\right) =\left[ \begin{matrix} 1& 20& 300\\ 1& 20& 300\\ 1& 20& 300\end{matrix} \right]</script><p>虽然很简单，但是这么简单的问题我也是花了大概二十分钟去思考，再花二十分钟做笔记，希望以后可以帮助自己和有缘人。能遇到同样的变态问题，还看到我的博客，说明都是猿粪啊，既然这么有缘，你舍得不给我点赞吗？哈哈</p>
 ]]></content>
       <categories>
         <category>Coding Tips</category>
@@ -772,7 +772,7 @@ P(X<x)=P(y<x|u\leq \frac{f(y)}{cg(y)})</script><p>即右边的这个条件分布
       </tags>
   </entry>
   <entry>
-    <title>Shecan|BAW美式期权定价半解析解</title>
+    <title>Shecan|蒙特卡罗最小二乘法论文导读</title>
     <url>/2020/02/21/%E7%BE%8E%E5%BC%8F%E6%9C%9F%E6%9D%83%E6%B1%82%E8%A7%A3%EF%BC%9A%E8%92%99%E7%89%B9%E5%8D%A1%E7%BD%97%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E8%AE%BA%E6%96%87%E5%AF%BC%E8%AF%BB/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="美式期权求解：蒙特卡罗最小二乘法论文导读"><a href="#美式期权求解：蒙特卡罗最小二乘法论文导读" class="headerlink" title="美式期权求解：蒙特卡罗最小二乘法论文导读"></a>美式期权求解：蒙特卡罗最小二乘法论文导读</h1><h2 id="参考论文：Valuing-American-Options-by-Simulation-A-Simple-Least-Squares-Approach"><a href="#参考论文：Valuing-American-Options-by-Simulation-A-Simple-Least-Squares-Approach" class="headerlink" title="参考论文：Valuing American Options by Simulation: A Simple Least-Squares Approach"></a>参考论文：Valuing American Options by Simulation: A Simple Least-Squares Approach</h2><h2 id="方法原理："><a href="#方法原理：" class="headerlink" title="方法原理："></a>方法原理：</h2><p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-UCaU6Dop-1639987626597)(C:\Users\Hubu\AppData\Roaming\Typora\typora-user-images\image-20211202175304498.png)]</p>
 <p><strong>美式期权的持有者会比较立即执行的支付和继续持有的期望支付。</strong>如果立即执行获得的收益大于继续持有的期望收益的话，就会选择立即执行。这里问题的<strong>核心是如何去估计继续持有的条件期望收益</strong>。文章中所用的办法是最小二乘法。具体来说，就是把已经实现的支付和状态变量来进行回归，从而得到条件期望收益的估计表达式。蒙特卡罗的部分，就是在已知现在的股票价格条件下，模拟未来股票价格的所有可能路径。<br><img src="https://img-blog.csdnimg.cn/a6f76daf6ccd4963af19478ea4b50d3e.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"></p>
