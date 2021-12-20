@@ -1381,44 +1381,14 @@ S_{t+1}=S_{t}+rS_t\Delta t+\sigma S_t\Delta W_t\tag{2}</script><p>而$W_t$是一
 
       
         
-          
-            <h1 id="美式期权求解：蒙特卡罗最小二乘法论文导读"><a href="#美式期权求解：蒙特卡罗最小二乘法论文导读" class="headerlink" title="美式期权求解：蒙特卡罗最小二乘法论文导读"></a>美式期权求解：蒙特卡罗最小二乘法论文导读</h1><h2 id="参考论文：Valuing-American-Options-by-Simulation-A-Simple-Least-Squares-Approach"><a href="#参考论文：Valuing-American-Options-by-Simulation-A-Simple-Least-Squares-Approach" class="headerlink" title="参考论文：Valuing American Options by Simulation: A Simple Least-Squares Approach"></a>参考论文：Valuing American Options by Simulation: A Simple Least-Squares Approach</h2><h2 id="方法原理："><a href="#方法原理：" class="headerlink" title="方法原理："></a>方法原理：</h2><p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-UCaU6Dop-1639987626597)(C:\Users\Hubu\AppData\Roaming\Typora\typora-user-images\image-20211202175304498.png)]</p>
-<p><strong>美式期权的持有者会比较立即执行的支付和继续持有的期望支付。</strong>如果立即执行获得的收益大于继续持有的期望收益的话，就会选择立即执行。这里问题的<strong>核心是如何去估计继续持有的条件期望收益</strong>。文章中所用的办法是最小二乘法。具体来说，就是把已经实现的支付和状态变量来进行回归，从而得到条件期望收益的估计表达式。蒙特卡罗的部分，就是在已知现在的股票价格条件下，模拟未来股票价格的所有可能路径。<br><img src="https://img-blog.csdnimg.cn/a6f76daf6ccd4963af19478ea4b50d3e.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="执行步骤："><a href="#执行步骤：" class="headerlink" title="执行步骤："></a>执行步骤：</h2><ol>
-<li>首先用蒙特卡罗模拟产生一系列的股票路径。</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/ccb3b62d49e94731a1811a5f929903dd.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_12,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-<ol>
-<li>假设期权没有提前执行。计算到期日的支付情况。(假设执行价格K=1.1)</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/92fdf7f5a78f4c7591a7b91037084c74.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_10,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-<ol>
-<li>然后考虑前一个时间点。这里文章特别的提到只考虑实值期权，这样可以很大的提高计算的效率。把前一个时间点的实值期权对应的未来支付进行折现。然后对状态变量做回归。得到的回归表达式即是对继续持有期权的期望收益的估计。</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/3830e43f823a4b5aa315a1ebe5eef414.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_9,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-<p>文中给出只考虑实值期权的原因是只有实值期权才能够做执行与持有的这个决策。</p>
-<ol>
-<li>$Y$ 是下一期期望支付的折现值。 X是当期的状态变量价格。 Y对X做回归可以得到以下的表达式:</li>
-</ol>
-<script type="math/tex; mode=display">
-E[Y \mid X]=-1.070+2.983 X-1.813 X^{2}\tag{1}</script><p>注意，这里只选择第二期的实值期权。文中指出，$\{1,X,X^2\}$ 不是唯一的回归变量的选择，还可以选择$L^2$空间上的正交基如Laguerre多项式，Legender多项式，Hermite多项式等等。</p>
-<ol>
-<li>计算出来的条件期望(1)可以作为继续持有的期望收益的估计， 对比立即执行的收益和刚才所求得的继续持有的期望收益。如果立即执行的收益大于继续持有的期望收益，选择立即执行，否则我们将继续持有到到期日。如下图所示：</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/fe8067629d7a46dba69016f6257a6914.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_12,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-<ol>
-<li><p>通过以上的判断，更新当期收益，得到新的现金流之后，重复以上两个步骤，直到时间点t=1。</p>
-</li>
-<li><p>最后，把t=1时间点的期权价值折现到t=0时间点，并求平均。</p>
-<p>具体的流程如下所示：</p>
-</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/7cd5be2dcd2d4204b578e4437cf1ca69.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_18,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-<h2 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h2><p>一个比较好面向对象的python代码：<a href="https://github.com/ngokchaoho/Least-Square-Monte-Carlo/blob/main/Least%20Square%20Monte%20Carlo%20Implementation%20in%20a%20Python%20Class.ipynb" target="_blank" rel="noopener">https://github.com/ngokchaoho/Least-Square-Monte-Carlo/blob/main/Least%20Square%20Monte%20Carlo%20Implementation%20in%20a%20Python%20Class.ipynb</a></p>
-<p>插入一个小小的话题，理论上，不支付红利的条件下，美式看涨期权为何不会提前行权？</p>
-<p>美式期权的价值$C$大于欧式期权的价值$c$（C=c+early exercise premium），根据平价公式$c=(S-k)+(k-k<em>exp(-r</em>t))+p$，即是说$C&gt;=c&gt;=S-k$。美式期权在到期日之前的价值大于立即执行的价值，因而，一般情况下，不支付红利的美式期权不会提前行权。</p>
-
-          
+          <h1 id="美式期权求解：蒙特卡罗最小二乘法论文导读"><a href="#美式期权求解：蒙特卡罗最小二乘法论文导读" class="headerlink" title="美式期权求解：蒙特卡罗最小二乘法论文导读"></a>美式期权求解：蒙特卡罗最小二乘法论文导读</h1><h2 id="参考论文：Valuing-American-Options-by-Simulation-A-Simple-Least-Squares-Approach"><a href="#参考论文：Valuing-American-Options-by-Simulation-A-Simple-Least-Squares-Approach" class="headerlink" title="参考论文：Valuing American Options by Simulation: A Simple Least-Squares Approach"></a>参考论文：Valuing American Options by Simulation: A Simple Least-Squares Approach</h2>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/21/%E7%BE%8E%E5%BC%8F%E6%9C%9F%E6%9D%83%E6%B1%82%E8%A7%A3%EF%BC%9A%E8%92%99%E7%89%B9%E5%8D%A1%E7%BD%97%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E8%AE%BA%E6%96%87%E5%AF%BC%E8%AF%BB/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -2398,7 +2368,8 @@ E[Y \mid X]=-1.070+2.983 X-1.813 X^{2}\tag{1}</script><p>注意，这里只选�
   <script src="/live2d-widget/autoload.js"></script>
   <link rel="stylesheet" href="/dist/APlayer.min.css">
 <div id="aplayer"></div>
-<script type="text/javascript" src="/dist/APlayer.min.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/javascript" src="/dist/APlayer.min.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -2415,6 +2386,5 @@ E[Y \mid X]=-1.070+2.983 X-1.813 X^{2}\tag{1}</script><p>注意，这里只选�
 <script type="text/javascript" src="">
 </script>
 <!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+<!-- hexo-inject:end --></body>
 </html>
