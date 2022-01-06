@@ -388,8 +388,8 @@ P(S^*,\tau)=K-S^*\tag{B3}</script><p>python程序实现：参考<a href="https:/
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
         <tag>Python</tag>
+        <tag>Algorithm</tag>
       </tags>
   </entry>
   <entry>
@@ -442,8 +442,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
         <tag>Python</tag>
+        <tag>Algorithm</tag>
         <tag>Simulation</tag>
       </tags>
   </entry>
@@ -504,8 +504,8 @@ h'\left( \alpha \right) =n\left( -\frac {1} {\alpha^2}+\frac {\sum x_{i}^{\alpha
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
         <tag>Python</tag>
+        <tag>Algorithm</tag>
         <tag>Calibration</tag>
       </tags>
   </entry>
@@ -664,8 +664,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
         <tag>Python</tag>
+        <tag>Algorithm</tag>
         <tag>Simulation</tag>
       </tags>
   </entry>
@@ -719,7 +719,7 @@ C\left( K \right) = {(S_{T} - K)}^{+}\text{\ \ \ \ \ }\  \\
 <p>Carr和Madan认为任何连续的payoff都可以写成如下的形式，当然个人认为这个payoff还必须是光滑的，至少要保证二阶可导，这个表达式牛逼之处就在于，后面静态复制的部分包含了所有泰勒的高阶项~</p>
 <script type="math/tex; mode=display">
 f\left( S_{T} \right) = f\left( S_* \right) + f^{'}\left( S_* \right)\left( S_{T} - S_* \right) + \int_{a}^{\infty}{f^{''}\left( K \right)\left( S_{T} - K \right)^{+}dK +}\int_{0}^{a}{f''(K)\left( K - S_{T} \right)^{+}\text{dK}}\tag{NB}</script><p>现在我们来看看（NB）表达式的证明过程</p>
-<script type="math/tex; mode=display">f\left( F \right) = \int_{0}^{\infty}{f\left( K \right)\delta\left( F - K \right)\text{dK}}</script><p>=$\int_{0}^{\overline{K}}{f\left( K \right)\delta\left( F - K \right)\text{dK}} + \int_{\overline{k}}^{\infty}{f\left( K \right)\delta\left( F - K \right)\text{dK}}$</p>
+<script type="math/tex; mode=display">f\left( F \right) = \int_{0}^{\infty}{f\left( K \right)\delta\left( F - K \right)\text{dK}}</script><p>$=\int_{0}^{\overline{K}}{f\left( K \right)\delta\left( F - K \right)\text{dK}} + \int_{\overline{k}}^{\infty}{f\left( K \right)\delta\left( F - K \right)\text{dK}}$</p>
 <p>=$\int_{0}^{\overline{k}}{f\left( K \right)\text{dI}\left( F &lt; K \right)} + \int_{\overline{k}}^{\infty}{f\left( K \right)\text{dI}\left( F \geq K \right)}$</p>
 <p>=$\text{\ f}\left( K \right)I\left( F &lt; K \right)|_{0}^{\overline{k}} - \int_{0}^{\overline{k}}{f’{\left( K \right)}I\left( F &lt; K \right)\text{dK}} - f\left( K \right)I\left( F \geq K \right)|_{\overline{k}}^{\infty} + \int_{\overline{k}}^{\infty}{f’\left( K \right)\delta\left( F \geq K \right)\text{dK}}$</p>
 <p>=$\text{\ f}\left( \overline{k} \right) - \int_{0}^{\overline{k}}{f^{‘}(K)d\left( K - F \right)^{+}} - \int_{\overline{k}}^{\infty}{f’\left( K \right)d\left( F - K \right)^{+}}$</p>
@@ -739,8 +739,8 @@ E\left( \sigma^{2} \right) = \frac{2}{T}\left(E\left( \int_{0}^{T}\frac{\text{dS
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
         <tag>Python</tag>
+        <tag>Algorithm</tag>
       </tags>
   </entry>
   <entry>
@@ -890,8 +890,8 @@ E[Y \mid X]=-1.070+2.983 X-1.813 X^{2}\tag{1}</script><p>注意，这里只选�
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
         <tag>Python</tag>
+        <tag>Algorithm</tag>
       </tags>
   </entry>
 </search>
