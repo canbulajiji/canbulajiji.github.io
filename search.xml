@@ -550,6 +550,79 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
       </tags>
   </entry>
   <entry>
+    <title>Shecan| VIX 指数构造详细证明过程</title>
+    <url>/2020/02/21/VIX%20%E6%8C%87%E6%95%B0%E6%9E%84%E9%80%A0%E8%AF%A6%E7%BB%86%E8%AF%81%E6%98%8E%E8%BF%87%E7%A8%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="VIX-指数构造详细证明过程"><a href="#VIX-指数构造详细证明过程" class="headerlink" title="VIX 指数构造详细证明过程"></a>VIX 指数构造详细证明过程</h1><p>VIX—CBOE发行的波动率指数，又称为恐慌指数，VIX指数高的时候，说明投资者预期后市市场波动比较大，因而可以作为投资者情绪的一种预期，一般来说，如果市场是有效的话，VIX指数和标的（SPX100）之间具有杠杆效应，也就是说，标的资产的价格下降，VIX飙升。VIX指数最新的构造方法借鉴于【1】构造variance swap的方法，又称静态复制法，这篇文章的主旨是记录shecan读文章时的推导思路，所以不过多介绍背景了，直接切入正题。</p>
+<a id="more"></a>
+<p>VIX指数构造证明过程主要有以下的三个部分：</p>
+<script type="math/tex; mode=display">
+\sigma^{2} = \frac{2}{T}\int_{0}^{T}\frac{\text{dS}}{S} - \frac{2}{T}ln(\frac{S_{T}}{S_{0}}) \tag{1*}</script><script type="math/tex; mode=display">
+E\left( \sigma^2 \right) = \frac{2}{T}\ln\left( \frac{F}{S^{*}} \right) - \frac{2}{T}\left\lbrack \frac{F}{S^{*}} - 1 \right\rbrack \\+ \frac{2}{T}\lbrack\int_{S_{*}}^{\infty}{C_T(K)dK +}\int_{0}^{S_{*}}{\frac{1}{K^{2}}P_T(K)\text{dK}}\tag{2*}</script><script type="math/tex; mode=display">
+E(\sigma^{2}) = \frac{2}{T}\sum_{i = 1}^{n}{\frac{\mathrm{\Delta}K_{i}}{K_{i}}e^{\text{rT}}Q\left( K_{i} \right)} - \frac{1}{T}{\lbrack\frac{F}{K_{0}} - 1\rbrack}^{2}\tag{3*}</script><p><strong>（1*）根据股票过程和对数股票过程推导出波动率过程</strong>：</p>
+<p>假设股票过程是一个几何布朗运动，则根据伊藤引理，可以推导出对数股票过程满足的随机过程，</p>
+<script type="math/tex; mode=display">
+\left\{ \begin{matrix}
+\frac{\text{dS}}{S} = \mu dt + \sigma dz\ \ \ \ \ \ (1) \\
+dlnS = \left( \mu - \frac{1}{2}\sigma^{2} \right)dt + \sigma dz\ (2) \\
+\end{matrix} \right.\</script><p>（1）-（2）得</p>
+<script type="math/tex; mode=display">
+\frac{1}{2}\sigma^{2}T =\frac{\text{dS}}{S} - dlnS\tag{3}</script><p>对(3)两边求积分并化简即可得（1*）。</p>
+<p><strong>（2*）根据（1*）构造静态复制表达式</strong>：</p>
+<p>首先，对(1*)两边求期望得，</p>
+<script type="math/tex; mode=display">
+E\left( \sigma^{2} \right) = \frac{2}{T}\left(E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) - E(ln(\frac{S_{T}}{S_{0}}))\right)\tag{4}</script><p>在风险中性条件下，$E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) = ln(\frac{F}{S_0})$, 剩下求$E(ln(\frac{S_{T}}{S_{0}}))$:</p>
+<p>其中其中$S_{*}$是静态复制时看涨期权和看跌期权的边界值，可以对$\ln\left( \frac{S_{T}}{S_{0}} \right)$做如下的分解</p>
+<script type="math/tex; mode=display">
+\ln\left( \frac{S_{T}}{S_{0}} \right) = \ln\left( \frac{S_{T}}{S_{*}} \right) + \ln\left( \frac{S_{*}}{S_{0}} \right)\tag{5}</script><p>最后需要证明的即是</p>
+<script type="math/tex; mode=display">
+\ln\left( \frac{S_{T}}{S_{*}} \right)= \frac{S_{T} - S_{*}}{S_{*}} - \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\tag{6}</script><p>下面给出两个证明</p>
+<p>证明1 证明等式是否恒等</p>
+<script type="math/tex; mode=display">\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}} &=\int_{0}^{S_{T}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}+\int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\\&= \left\{ \begin{matrix}
+0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ S_{*} < K\  \\
+\int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\text{\ \ }S_{*} > K\  \\
+\end{matrix} \right.\</script><p>同理，有下面的结论</p>
+<script type="math/tex; mode=display">\int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK =}\left\{ \begin{matrix}
+\int_{S_{*}}^{S_{T}}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}\text{dK}}\text{\ \ }S_{*} < K\  \\
+0\text{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }S_{*} > K\  \\
+\end{matrix} \right.\</script><p>假设</p>
+<script type="math/tex; mode=display">\left\{ \begin{matrix}
+P\left( K \right) = \left( K - S_{T} \right)^{+}\text{\ \ \ \ \ }\  \\
+C\left( K \right) = {(S_{T} - K)}^{+}\text{\ \ \ \ \ }\  \\
+\end{matrix} \right.\</script><p>则由平价公式$S_{T} = C_{T}\left( K \right) - P_{T}\left( K \right) + K$，则</p>
+<script type="math/tex; mode=display">\ln\left( \frac{S_{T}}{S_{*}} \right) = \frac{S_{T} - S_{*}}{S_{*}} - \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}</script><p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \int_{S_{<em>}}^{S_{T}}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{S_{T}}^{S_{</em>}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}$</p>
+<p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}{\lbrack\left( K - S_{T} \right)}^{+} - \left( S_{T} - K \right)^{+}\rbrack dK}$</p>
+<p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}{\lbrack S_T-K\rbrack dK}}$</p>
+<p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \ln\left( \frac{S_{T}}{S_{<em>}} \right) - \frac{S_{T}}{S_{</em>}} + 1$</p>
+<p>=$\ln\left( \frac{S_{*}}{S_{T}} \right)$</p>
+<p>证明2 更加一般的形式</p>
+<p>这个形式来源于文档【2】，当时看的时候真的觉得特别牛逼，之后很多扩展都是基于这个形式扩展的，包括skew指数的构造，但是看了作者的证明（当然作者也是特别牛逼，心生敬畏，carr and madan, 上一次看见这个名字还是在学习快速傅里叶变换应用于期权定价），云里雾里，于是按着自己的理解重新写了一遍他们的证明过程，但是数学基础还是比较欠缺，希望有缘看到我这篇笔记的大牛们来帮我订正一下~</p>
+<p>Carr和Madan认为任何连续的payoff都可以写成如下的形式，当然个人认为这个payoff还必须是光滑的，至少要保证二阶可导，这个表达式牛逼之处就在于，后面静态复制的部分包含了所有泰勒的高阶项~</p>
+<script type="math/tex; mode=display">
+f\left( S_{T} \right) = f\left( S_* \right) + f^{'}\left( S_* \right)\left( S_{T} - S_* \right) + \int_{a}^{\infty}{f^{''}\left( K \right)\left( S_{T} - K \right)^{+}dK +}\int_{0}^{a}{f''(K)\left( K - S_{T} \right)^{+}\text{dK}}\tag{NB}</script><p>现在我们来看看（NB）表达式的证明过程</p>
+<script type="math/tex; mode=display">f\left( F \right) = \int_{0}^{\infty}{f\left( K \right)\delta\left( F - K \right)\text{dK}}</script><p>=$\int_{0}^{\overline{K}}{f\left( K \right)\delta\left( F - K \right)\text{dK}} + \int_{\overline{k}}^{\infty}{f\left( K \right)\delta\left( F - K \right)\text{dK}}$</p>
+<p>=$\int_{0}^{\overline{k}}{f\left( K \right)\text{dI}\left( F &lt; K \right)} + \int_{\overline{k}}^{\infty}{f\left( K \right)\text{dI}\left( F \geq K \right)}$</p>
+<p>=$\text{\ f}\left( K \right)I\left( F &lt; K \right)|_{0}^{\overline{k}} - \int_{0}^{\overline{k}}{f’{\left( K \right)}I\left( F &lt; K \right)\text{dK}} - f\left( K \right)I\left( F \geq K \right)|_{\overline{k}}^{\infty} + \int_{\overline{k}}^{\infty}{f’\left( K \right)\delta\left( F \geq K \right)\text{dK}}$</p>
+<p>=$\text{\ f}\left( \overline{k} \right) - \int_{0}^{\overline{k}}{f^{‘}(K)d\left( K - F \right)^{+}} - \int_{\overline{k}}^{\infty}{f’\left( K \right)d\left( F - K \right)^{+}}$</p>
+<p>=$\text{\ f}\left( \overline{k} \right) - f^{‘}\left( K \right)\left( K - F \right)^{+}|_{0}^{\overline{k}} + \int_{0}^{\overline{k}}{f’’\left( k \right)\left( K - F \right)^{+}\text{dK}} - f’{\left( K \right)\left( F - K \right)^{+}|_{\overline{k}}^{\infty}} + \int_{\overline{k}}^{\infty}{f’’\left( K \right)\left( F - K \right)^{+}\text{dK}}$</p>
+<p>=$\text{\ f}\left( \overline{k} \right) + f^{‘}\left( k \right)\left\lbrack \left( F - \overline{k} \right)^{+} - \left( \overline{k} - F \right)^{+} \right\rbrack + \int_{0}^{\overline{k}}{f’’\left( K \right)\left( K - F \right)^{+}}dK + \int_{\overline{k}}^{\infty}{f’’\left( K \right)\left( F - K \right)^{+}\text{dK}}$</p>
+<p>令$f\left( S_{T} \right)=\ln\left( \frac{S_{<em>}}{S_{T}} \right) - \frac{S_{T}}{S_{</em>}} + 1$,</p>
+<p>代入(NB)有:</p>
+<script type="math/tex; mode=display">
+\ln\left( \frac{S_{T}}{S_{*}} \right) - \frac{S_{T}}{S_{*}} + 1=- \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}</script><p>综合（4）（5）（6）（7）可得</p>
+<script type="math/tex; mode=display">
+E\left( \sigma^{2} \right) = \frac{2}{T}\left(E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) - E(ln(\frac{S_{T}}{S_{0}}))\right)=\\\frac{2}{T}(ln(\frac{F}{S_*})-\frac{F - S_{*}}{S_{*}} + \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{C_T(K)dK +}\int_{0}^{S_{*}}{\frac{1}{K^{2}}P_T(K)\text{dK}})}</script><p>(3<em>) 即是对（2\</em>）的离散过程，比较简单了，哪天心情好再更新！</p>
+<p>【1】Demeterfi, K. ,  Derman, E. ,  Kamal, M. , &amp;  Zou, J. . (1999). More than you ever wanted to know about volatility swaps. <em>Quantitative Strategies Research Notes Goldman Sachs</em>.</p>
+<p>【2】P Carr, &amp; M Stanley. (1997). Towards a theory of volatility trading.</p>
+]]></content>
+      <categories>
+        <category>Algorithm Study</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo Cheatsheet</title>
     <url>/2020/02/21/hello-world/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
@@ -649,55 +722,6 @@ P(X<x)=P(y<x|u\leq \frac{f(y)}{cg(y)})</script><p>即右边的这个条件分布
         <tag>Algorithm</tag>
         <tag>Simulation</tag>
         <tag>Matlab</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Shecan|蒙特卡罗最小二乘法论文导读</title>
-    <url>/2020/02/21/%E7%BE%8E%E5%BC%8F%E6%9C%9F%E6%9D%83%E6%B1%82%E8%A7%A3%EF%BC%9A%E8%92%99%E7%89%B9%E5%8D%A1%E7%BD%97%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E8%AE%BA%E6%96%87%E5%AF%BC%E8%AF%BB/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="美式期权求解：蒙特卡罗最小二乘法论文导读"><a href="#美式期权求解：蒙特卡罗最小二乘法论文导读" class="headerlink" title="美式期权求解：蒙特卡罗最小二乘法论文导读"></a>美式期权求解：蒙特卡罗最小二乘法论文导读</h1><h2 id="参考论文：Valuing-American-Options-by-Simulation-A-Simple-Least-Squares-Approach"><a href="#参考论文：Valuing-American-Options-by-Simulation-A-Simple-Least-Squares-Approach" class="headerlink" title="参考论文：Valuing American Options by Simulation: A Simple Least-Squares Approach"></a>参考论文：Valuing American Options by Simulation: A Simple Least-Squares Approach</h2><a id="more"></a>
-<h2 id="方法原理："><a href="#方法原理：" class="headerlink" title="方法原理："></a>方法原理：</h2><p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-UCaU6Dop-1639987626597)(C:\Users\Hubu\AppData\Roaming\Typora\typora-user-images\image-20211202175304498.png)]</p>
-<p><strong>美式期权的持有者会比较立即执行的支付和继续持有的期望支付。</strong>如果立即执行获得的收益大于继续持有的期望收益的话，就会选择立即执行。这里问题的<strong>核心是如何去估计继续持有的条件期望收益</strong>。文章中所用的办法是最小二乘法。具体来说，就是把已经实现的支付和状态变量来进行回归，从而得到条件期望收益的估计表达式。蒙特卡罗的部分，就是在已知现在的股票价格条件下，模拟未来股票价格的所有可能路径。</p>
-<p><img src="https://img-blog.csdnimg.cn/a6f76daf6ccd4963af19478ea4b50d3e.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="执行步骤："><a href="#执行步骤：" class="headerlink" title="执行步骤："></a>执行步骤：</h2><ol>
-<li>首先用蒙特卡罗模拟产生一系列的股票路径。</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/ccb3b62d49e94731a1811a5f929903dd.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_12,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-<ol>
-<li>假设期权没有提前执行。计算到期日的支付情况。(假设执行价格K=1.1)</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/92fdf7f5a78f4c7591a7b91037084c74.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_10,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-<ol>
-<li>然后考虑前一个时间点。这里文章特别的提到只考虑实值期权，这样可以很大的提高计算的效率。把前一个时间点的实值期权对应的未来支付进行折现。然后对状态变量做回归。得到的回归表达式即是对继续持有期权的期望收益的估计。</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/3830e43f823a4b5aa315a1ebe5eef414.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_9,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-<p>文中给出只考虑实值期权的原因是只有实值期权才能够做执行与持有的这个决策。</p>
-<ol>
-<li>$Y$ 是下一期期望支付的折现值。 X是当期的状态变量价格。 Y对X做回归可以得到以下的表达式:</li>
-</ol>
-<script type="math/tex; mode=display">
-E[Y \mid X]=-1.070+2.983 X-1.813 X^{2}\tag{1}</script><p>注意，这里只选择第二期的实值期权。文中指出，$\{1,X,X^2\}$ 不是唯一的回归变量的选择，还可以选择$L^2$空间上的正交基如Laguerre多项式，Legender多项式，Hermite多项式等等。</p>
-<ol>
-<li>计算出来的条件期望(1)可以作为继续持有的期望收益的估计， 对比立即执行的收益和刚才所求得的继续持有的期望收益。如果立即执行的收益大于继续持有的期望收益，选择立即执行，否则我们将继续持有到到期日。如下图所示：</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/fe8067629d7a46dba69016f6257a6914.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_12,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-<ol>
-<li><p>通过以上的判断，更新当期收益，得到新的现金流之后，重复以上两个步骤，直到时间点t=1。</p>
-</li>
-<li><p>最后，把t=1时间点的期权价值折现到t=0时间点，并求平均。</p>
-<p>具体的流程如下所示：</p>
-</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/7cd5be2dcd2d4204b578e4437cf1ca69.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_18,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-<h2 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h2><p>一个比较好面向对象的python代码：<a href="https://github.com/ngokchaoho/Least-Square-Monte-Carlo/blob/main/Least%20Square%20Monte%20Carlo%20Implementation%20in%20a%20Python%20Class.ipynb" target="_blank" rel="noopener">https://github.com/ngokchaoho/Least-Square-Monte-Carlo/blob/main/Least%20Square%20Monte%20Carlo%20Implementation%20in%20a%20Python%20Class.ipynb</a></p>
-<p>插入一个小小的话题，理论上，不支付红利的条件下，美式看涨期权为何不会提前行权？</p>
-<p>美式期权的价值$C$大于欧式期权的价值$c$（C=c+early exercise premium），根据平价公式$c=(S-k)+(k-k<em>exp(-r</em>t))+p$，即是说$C&gt;=c&gt;=S-k$。美式期权在到期日之前的价值大于立即执行的价值，因而，一般情况下，不支付红利的美式期权不会提前行权。</p>
-]]></content>
-      <categories>
-        <category>Algorithm Study</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
@@ -818,6 +842,55 @@ c_{j}\left(y | y_{0} ; \theta\right)= j\left(y-y_{0}\right)^{-j} \int_{y_{0}}^{y
       <tags>
         <tag>Algorithm</tag>
         <tag>Calibration</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Shecan|蒙特卡罗最小二乘法论文导读</title>
+    <url>/2020/02/21/%E7%BE%8E%E5%BC%8F%E6%9C%9F%E6%9D%83%E6%B1%82%E8%A7%A3%EF%BC%9A%E8%92%99%E7%89%B9%E5%8D%A1%E7%BD%97%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E8%AE%BA%E6%96%87%E5%AF%BC%E8%AF%BB/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="美式期权求解：蒙特卡罗最小二乘法论文导读"><a href="#美式期权求解：蒙特卡罗最小二乘法论文导读" class="headerlink" title="美式期权求解：蒙特卡罗最小二乘法论文导读"></a>美式期权求解：蒙特卡罗最小二乘法论文导读</h1><h2 id="参考论文：Valuing-American-Options-by-Simulation-A-Simple-Least-Squares-Approach"><a href="#参考论文：Valuing-American-Options-by-Simulation-A-Simple-Least-Squares-Approach" class="headerlink" title="参考论文：Valuing American Options by Simulation: A Simple Least-Squares Approach"></a>参考论文：Valuing American Options by Simulation: A Simple Least-Squares Approach</h2><a id="more"></a>
+<h2 id="方法原理："><a href="#方法原理：" class="headerlink" title="方法原理："></a>方法原理：</h2><p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-UCaU6Dop-1639987626597)(C:\Users\Hubu\AppData\Roaming\Typora\typora-user-images\image-20211202175304498.png)]</p>
+<p><strong>美式期权的持有者会比较立即执行的支付和继续持有的期望支付。</strong>如果立即执行获得的收益大于继续持有的期望收益的话，就会选择立即执行。这里问题的<strong>核心是如何去估计继续持有的条件期望收益</strong>。文章中所用的办法是最小二乘法。具体来说，就是把已经实现的支付和状态变量来进行回归，从而得到条件期望收益的估计表达式。蒙特卡罗的部分，就是在已知现在的股票价格条件下，模拟未来股票价格的所有可能路径。</p>
+<p><img src="https://img-blog.csdnimg.cn/a6f76daf6ccd4963af19478ea4b50d3e.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="执行步骤："><a href="#执行步骤：" class="headerlink" title="执行步骤："></a>执行步骤：</h2><ol>
+<li>首先用蒙特卡罗模拟产生一系列的股票路径。</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/ccb3b62d49e94731a1811a5f929903dd.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_12,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<ol>
+<li>假设期权没有提前执行。计算到期日的支付情况。(假设执行价格K=1.1)</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/92fdf7f5a78f4c7591a7b91037084c74.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_10,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<ol>
+<li>然后考虑前一个时间点。这里文章特别的提到只考虑实值期权，这样可以很大的提高计算的效率。把前一个时间点的实值期权对应的未来支付进行折现。然后对状态变量做回归。得到的回归表达式即是对继续持有期权的期望收益的估计。</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/3830e43f823a4b5aa315a1ebe5eef414.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_9,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<p>文中给出只考虑实值期权的原因是只有实值期权才能够做执行与持有的这个决策。</p>
+<ol>
+<li>$Y$ 是下一期期望支付的折现值。 X是当期的状态变量价格。 Y对X做回归可以得到以下的表达式:</li>
+</ol>
+<script type="math/tex; mode=display">
+E[Y \mid X]=-1.070+2.983 X-1.813 X^{2}\tag{1}</script><p>注意，这里只选择第二期的实值期权。文中指出，$\{1,X,X^2\}$ 不是唯一的回归变量的选择，还可以选择$L^2$空间上的正交基如Laguerre多项式，Legender多项式，Hermite多项式等等。</p>
+<ol>
+<li>计算出来的条件期望(1)可以作为继续持有的期望收益的估计， 对比立即执行的收益和刚才所求得的继续持有的期望收益。如果立即执行的收益大于继续持有的期望收益，选择立即执行，否则我们将继续持有到到期日。如下图所示：</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/fe8067629d7a46dba69016f6257a6914.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_12,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<ol>
+<li><p>通过以上的判断，更新当期收益，得到新的现金流之后，重复以上两个步骤，直到时间点t=1。</p>
+</li>
+<li><p>最后，把t=1时间点的期权价值折现到t=0时间点，并求平均。</p>
+<p>具体的流程如下所示：</p>
+</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/7cd5be2dcd2d4204b578e4437cf1ca69.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rC054mb6JmrU2hlY2Fu,size_18,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h2 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h2><p>一个比较好面向对象的python代码：<a href="https://github.com/ngokchaoho/Least-Square-Monte-Carlo/blob/main/Least%20Square%20Monte%20Carlo%20Implementation%20in%20a%20Python%20Class.ipynb" target="_blank" rel="noopener">https://github.com/ngokchaoho/Least-Square-Monte-Carlo/blob/main/Least%20Square%20Monte%20Carlo%20Implementation%20in%20a%20Python%20Class.ipynb</a></p>
+<p>插入一个小小的话题，理论上，不支付红利的条件下，美式看涨期权为何不会提前行权？</p>
+<p>美式期权的价值$C$大于欧式期权的价值$c$（C=c+early exercise premium），根据平价公式$c=(S-k)+(k-k<em>exp(-r</em>t))+p$，即是说$C&gt;=c&gt;=S-k$。美式期权在到期日之前的价值大于立即执行的价值，因而，一般情况下，不支付红利的美式期权不会提前行权。</p>
+]]></content>
+      <categories>
+        <category>Algorithm Study</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>Python</tag>
       </tags>
   </entry>
 </search>
