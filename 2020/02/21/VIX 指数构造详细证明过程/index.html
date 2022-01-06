@@ -100,7 +100,7 @@
 <meta property="og:description" content="VIX 指数构造详细证明过程VIX—CBOE发行的波动率指数，又称为恐慌指数，VIX指数高的时候，说明投资者预期后市市场波动比较大，因而可以作为投资者情绪的一种预期，一般来说，如果市场是有效的话，VIX指数和标的（SPX100）之间具有杠杆效应，也就是说，标的资产的价格下降，VIX飙升。VIX指数最新的构造方法借鉴于【1】构造variance swap的方法，又称静态复制法，这篇文章的主旨是记录s">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-21T14:01:06.000Z">
-<meta property="article:modified_time" content="2022-01-06T14:29:50.479Z">
+<meta property="article:modified_time" content="2022-01-06T14:31:46.706Z">
 <meta property="article:author" content="Shecan">
 <meta property="article:tag" content="Algorithm">
 <meta property="article:tag" content="Python">
@@ -499,6 +499,7 @@ f\left( S_{T} \right) = f\left( S_* \right) + f^{'}\left( S_* \right)\left( S_{T
 <p>=$\text{\ f}\left( \overline{k} \right) - f^{‘}\left( K \right)\left( K - F \right)^{+}|_{0}^{\overline{k}} + \int_{0}^{\overline{k}}{f’’\left( k \right)\left( K - F \right)^{+}\text{dK}} - f’{\left( K \right)\left( F - K \right)^{+}|_{\overline{k}}^{\infty}} + \int_{\overline{k}}^{\infty}{f’’\left( K \right)\left( F - K \right)^{+}\text{dK}}$</p>
 <p>=$\text{\ f}\left( \overline{k} \right) + f^{‘}\left( k \right)\left\lbrack \left( F - \overline{k} \right)^{+} - \left( \overline{k} - F \right)^{+} \right\rbrack + \int_{0}^{\overline{k}}{f’’\left( K \right)\left( K - F \right)^{+}}dK + \int_{\overline{k}}^{\infty}{f’’\left( K \right)\left( F - K \right)^{+}\text{dK}}$</p>
 <p>令$f\left( S_{T} \right)=\ln\left( \frac{S_{<em>}}{S_{T}} \right) - \frac{S_{T}}{S_{</em>}} + 1$,</p>
+<p>则$f’’(S_T)=-1/S_T^2$, 其中$\bar{k}=S_{*}$</p>
 <p>代入(NB)有:</p>
 <script type="math/tex; mode=display">
 \ln\left( \frac{S_{T}}{S_{*}} \right) - \frac{S_{T}}{S_{*}} + 1=- \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}</script><p>综合（4）（5）（6）（7）可得</p>
