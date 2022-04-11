@@ -100,7 +100,7 @@
 <meta property="og:description" content="VIX 指数构造详细证明过程VIX—CBOE发行的波动率指数，又称为恐慌指数，VIX指数高的时候，说明投资者预期后市市场波动比较大，因而可以作为投资者情绪的一种预期，一般来说，如果市场是有效的话，VIX指数和标的（SPX100）之间具有杠杆效应，也就是说，标的资产的价格下降，VIX飙升。VIX指数最新的构造方法借鉴于【1】构造variance swap的方法，又称静态复制法，这篇文章的主旨是记录s">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-02-21T14:01:06.000Z">
-<meta property="article:modified_time" content="2022-04-11T14:06:34.387Z">
+<meta property="article:modified_time" content="2022-04-11T14:15:36.075Z">
 <meta property="article:author" content="Shecan">
 <meta property="article:tag" content="Algorithm">
 <meta property="article:tag" content="Python">
@@ -498,11 +498,12 @@ f\left( S_{T} \right) = f\left( S_* \right) + f^{'}\left( S_* \right)\left( S_{T
 <p>=$\text{\ f}\left( \overline{k} \right) - \int_{0}^{\overline{k}}{f^{‘}(K)d\left( K - F \right)^{+}} + \int_{\overline{k}}^{\infty}{f’\left( K \right)d\left( F - K \right)^{+}}$</p>
 <p>=$\text{\ f}\left( \overline{k} \right) - f^{‘}\left( K \right)\left( K - F \right)^{+}|_{0}^{\overline{k}} + \int_{0}^{\overline{k}}{f’’\left( k \right)\left( K - F \right)^{+}\text{dK}} - f’{\left( K \right)\left( F - K \right)^{+}|_{\overline{k}}^{\infty}} + \int_{\overline{k}}^{\infty}{f’’\left( K \right)\left( F - K \right)^{+}\text{dK}}$</p>
 <p>=$\text{\ f}\left( \overline{k} \right) + f^{‘}\left( \overline{k} \right)\left\lbrack \left( F - \overline{k} \right)^{+} - \left( \overline{k} - F \right)^{+} \right\rbrack + \int_{0}^{\overline{k}}{f’’\left( K \right)\left( K - F \right)^{+}}dK + \int_{\overline{k}}^{\infty}{f’’\left( K \right)\left( F - K \right)^{+}\text{dK}}$</p>
+<p>令$f\left( S_{T} \right)=\ln\left( \frac{S_{<em>}}{S_{T}} \right) - \frac{S_{T}}{S_{</em>}} + 1$, </p>
 <p>代入(NB)有:</p>
 <script type="math/tex; mode=display">
-\ln\left( \frac{S_{T}}{S_{\*}} \right) - \frac{S_{T}}{S_{\*}} + 1=- \int_{S_{\*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{\*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}</script><p>综合（4）（5）（6）（7）可得</p>
+\ln\left( \frac{S_{T}}{S_{*}} \right) - \frac{S_{T}}{S_{*}} + 1=- \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}</script><p>综合（4）（5）（6）（7）可得</p>
 <script type="math/tex; mode=display">
-E\left( \sigma^{2} \right) = \frac{2}{T}\left(E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) - E(ln(\frac{S_{T}}{S_{0}}))\right)=\\\frac{2}{T}(ln(\frac{F}{S_\*})-\frac{F - S_{\*}}{S_{\*}} + \int_{S_{\*}}^{\infty}{\frac{1}{K^{2}}{C_T(K)dK +}\int_{0}^{S_{\*}}{\frac{1}{K^{2}}P_T(K)\text{dK}})}</script><p>(3*) 即是对（2*）的离散过程，比较简单了，哪天心情好再更新！</p>
+E\left( \sigma^{2} \right) = \frac{2}{T}\left(E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) - E(ln(\frac{S_{T}}{S_{0}}))\right)=\\\frac{2}{T}(ln(\frac{F}{S_*})-\frac{F - S_{*}}{S_{*}} + \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{C_T(K)dK +}\int_{0}^{S_{*}}{\frac{1}{K^{2}}P_T(K)\text{dK}})}</script><p>(3*) 即是对（2*）的离散过程，比较简单了，哪天心情好再更新！</p>
 <p>【1】Demeterfi, K. ,  Derman, E. ,  Kamal, M. , &amp;  Zou, J. . (1999). More than you ever wanted to know about volatility swaps. <em>Quantitative Strategies Research Notes Goldman Sachs</em>.</p>
 <p>【2】P Carr, &amp; M Stanley. (1997). Towards a theory of volatility trading.</p>
 
