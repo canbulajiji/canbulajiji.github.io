@@ -79,7 +79,7 @@
 
 
 
-  <meta name="keywords" content="Python,Algorithm," />
+  <meta name="keywords" content="Algorithm,Python," />
 
 
 
@@ -100,10 +100,10 @@
 <meta property="og:description" content="VIX 指数构造详细证明过程VIX—CBOE发行的波动率指数，又称为恐慌指数，VIX指数高的时候，说明投资者预期后市市场波动比较大，因而可以作为投资者情绪的一种预期，一般来说，如果市场是有效的话，VIX指数和标的（SPX100）之间具有杠杆效应，也就是说，标的资产的价格下降，VIX飙升。VIX指数最新的构造方法借鉴于【1】构造variance swap的方法，又称静态复制法，这篇文章的主旨是记录s">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-02-21T14:01:06.000Z">
-<meta property="article:modified_time" content="2022-04-11T14:16:15.551Z">
+<meta property="article:modified_time" content="2022-04-11T14:26:31.004Z">
 <meta property="article:author" content="Shecan">
-<meta property="article:tag" content="Python">
 <meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
 
 
@@ -408,7 +408,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1.7k words
+                  1.8k words
                 </span>
               
 
@@ -424,7 +424,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  8 minutes
+                  9 minutes
                 </span>
               
             </div>
@@ -449,8 +449,8 @@
 <a id="more"></a>
 <p>VIX指数构造证明过程主要有以下的三个部分：</p>
 <script type="math/tex; mode=display">
-\sigma^{2} = \frac{2}{T}\int_{0}^{T}\frac{\text{dS}}{S} - \frac{2}{T}ln(\frac{S_{T}}{S_{0}}) \tag{1*}</script><script type="math/tex; mode=display">
-E\left( \sigma^2 \right) = \frac{2}{T}\ln\left( \frac{F}{S^{*}} \right) - \frac{2}{T}\left\lbrack \frac{F}{S^{*}} - 1 \right\rbrack \\+ \frac{2}{T}\lbrack\int_{S_{*}}^{\infty}{\frac{1}{K^{2}}C_T(K)dK +}\int_{0}^{S_{*}}{\frac{1}{K^{2}}P_T(K)\text{dK}}\tag{2*}</script><script type="math/tex; mode=display">
+\sigma^{2} = \frac{2}{T}\int_{0}^{T}\frac{\text{dS}}{S} - \frac{2}{T}ln(\frac{S_{T}}{S_{0}}) \tag{1\*}</script><script type="math/tex; mode=display">
+E\left( \sigma^2 \right) = \frac{2}{T}\ln\left( \frac{F}{S^{\star}} \right) - \frac{2}{T}\left\lbrack \frac{F}{S^{\star}} - 1 \right\rbrack \\+ \frac{2}{T}\lbrack\int_{S^{\star}}^{\infty}{\frac{1}{K^{2}}C_T(K)dK +}\int_{0}^{S^{\star}}{\frac{1}{K^{2}}P_T(K)\text{dK}}\tag{2*}</script><script type="math/tex; mode=display">
 E(\sigma^{2}) = \frac{2}{T}\sum_{i = 1}^{n}{\frac{\mathrm{\Delta}K_{i}}{K_{i}}e^{\text{rT}}Q\left( K_{i} \right)} - \frac{1}{T}{\lbrack\frac{F}{K_{0}} - 1\rbrack}^{2}\tag{3*}</script><p><strong>（1*）根据股票过程和对数股票过程推导出波动率过程</strong>：</p>
 <p>假设股票过程是一个几何布朗运动，则根据伊藤引理，可以推导出对数股票过程满足的随机过程，</p>
 <script type="math/tex; mode=display">
@@ -464,46 +464,46 @@ dlnS = \left( \mu - \frac{1}{2}\sigma^{2} \right)dt + \sigma dz\ (2) \\
 <p>首先，对(1*)两边求期望得，</p>
 <script type="math/tex; mode=display">
 E\left( \sigma^{2} \right) = \frac{2}{T}\left(E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) - E(ln(\frac{S_{T}}{S_{0}}))\right)\tag{4}</script><p>在风险中性条件下，$E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) = ln(\frac{F}{S_0})$, 剩下求$E(ln(\frac{S_{T}}{S_{0}}))$:</p>
-<p>其中其中$S_{*}$是静态复制时看涨期权和看跌期权的边界值，可以对$\ln\left( \frac{S_{T}}{S_{0}} \right)$做如下的分解</p>
+<p>其中其中$S^{\star}$是静态复制时看涨期权和看跌期权的边界值，可以对$\ln\left( \frac{S_{T}}{S_{0}} \right)$做如下的分解</p>
 <script type="math/tex; mode=display">
-\ln\left( \frac{S_{T}}{S_{0}} \right) = \ln\left( \frac{S_{T}}{S_{*}} \right) + \ln\left( \frac{S_{*}}{S_{0}} \right)\tag{5}</script><p>最后需要证明的即是</p>
+\ln\left( \frac{S_{T}}{S_{0}} \right) = \ln\left( \frac{S_{T}}{S^{\star}} \right) + \ln\left( \frac{S^{\star}}{S_{0}} \right)\tag{5}</script><p>最后需要证明的即是</p>
 <script type="math/tex; mode=display">
-\ln\left( \frac{S_{T}}{S_{*}} \right)= \frac{S_{T} - S_{*}}{S_{*}} - \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\tag{6}</script><p>下面给出两个证明</p>
+\ln\left( \frac{S_{T}}{S^{\star}} \right)= \frac{S_{T} - S^{\star}}{S^{\star}} - \int_{S^{\star}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S^{\star}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\tag{6}</script><p>下面给出两个证明</p>
 <p>证明1 证明等式是否恒等</p>
-<script type="math/tex; mode=display">\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}} =\int_{0}^{S_{T}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}+\int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\\= \left\{ \begin{matrix}
-0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ S_{*} < K\  \\
-\int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\text{\ \ }S_{*} > K\  \\
+<script type="math/tex; mode=display">\int_{0}^{S^{\star}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}} =\int_{0}^{S_{T}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}+\int_{S_{T}}^{S^{\star}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\\= \left\{ \begin{matrix}
+0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ S^{\star} < K\  \\
+\int_{S_{T}}^{S^{\star}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\text{\ \ }S^{\star} > K\  \\
 \end{matrix} \right.</script><p>同理，有下面的结论</p>
-<script type="math/tex; mode=display">\int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK =}\left\{ \begin{matrix}
-\int_{S_{*}}^{S_{T}}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}\text{dK}}\text{\ \ }S_{*} < K\  \\
-0\text{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }S_{*} > K\  \\
+<script type="math/tex; mode=display">\int_{S^{\star}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK =}\left\{ \begin{matrix}
+\int_{S^{\star}}^{S_{T}}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}\text{dK}}\text{\ \ }S^{\star} < K\  \\
+0\text{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }S^{\star} > K\  \\
 \end{matrix} \right.\</script><p>假设</p>
 <script type="math/tex; mode=display">\left\{ \begin{matrix}
 P\left( K \right) = \left( K - S_{T} \right)^{+}\text{\ \ \ \ \ }\  \\
 C\left( K \right) = {(S_{T} - K)}^{+}\text{\ \ \ \ \ }\  \\
 \end{matrix} \right.\</script><p>则由平价公式$S_{T} = C_{T}\left( K \right) - P_{T}\left( K \right) + K$，则</p>
-<script type="math/tex; mode=display">\ln\left( \frac{S_{T}}{S_{*}} \right) = \frac{S_{T} - S_{*}}{S_{*}} - \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}</script><p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \int_{S_{<em>}}^{S_{T}}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{S_{T}}^{S_{</em>}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}$</p>
-<p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}{\lbrack\left( K - S_{T} \right)}^{+} - \left( S_{T} - K \right)^{+}\rbrack dK}$</p>
-<p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}{\lbrack S_T-K\rbrack dK}}$</p>
-<p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \ln\left( \frac{S_{T}}{S_{<em>}} \right) - \frac{S_{T}}{S_{</em>}} + 1$</p>
-<p>=$\ln\left( \frac{S_{*}}{S_{T}} \right)$</p>
+<script type="math/tex; mode=display">\ln\left( \frac{S_{T}}{S^{\star}} \right) = \frac{S_{T} - S^{\star}}{S^{\star}} - \int_{S^{\star}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S^{\star}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}</script><p>=$\frac{S_{T} - S^{\star}}{S^{\star}} - \int_{S^{\star}}^{S_{T}}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{S_{T}}^{S^{\star}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}$</p>
+<p>=$\frac{S_{T} - S^{\star}}{S^{\star}} - \int_{S_{T}}^{S^{\star}}{\frac{1}{K^{2}}{\lbrack\left( K - S_{T} \right)}^{+} - \left( S_{T} - K \right)^{+}\rbrack dK}$</p>
+<p>=$\frac{S_{T} - S^{\star}}{S^{\star}} - \int_{S_{T}}^{S^{\star}}{\frac{1}{K^{2}}{\lbrack S_T-K\rbrack dK}}$</p>
+<p>=$\frac{S_{T} - S^{\star}}{S^{\star}} - \ln\left( \frac{S_{T}}{S^{\star}} \right) - \frac{S_{T}}{S^{\star}} + 1$</p>
+<p>=$\ln\left( \frac{S^{\star}}{S_{T}} \right)$</p>
 <p>证明2 更加一般的形式</p>
 <p>这个形式来源于文档【2】，当时看的时候真的觉得特别牛逼，之后很多扩展都是基于这个形式扩展的，包括skew指数的构造，但是看了作者的证明（当然作者也是特别牛逼，心生敬畏，carr and madan, 上一次看见这个名字还是在学习快速傅里叶变换应用于期权定价），云里雾里，于是按着自己的理解重新写了一遍他们的证明过程，但是数学基础还是比较欠缺，希望有缘看到我这篇笔记的大牛们来帮我订正一下~</p>
 <p>Carr和Madan认为任何连续的payoff都可以写成如下的形式，当然个人认为这个payoff还必须是光滑的，至少要保证二阶可导，这个表达式牛逼之处就在于，后面静态复制的部分包含了所有泰勒的高阶项~</p>
 <script type="math/tex; mode=display">
-f\left( S_{T} \right) = f\left( S_* \right) + f^{'}\left( S_* \right)\left( S_{T} - S_* \right) + \int_{a}^{\infty}{f^{''}\left( K \right)\left( S_{T} - K \right)^{+}dK +}\int_{0}^{a}{f''(K)\left( K - S_{T} \right)^{+}\text{dK}}\tag{NB}</script><p>现在我们来看看（NB）表达式的证明过程</p>
+f\left( S_{T} \right) = f\left( S^{\star} \right) + f^{'}\left( S^{\star} \right)\left( S_{T} - S^{\star} \right) + \int_{a}^{\infty}{f^{''}\left( K \right)\left( S_{T} - K \right)^{+}dK +}\int_{0}^{a}{f''(K)\left( K - S_{T} \right)^{+}\text{dK}}\tag{NB}</script><p>现在我们来看看（NB）表达式的证明过程</p>
 <script type="math/tex; mode=display">f\left( F \right) = \int_{0}^{\infty}{f\left( K \right)\delta\left( F - K \right)\text{dK}}</script><p>=$\int_{0}^{\overline{K}}{f\left( K \right)\delta\left( F - K \right)\text{dK}} + \int_{\overline{k}}^{\infty}{f\left( K \right)\delta\left( F - K \right)\text{dK}}$</p>
 <p>=$\int_{0}^{\overline{k}}{f\left( K \right)\text{dI}\left( F &lt; K \right)} + \int_{\overline{k}}^{\infty}{f\left( K \right)\text{dI}\left( F \geq K \right)}$</p>
 <p>=$\text{\ f}\left( K \right)I\left( F &lt; K \right)|_{0}^{\overline{k}} - \int_{0}^{\overline{k}}{f’{\left( K \right)}I\left( F &lt; K \right)\text{dK}} - f\left( K \right)I\left( F \geq K \right)|_{\overline{k}}^{\infty} + \int_{\overline{k}}^{\infty}{f’\left( K \right)I\left( F \geq K \right)\text{dK}}$</p>
 <p>=$\text{\ f}\left( \overline{k} \right) - \int_{0}^{\overline{k}}{f^{‘}(K)d\left( K - F \right)^{+}} + \int_{\overline{k}}^{\infty}{f’\left( K \right)d\left( F - K \right)^{+}}$</p>
 <p>=$\text{\ f}\left( \overline{k} \right) - f^{‘}\left( K \right)\left( K - F \right)^{+}|_{0}^{\overline{k}} + \int_{0}^{\overline{k}}{f’’\left( k \right)\left( K - F \right)^{+}\text{dK}} - f’{\left( K \right)\left( F - K \right)^{+}|_{\overline{k}}^{\infty}} + \int_{\overline{k}}^{\infty}{f’’\left( K \right)\left( F - K \right)^{+}\text{dK}}$</p>
 <p>=$\text{\ f}\left( \overline{k} \right) + f^{‘}\left( \overline{k} \right)\left\lbrack \left( F - \overline{k} \right)^{+} - \left( \overline{k} - F \right)^{+} \right\rbrack + \int_{0}^{\overline{k}}{f’’\left( K \right)\left( K - F \right)^{+}}dK + \int_{\overline{k}}^{\infty}{f’’\left( K \right)\left( F - K \right)^{+}\text{dK}}$</p>
-<p>令$f\left( S_{T} \right)=\ln\left( \frac{S_{<em>}}{S_{T}} \right) - \frac{S_{T}}{S_{</em>}} + 1$, </p>
+<p>令$f\left( S_{T} \right)=\ln\left( \frac{S^{\star}}{S_{T}} \right) - \frac{S_{T}}{S^{\star}} + 1$, </p>
 <p>代入(NB)有:</p>
 <script type="math/tex; mode=display">
-\ln\left( \frac{S_{T}}{S_{*}} \right) - \frac{S_{T}}{S_{*}} + 1=- \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}</script><p>综合（4）（5）（6）（7）可得</p>
+\ln\left( \frac{S_{T}}{S^{\star}} \right) - \frac{S_{T}}{S^{\star}} + 1=- \int_{S^{\star}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S^{\star}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}</script><p>综合（4）（5）（6）（7）可得</p>
 <script type="math/tex; mode=display">
-E\left( \sigma^{2} \right) = \frac{2}{T}\left(E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) - E(ln(\frac{S_{T}}{S_{0}}))\right)=\\\frac{2}{T}(ln(\frac{F}{S_*})-\frac{F - S_{*}}{S_{*}} + \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{C_T(K)dK +}\int_{0}^{S_{*}}{\frac{1}{K^{2}}P_T(K)\text{dK}})}</script><p>(3*) 即是对（2*）的离散过程，比较简单了，哪天心情好再更新！</p>
+E\left( \sigma^{2} \right) = \frac{2}{T}\left(E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) - E(ln(\frac{S_{T}}{S_{0}}))\right)=\\\frac{2}{T}(ln(\frac{F}{S^{\star}})-\frac{F - S^{\star}}{S^{\star}} + \int_{S^{\star}}^{\infty}{\frac{1}{K^{2}}{C_T(K)dK +}\int_{0}^{S^{\star}}{\frac{1}{K^{2}}P_T(K)\text{dK}})}</script><p>(3*) 即是对（2*）的离散过程，比较简单了，哪天心情好再更新！</p>
 <p>【1】Demeterfi, K. ,  Derman, E. ,  Kamal, M. , &amp;  Zou, J. . (1999). More than you ever wanted to know about volatility swaps. <em>Quantitative Strategies Research Notes Goldman Sachs</em>.</p>
 <p>【2】P Carr, &amp; M Stanley. (1997). Towards a theory of volatility trading.</p>
 
@@ -552,9 +552,9 @@ E\left( \sigma^{2} \right) = \frac{2}{T}\left(E\left( \int_{0}^{T}\frac{\text{dS
       
         <div class="post-tags">
           
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
             <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
           
         </div>
       
