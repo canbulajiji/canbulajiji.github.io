@@ -1,6 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>风险中性定价浅谈</title>
+    <url>/2022/04/11/%E9%A3%8E%E9%99%A9%E4%B8%AD%E6%80%A7%E5%AE%9A%E4%BB%B7%E6%B5%85%E8%B0%88/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="从二叉树出发浅谈风险中性定价"><a href="#从二叉树出发浅谈风险中性定价" class="headerlink" title="从二叉树出发浅谈风险中性定价"></a>从二叉树出发浅谈风险中性定价</h1><hr>
+<p>title: Shecan|从二叉树出发浅谈风险中性定价<br>tags: </p>
+<ul>
+<li>Theory<br>date: 2022-04-11 22:01:06<br>categories: Theory Study<br>Archives: Chinese<br>mathjax: true</li>
+</ul>
+<hr>
+<a id="more"></a>
+<p>​        有效市场假说的一个重要应用就是资产定价，根据Fama的有效市场假说，所有信息（包括未来的信息）都已经充分反映在当前的价格当中，因而不存在无风险套利的机会。在微观经济学中，我们学过均衡定价理论，即所有的套利机会最终都会消失，并回归到其均衡水平（供求相等的状态）。在现代投资组合管理中，我们学过资本资产定价模型（CAPM）和套利定价模型（APT），而套利定价理论的理论基础即是一价定理，即同样状态下的资产不可能有两个价格，否则存在套利的机会，据此我们可以理解为何均衡的价格都在证券市场线上，即一个风险（波动率）状态下的同一资产不可能存在两个价格。在衍生品定价理论中，我们学过风险中性定价，即衍生品价值不依赖于经济状态的改变而改变，均衡状态下，期望收益等同于投资于无风险的债券。以上的定价理论均可以归纳于无套利定价理论。本文章回避复杂的理论推导，结合期权定价，浅谈作者个人对风险中性定价的理解。</p>
+<p>​        市场上商品和股票的价格通常是由供求关系所决定的，但是对于一些金融产品， 比如说投资组合、金融衍生品等，其价值的衡量通常可以用已知产品（股票、债券等）来进行复制，这里说的复制即是用已知的资产构造投资组合来模拟未知资产的价值状态。比如说，<em>如果我们要复制期权的价值，我们可通过投资标的资产和无风险债券构成的自融资组合来模拟其价值</em>。这里说的<strong>自融资</strong>即是说，假设初始投入的财富为$X_n$, 在之后的投资中，不需要投入更多的资金，而是对初始的资金进行一个再分配。即$\Delta_nS_n$投资于股票，而$X_n-\Delta_n S_n$投资于无风险债券，即</p>
+<script type="math/tex; mode=display">
+X_n=\Delta_n S_n+X_n-\Delta_n S_n</script><p>在$n+1$期， 考虑我们所构建投资组合的价值：</p>
+<script type="math/tex; mode=display">
+X_{n+1}=\Delta_n S_{n+1}+(X_n-\Delta_n S_n)(1+r)</script><p>我们可以用二叉树的形式来表示一个简化的股价演化过程：</p>
+<p><img src="C:\Users\Hubu\AppData\Roaming\Typora\typora-user-images\image-20220407152446613.png" alt="image-20220407152446613"></p>
+<p>则在$n+1$期，所构建的投资组合的价值也有两种状态：</p>
+<script type="math/tex; mode=display">
+X_{n+1}(H)=\Delta_n S_{n+1}(H)+(X_n-\Delta_n S_n)(1+r)\\
+X_{n+1}(T)=\Delta_n S_{n+1}(T)+(X_n-\Delta_n S_n)(1+r)</script><p>假设我们所构建的投资组合不依赖于未来状态的变化而变化，即$X_{n+1}(H)=X_{n+1}(T)$, 可以求出</p>
+<script type="math/tex; mode=display">
+\Delta_n=\frac{X_{n+1}(H)-X_{n+1}(T)}{S_{n+1}(H)-S_{n+1}(T)}</script><p>并且，</p>
+<script type="math/tex; mode=display">
+X_n=\frac{1}{1+r}(\tilde{p}X_{n+1}(H)+(1-\tilde{p})X_{n+1}(T))\tag{equ1}</script><p>其中，</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\tilde{p}=\frac{1+r-d}{u-d}
+\end{equation}</script><p>即为修正后的风险中性概率。（equ1 ）即是二叉树期权定价的原理，即已知$n+1$时刻的期权价值，在风险中性状态下，我们可以反求出$n$时刻的期权价值。</p>
+<p>​        以上的风险中性概率$\tilde{p}$可以从另外一个角度推导出来。在无套利的假设下，</p>
+<script type="math/tex; mode=display">
+E(S_{n+1})=\tilde{p}\mu S_n+(1-\tilde{p})d S_n=(1+r)S_n</script><p>即可以推导出风险中性状态下的$\tilde{p}=\frac{1+r-d}{u-d}$。</p>
+<p>对以上二叉树定价的推导过程进行总结，有以下结论：</p>
+<p>根据两个表达式</p>
+<script type="math/tex; mode=display">
+E(\frac{1}{1+r}S_{n+1})=\frac{1}{(1+r)^0}S_n</script><script type="math/tex; mode=display">
+E(\frac{1}{1+r}X_{n+1})=\frac{1}{(1+r)^0}X_n</script><p>可以直接延伸出鞅的概念，及更一般的情况下，我们有</p>
+<script type="math/tex; mode=display">
+D(t)X(t)=E_\mathcal{Q}(D(T)X(T)|\mathcal{F}(t))</script><p>其中$D(t)$表示更加一般的折现形式，比如说$D(t)=e^{-\int_{0}^{t}R(s)ds}$. $X(T)$表示支付方程，如看涨期权的支付方程$X_{T}=(S(T)-K)^+$。$\mathcal{F}_t$表示域流, 即在$t$点以前所有已知的状态信息。而$\mathcal{Q}$即为风险中性测度。<strong>在衍生品定价研究中，我们通常需要首先做测度变换，把真实的测度$\mathcal{P}$变成风险中性测度$\mathcal{Q}$。其目的就是把discounted payoff变成一个鞅，这样才能保证定价的结果是均衡无套利的</strong>。这个过程类似于二叉树定价过程中概率$p$变换成$\tilde{p}$的过程，因而<strong>风险中性测度变化变的是收益所满足的分布形式，而非收益本身的状态</strong>。那么如何把$\mathcal{P}$ 转换成$\mathcal{Q}$, 即要用到大名鼎鼎的Giranov定理。</p>
+<p>推荐阅读：李辰旭. (2015). 金融中的数学方法. 北京大学出版社.</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Shecan| VIX 指数构造详细证明过程</title>
+    <url>/2022/02/21/VIX%20%E6%8C%87%E6%95%B0%E6%9E%84%E9%80%A0%E8%AF%A6%E7%BB%86%E8%AF%81%E6%98%8E%E8%BF%87%E7%A8%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="VIX-指数构造详细证明过程"><a href="#VIX-指数构造详细证明过程" class="headerlink" title="VIX 指数构造详细证明过程"></a>VIX 指数构造详细证明过程</h1><p>VIX—CBOE发行的波动率指数，又称为恐慌指数，VIX指数高的时候，说明投资者预期后市市场波动比较大，因而可以作为投资者情绪的一种预期，一般来说，如果市场是有效的话，VIX指数和标的（SPX100）之间具有杠杆效应，也就是说，标的资产的价格下降，VIX飙升。VIX指数最新的构造方法借鉴于【1】构造variance swap的方法，又称静态复制法，这篇文章的主旨是记录shecan读文章时的推导思路，所以不过多介绍背景了，直接切入正题。</p>
+<a id="more"></a>
+<p>VIX指数构造证明过程主要有以下的三个部分：</p>
+<script type="math/tex; mode=display">
+\sigma^{2} = \frac{2}{T}\int_{0}^{T}\frac{\text{dS}}{S} - \frac{2}{T}ln(\frac{S_{T}}{S_{0}}) \tag{1*}</script><script type="math/tex; mode=display">
+E\left( \sigma^2 \right) = \frac{2}{T}\ln\left( \frac{F}{S^{*}} \right) - \frac{2}{T}\left\lbrack \frac{F}{S^{*}} - 1 \right\rbrack \\+ \frac{2}{T}\lbrack\int_{S_{*}}^{\infty}{\frac{1}{K^{2}}C_T(K)dK +}\int_{0}^{S_{*}}{\frac{1}{K^{2}}P_T(K)\text{dK}}\tag{2*}</script><script type="math/tex; mode=display">
+E(\sigma^{2}) = \frac{2}{T}\sum_{i = 1}^{n}{\frac{\mathrm{\Delta}K_{i}}{K_{i}}e^{\text{rT}}Q\left( K_{i} \right)} - \frac{1}{T}{\lbrack\frac{F}{K_{0}} - 1\rbrack}^{2}\tag{3*}</script><p><strong>（1*）根据股票过程和对数股票过程推导出波动率过程</strong>：</p>
+<p>假设股票过程是一个几何布朗运动，则根据伊藤引理，可以推导出对数股票过程满足的随机过程，</p>
+<script type="math/tex; mode=display">
+\left\{ \begin{matrix}
+\frac{\text{dS}}{S} = \mu dt + \sigma dz\ \ \ \ \ \ (1) \\
+dlnS = \left( \mu - \frac{1}{2}\sigma^{2} \right)dt + \sigma dz\ (2) \\
+\end{matrix} \right.</script><p>（1）-（2）得</p>
+<script type="math/tex; mode=display">
+\frac{1}{2}\sigma^{2}T =\int\frac{\text{dS}}{S} - dlnS\tag{3}</script><p>对(3)两边求积分并化简即可得（1*）。</p>
+<p><strong>（2*）根据（1*）构造静态复制表达式</strong>：</p>
+<p>首先，对(1*)两边求期望得，</p>
+<script type="math/tex; mode=display">
+E\left( \sigma^{2} \right) = \frac{2}{T}\left(E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) - E(ln(\frac{S_{T}}{S_{0}}))\right)\tag{4}</script><p>在风险中性条件下，$E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) = ln(\frac{F}{S_0})$, 剩下求$E(ln(\frac{S_{T}}{S_{0}}))$:</p>
+<p>其中其中$S_{*}$是静态复制时看涨期权和看跌期权的边界值，可以对$\ln\left( \frac{S_{T}}{S_{0}} \right)$做如下的分解</p>
+<script type="math/tex; mode=display">
+\ln\left( \frac{S_{T}}{S_{0}} \right) = \ln\left( \frac{S_{T}}{S_{*}} \right) + \ln\left( \frac{S_{*}}{S_{0}} \right)\tag{5}</script><p>最后需要证明的即是</p>
+<script type="math/tex; mode=display">
+\ln\left( \frac{S_{T}}{S_{*}} \right)= \frac{S_{T} - S_{*}}{S_{*}} - \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\tag{6}</script><p>下面给出两个证明</p>
+<p>证明1 证明等式是否恒等</p>
+<script type="math/tex; mode=display">\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}} =\int_{0}^{S_{T}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}+\int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\\= \left\{ \begin{matrix}
+0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ S_{*} < K\  \\
+\int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\text{\ \ }S_{*} > K\  \\
+\end{matrix} \right.</script><p>同理，有下面的结论</p>
+<script type="math/tex; mode=display">\int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK =}\left\{ \begin{matrix}
+\int_{S_{*}}^{S_{T}}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}\text{dK}}\text{\ \ }S_{*} < K\  \\
+0\text{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }S_{*} > K\  \\
+\end{matrix} \right.\</script><p>假设</p>
+<script type="math/tex; mode=display">\left\{ \begin{matrix}
+P\left( K \right) = \left( K - S_{T} \right)^{+}\text{\ \ \ \ \ }\  \\
+C\left( K \right) = {(S_{T} - K)}^{+}\text{\ \ \ \ \ }\  \\
+\end{matrix} \right.\</script><p>则由平价公式$S_{T} = C_{T}\left( K \right) - P_{T}\left( K \right) + K$，则</p>
+<script type="math/tex; mode=display">\ln\left( \frac{S_{T}}{S_{*}} \right) = \frac{S_{T} - S_{*}}{S_{*}} - \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}</script><p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \int_{S_{<em>}}^{S_{T}}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{S_{T}}^{S_{</em>}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}$</p>
+<p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}{\lbrack\left( K - S_{T} \right)}^{+} - \left( S_{T} - K \right)^{+}\rbrack dK}$</p>
+<p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}{\lbrack S_T-K\rbrack dK}}$</p>
+<p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \ln\left( \frac{S_{T}}{S_{<em>}} \right) - \frac{S_{T}}{S_{</em>}} + 1$</p>
+<p>=$\ln\left( \frac{S_{*}}{S_{T}} \right)$</p>
+<p>证明2 更加一般的形式</p>
+<p>这个形式来源于文档【2】，当时看的时候真的觉得特别牛逼，之后很多扩展都是基于这个形式扩展的，包括skew指数的构造，但是看了作者的证明（当然作者也是特别牛逼，心生敬畏，carr and madan, 上一次看见这个名字还是在学习快速傅里叶变换应用于期权定价），云里雾里，于是按着自己的理解重新写了一遍他们的证明过程，但是数学基础还是比较欠缺，希望有缘看到我这篇笔记的大牛们来帮我订正一下~</p>
+<p>Carr和Madan认为任何连续的payoff都可以写成如下的形式，当然个人认为这个payoff还必须是光滑的，至少要保证二阶可导，这个表达式牛逼之处就在于，后面静态复制的部分包含了所有泰勒的高阶项~</p>
+<script type="math/tex; mode=display">
+f\left( S_{T} \right) = f\left( S_* \right) + f^{'}\left( S_* \right)\left( S_{T} - S_* \right) + \int_{a}^{\infty}{f^{''}\left( K \right)\left( S_{T} - K \right)^{+}dK +}\int_{0}^{a}{f''(K)\left( K - S_{T} \right)^{+}\text{dK}}\tag{NB}</script><p>现在我们来看看（NB）表达式的证明过程</p>
+<script type="math/tex; mode=display">f\left( F \right) = \int_{0}^{\infty}{f\left( K \right)\delta\left( F - K \right)\text{dK}}</script><p>=$\int_{0}^{\overline{K}}{f\left( K \right)\delta\left( F - K \right)\text{dK}} + \int_{\overline{k}}^{\infty}{f\left( K \right)\delta\left( F - K \right)\text{dK}}$</p>
+<p>=$\int_{0}^{\overline{k}}{f\left( K \right)\text{dI}\left( F &lt; K \right)} + \int_{\overline{k}}^{\infty}{f\left( K \right)\text{dI}\left( F \geq K \right)}$</p>
+<p>=$\text{\ f}\left( K \right)I\left( F &lt; K \right)|_{0}^{\overline{k}} - \int_{0}^{\overline{k}}{f’{\left( K \right)}I\left( F &lt; K \right)\text{dK}} - f\left( K \right)I\left( F \geq K \right)|_{\overline{k}}^{\infty} + \int_{\overline{k}}^{\infty}{f’\left( K \right)I\left( F \geq K \right)\text{dK}}$</p>
+<p>=$\text{\ f}\left( \overline{k} \right) - \int_{0}^{\overline{k}}{f^{‘}(K)d\left( K - F \right)^{+}} + \int_{\overline{k}}^{\infty}{f’\left( K \right)d\left( F - K \right)^{+}}$</p>
+<p>=$\text{\ f}\left( \overline{k} \right) - f^{‘}\left( K \right)\left( K - F \right)^{+}|_{0}^{\overline{k}} + \int_{0}^{\overline{k}}{f’’\left( k \right)\left( K - F \right)^{+}\text{dK}} - f’{\left( K \right)\left( F - K \right)^{+}|_{\overline{k}}^{\infty}} + \int_{\overline{k}}^{\infty}{f’’\left( K \right)\left( F - K \right)^{+}\text{dK}}$</p>
+<p>=$\text{\ f}\left( \overline{k} \right) + f^{‘}\left( \overline{k} \right)\left\lbrack \left( F - \overline{k} \right)^{+} - \left( \overline{k} - F \right)^{+} \right\rbrack + \int_{0}^{\overline{k}}{f’’\left( K \right)\left( K - F \right)^{+}}dK + \int_{\overline{k}}^{\infty}{f’’\left( K \right)\left( F - K \right)^{+}\text{dK}}$</p>
+<p>代入(NB)有:</p>
+<script type="math/tex; mode=display">
+\ln\left( \frac{S_{T}}{S_{\*}} \right) - \frac{S_{T}}{S_{\*}} + 1=- \int_{S_{\*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{\*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}</script><p>综合（4）（5）（6）（7）可得</p>
+<script type="math/tex; mode=display">
+E\left( \sigma^{2} \right) = \frac{2}{T}\left(E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) - E(ln(\frac{S_{T}}{S_{0}}))\right)=\\\frac{2}{T}(ln(\frac{F}{S_\*})-\frac{F - S_{\*}}{S_{\*}} + \int_{S_{\*}}^{\infty}{\frac{1}{K^{2}}{C_T(K)dK +}\int_{0}^{S_{\*}}{\frac{1}{K^{2}}P_T(K)\text{dK}})}</script><p>(3*) 即是对（2*）的离散过程，比较简单了，哪天心情好再更新！</p>
+<p>【1】Demeterfi, K. ,  Derman, E. ,  Kamal, M. , &amp;  Zou, J. . (1999). More than you ever wanted to know about volatility swaps. <em>Quantitative Strategies Research Notes Goldman Sachs</em>.</p>
+<p>【2】P Carr, &amp; M Stanley. (1997). Towards a theory of volatility trading.</p>
+]]></content>
+      <categories>
+        <category>Algorithm Study</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Excel 做线性规划全过程：</title>
     <url>/2020/05/24/Excel%20%E5%81%9A%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92%E5%85%A8%E8%BF%87%E7%A8%8B%EF%BC%9A/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>因为学生希望Shecan再演示一次如何运用excel来做线性规划，因此Shecan做了几张gif图片来给大家进行说明：</p>
@@ -388,8 +502,8 @@ P(S^*,\tau)=K-S^*\tag{B3}</script><p>python程序实现：参考<a href="https:/
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
@@ -442,8 +556,8 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
         <tag>Simulation</tag>
       </tags>
   </entry>
@@ -504,8 +618,8 @@ h'\left( \alpha \right) =n\left( -\frac {1} {\alpha^2}+\frac {\sum x_{i}^{\alpha
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
         <tag>Calibration</tag>
       </tags>
   </entry>
@@ -664,83 +778,9 @@ r_{j}=r_{j-1}+\alpha\left(\mu - r_{j-1}\right) \Delta t+\sigma\sqrt{r_{j-1}}\Del
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
         <tag>Simulation</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Shecan| VIX 指数构造详细证明过程</title>
-    <url>/2020/02/21/VIX%20%E6%8C%87%E6%95%B0%E6%9E%84%E9%80%A0%E8%AF%A6%E7%BB%86%E8%AF%81%E6%98%8E%E8%BF%87%E7%A8%8B/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="VIX-指数构造详细证明过程"><a href="#VIX-指数构造详细证明过程" class="headerlink" title="VIX 指数构造详细证明过程"></a>VIX 指数构造详细证明过程</h1><p>VIX—CBOE发行的波动率指数，又称为恐慌指数，VIX指数高的时候，说明投资者预期后市市场波动比较大，因而可以作为投资者情绪的一种预期，一般来说，如果市场是有效的话，VIX指数和标的（SPX100）之间具有杠杆效应，也就是说，标的资产的价格下降，VIX飙升。VIX指数最新的构造方法借鉴于【1】构造variance swap的方法，又称静态复制法，这篇文章的主旨是记录shecan读文章时的推导思路，所以不过多介绍背景了，直接切入正题。</p>
-<a id="more"></a>
-<p>VIX指数构造证明过程主要有以下的三个部分：</p>
-<script type="math/tex; mode=display">
-\sigma^{2} = \frac{2}{T}\int_{0}^{T}\frac{\text{dS}}{S} - \frac{2}{T}ln(\frac{S_{T}}{S_{0}}) \tag{1*}</script><script type="math/tex; mode=display">
-E\left( \sigma^2 \right) = \frac{2}{T}\ln\left( \frac{F}{S^{*}} \right) - \frac{2}{T}\left\lbrack \frac{F}{S^{*}} - 1 \right\rbrack \\+ \frac{2}{T}\lbrack\int_{S_{*}}^{\infty}{C_T(K)dK +}\int_{0}^{S_{*}}{\frac{1}{K^{2}}P_T(K)\text{dK}}\tag{2*}</script><script type="math/tex; mode=display">
-E(\sigma^{2}) = \frac{2}{T}\sum_{i = 1}^{n}{\frac{\mathrm{\Delta}K_{i}}{K_{i}}e^{\text{rT}}Q\left( K_{i} \right)} - \frac{1}{T}{\lbrack\frac{F}{K_{0}} - 1\rbrack}^{2}\tag{3*}</script><p><strong>（1*）根据股票过程和对数股票过程推导出波动率过程</strong>：</p>
-<p>假设股票过程是一个几何布朗运动，则根据伊藤引理，可以推导出对数股票过程满足的随机过程，</p>
-<script type="math/tex; mode=display">
-\left\{ \begin{matrix}
-\frac{\text{dS}}{S} = \mu dt + \sigma dz\ \ \ \ \ \ (1) \\
-dlnS = \left( \mu - \frac{1}{2}\sigma^{2} \right)dt + \sigma dz\ (2) \\
-\end{matrix} \right.\</script><p>（1）-（2）得</p>
-<script type="math/tex; mode=display">
-\frac{1}{2}\sigma^{2}T =\frac{\text{dS}}{S} - dlnS\tag{3}</script><p>对(3)两边求积分并化简即可得（1*）。</p>
-<p><strong>（2*）根据（1*）构造静态复制表达式</strong>：</p>
-<p>首先，对(1*)两边求期望得，</p>
-<script type="math/tex; mode=display">
-E\left( \sigma^{2} \right) = \frac{2}{T}\left(E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) - E(ln(\frac{S_{T}}{S_{0}}))\right)\tag{4}</script><p>在风险中性条件下，$E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) = ln(\frac{F}{S_0})$, 剩下求$E(ln(\frac{S_{T}}{S_{0}}))$:</p>
-<p>其中其中$S_{*}$是静态复制时看涨期权和看跌期权的边界值，可以对$\ln\left( \frac{S_{T}}{S_{0}} \right)$做如下的分解</p>
-<script type="math/tex; mode=display">
-\ln\left( \frac{S_{T}}{S_{0}} \right) = \ln\left( \frac{S_{T}}{S_{*}} \right) + \ln\left( \frac{S_{*}}{S_{0}} \right)\tag{5}</script><p>最后需要证明的即是</p>
-<script type="math/tex; mode=display">
-\ln\left( \frac{S_{T}}{S_{*}} \right)= \frac{S_{T} - S_{*}}{S_{*}} - \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\tag{6}</script><p>下面给出两个证明</p>
-<p>证明1 证明等式是否恒等</p>
-<script type="math/tex; mode=display">\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}} &=\int_{0}^{S_{T}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}+\int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\\&= \left\{ \begin{matrix}
-0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ S_{*} < K\  \\
-\int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}\text{\ \ }S_{*} > K\  \\
-\end{matrix} \right.\</script><p>同理，有下面的结论</p>
-<script type="math/tex; mode=display">\int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK =}\left\{ \begin{matrix}
-\int_{S_{*}}^{S_{T}}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}\text{dK}}\text{\ \ }S_{*} < K\  \\
-0\text{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }S_{*} > K\  \\
-\end{matrix} \right.\</script><p>假设</p>
-<script type="math/tex; mode=display">\left\{ \begin{matrix}
-P\left( K \right) = \left( K - S_{T} \right)^{+}\text{\ \ \ \ \ }\  \\
-C\left( K \right) = {(S_{T} - K)}^{+}\text{\ \ \ \ \ }\  \\
-\end{matrix} \right.\</script><p>则由平价公式$S_{T} = C_{T}\left( K \right) - P_{T}\left( K \right) + K$，则</p>
-<script type="math/tex; mode=display">\ln\left( \frac{S_{T}}{S_{*}} \right) = \frac{S_{T} - S_{*}}{S_{*}} - \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}</script><p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \int_{S_{<em>}}^{S_{T}}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{S_{T}}^{S_{</em>}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}$</p>
-<p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}{\lbrack\left( K - S_{T} \right)}^{+} - \left( S_{T} - K \right)^{+}\rbrack dK}$</p>
-<p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \int_{S_{T}}^{S_{*}}{\frac{1}{K^{2}}{\lbrack S_T-K\rbrack dK}}$</p>
-<p>=$\frac{S_{T} - S_{<em>}}{S_{</em>}} - \ln\left( \frac{S_{T}}{S_{<em>}} \right) - \frac{S_{T}}{S_{</em>}} + 1$</p>
-<p>=$\ln\left( \frac{S_{*}}{S_{T}} \right)$</p>
-<p>证明2 更加一般的形式</p>
-<p>这个形式来源于文档【2】，当时看的时候真的觉得特别牛逼，之后很多扩展都是基于这个形式扩展的，包括skew指数的构造，但是看了作者的证明（当然作者也是特别牛逼，心生敬畏，carr and madan, 上一次看见这个名字还是在学习快速傅里叶变换应用于期权定价），云里雾里，于是按着自己的理解重新写了一遍他们的证明过程，但是数学基础还是比较欠缺，希望有缘看到我这篇笔记的大牛们来帮我订正一下~</p>
-<p>Carr和Madan认为任何连续的payoff都可以写成如下的形式，当然个人认为这个payoff还必须是光滑的，至少要保证二阶可导，这个表达式牛逼之处就在于，后面静态复制的部分包含了所有泰勒的高阶项~</p>
-<script type="math/tex; mode=display">
-f\left( S_{T} \right) = f\left( S_* \right) + f^{'}\left( S_* \right)\left( S_{T} - S_* \right) + \int_{a}^{\infty}{f^{''}\left( K \right)\left( S_{T} - K \right)^{+}dK +}\int_{0}^{a}{f''(K)\left( K - S_{T} \right)^{+}\text{dK}}\tag{NB}</script><p>现在我们来看看（NB）表达式的证明过程</p>
-<script type="math/tex; mode=display">f\left( F \right) = \int_{0}^{\infty}{f\left( K \right)\delta\left( F - K \right)\text{dK}}</script><p>$=\int_{0}^{\overline{K}}{f\left( K \right)\delta\left( F - K \right)\text{dK}} + \int_{\overline{k}}^{\infty}{f\left( K \right)\delta\left( F - K \right)\text{dK}}$</p>
-<p>=$\int_{0}^{\overline{k}}{f\left( K \right)\text{dI}\left( F &lt; K \right)} + \int_{\overline{k}}^{\infty}{f\left( K \right)\text{dI}\left( F \geq K \right)}$</p>
-<p>=$\text{\ f}\left( K \right)I\left( F &lt; K \right)|_{0}^{\overline{k}} - \int_{0}^{\overline{k}}{f’{\left( K \right)}I\left( F &lt; K \right)\text{dK}} - f\left( K \right)I\left( F \geq K \right)|_{\overline{k}}^{\infty} + \int_{\overline{k}}^{\infty}{f’\left( K \right)\delta\left( F \geq K \right)\text{dK}}$</p>
-<p>=$\text{\ f}\left( \overline{k} \right) - \int_{0}^{\overline{k}}{f^{‘}(K)d\left( K - F \right)^{+}} - \int_{\overline{k}}^{\infty}{f’\left( K \right)d\left( F - K \right)^{+}}$</p>
-<p>=$\text{\ f}\left( \overline{k} \right) - f^{‘}\left( K \right)\left( K - F \right)^{+}|_{0}^{\overline{k}} + \int_{0}^{\overline{k}}{f’’\left( k \right)\left( K - F \right)^{+}\text{dK}} - f’{\left( K \right)\left( F - K \right)^{+}|_{\overline{k}}^{\infty}} + \int_{\overline{k}}^{\infty}{f’’\left( K \right)\left( F - K \right)^{+}\text{dK}}$</p>
-<p>=$\text{\ f}\left( \overline{k} \right) + f^{‘}\left( k \right)\left\lbrack \left( F - \overline{k} \right)^{+} - \left( \overline{k} - F \right)^{+} \right\rbrack + \int_{0}^{\overline{k}}{f’’\left( K \right)\left( K - F \right)^{+}}dK + \int_{\overline{k}}^{\infty}{f’’\left( K \right)\left( F - K \right)^{+}\text{dK}}$</p>
-<p>令$f\left( S_{T} \right)=\ln\left( \frac{S_{<em>}}{S_{T}} \right) - \frac{S_{T}}{S_{</em>}} + 1$,</p>
-<p>则$f’’(S_T)=-1/S_T^2$, 其中$\bar{k}=S_{*}$</p>
-<p>代入(NB)有:</p>
-<script type="math/tex; mode=display">
-\ln\left( \frac{S_{T}}{S_{*}} \right) - \frac{S_{T}}{S_{*}} + 1=- \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{(S_{T} - K)}^{+}dK -}\int_{0}^{S_{*}}{\frac{1}{K^{2}}\left( K - S_{T} \right)^{+}\text{dK}}</script><p>综合（4）（5）（6）（7）可得</p>
-<script type="math/tex; mode=display">
-E\left( \sigma^{2} \right) = \frac{2}{T}\left(E\left( \int_{0}^{T}\frac{\text{dS}}{S} \right) - E(ln(\frac{S_{T}}{S_{0}}))\right)=\\\frac{2}{T}(ln(\frac{F}{S_*})-\frac{F - S_{*}}{S_{*}} + \int_{S_{*}}^{\infty}{\frac{1}{K^{2}}{C_T(K)dK +}\int_{0}^{S_{*}}{\frac{1}{K^{2}}P_T(K)\text{dK}})}</script><p>(3<em>) 即是对（2\</em>）的离散过程，比较简单了，哪天心情好再更新！</p>
-<p>【1】Demeterfi, K. ,  Derman, E. ,  Kamal, M. , &amp;  Zou, J. . (1999). More than you ever wanted to know about volatility swaps. <em>Quantitative Strategies Research Notes Goldman Sachs</em>.</p>
-<p>【2】P Carr, &amp; M Stanley. (1997). Towards a theory of volatility trading.</p>
-]]></content>
-      <categories>
-        <category>Algorithm Study</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>Algorithm</tag>
       </tags>
   </entry>
   <entry>
@@ -890,8 +930,8 @@ E[Y \mid X]=-1.070+2.983 X-1.813 X^{2}\tag{1}</script><p>注意，这里只选�
         <category>Algorithm Study</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>Algorithm</tag>
+        <tag>Python</tag>
       </tags>
   </entry>
 </search>
